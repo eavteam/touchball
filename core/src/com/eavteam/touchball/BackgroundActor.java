@@ -19,8 +19,16 @@ public class BackgroundActor extends Actor {
         backgroundSprite.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
     }
 
+    public void rotationFuck(float z){
+        backgroundSprite.setRotation(z);
+    }
+
     @Override
     public void draw(Batch batch, float alpha){
         backgroundSprite.draw(batch);
+    }
+//TODO
+    public void dispose() {
+        backgroundTexture.dispose();
     }
 }

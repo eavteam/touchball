@@ -42,4 +42,8 @@ public class BallActor extends Actor {
     public void draw(Batch batch, float alpha){
         this.ballSprite.draw(batch);
     }
+// TODO
+    public void dispose() {
+        ballTexture.dispose();
+    }
 }
