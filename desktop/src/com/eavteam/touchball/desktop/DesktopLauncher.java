@@ -1,8 +1,8 @@
-package com.eavteam.touthball.desktop;
+package com.eavteam.touchball.desktop;
 
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
-import com.eavteam.touthball.TouthBall;
+import com.eavteam.touchball.TouchBall;
 
 public class DesktopLauncher {
 	public static void main (String[] arg) {
@@ -10,6 +10,6 @@ public class DesktopLauncher {
 		config.width = 800;
 		config.height = 480;
 		config.title = "Touch Ball | version:0.01";
-		new LwjglApplication(new TouthBall(), config);
+		new LwjglApplication(new TouchBall(), config);
 	}
 }
