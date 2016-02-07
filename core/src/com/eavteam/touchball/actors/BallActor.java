@@ -1,4 +1,4 @@
-package com.eavteam.touchball;
+package com.eavteam.touchball.actors;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -17,7 +17,7 @@ public class BallActor extends Actor {
 
 
     public BallActor(){
-        ballTexture = new Texture("Ball.png");
+        ballTexture = new Texture("images/Ball.png");
 
         ballSprite = new Sprite(ballTexture);
         ballSprite.setSize(ballTexture.getWidth(), ballTexture.getHeight());

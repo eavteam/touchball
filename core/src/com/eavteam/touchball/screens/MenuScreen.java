@@ -1,9 +1,10 @@
-package com.eavteam.touchball;
+package com.eavteam.touchball.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.eavteam.touchball.TouchBallGame;
 
 /**
  * Created by nepeyvoda-va on 05.02.2016.
@@ -33,8 +34,8 @@ public class MenuScreen implements Screen{
 
         game.batch.setProjectionMatrix(camera.combined);
         game.batch.begin();
-        game.font.draw(game.batch, "TouchBall", (Gdx.graphics.getWidth() / 3), (Gdx.graphics.getHeight() / 2) );
-        game.font.draw(game.batch, "version for little jenechka-girls", (Gdx.graphics.getWidth() / 3), (Gdx.graphics.getHeight() / 2) - 15);
+        game.font.draw(game.batch, "TouchBall", ((Gdx.graphics.getWidth() / 2) - 2*game.font.getXHeight() ), Gdx.graphics.getHeight() - game.font.getLineHeight() );
+        game.font.draw(game.batch, "version for little jenechkas", (Gdx.graphics.getWidth() / 8), Gdx.graphics.getHeight() - 2 * game.font.getLineHeight());
         game.batch.end();
 
         if(Gdx.input.isTouched()){

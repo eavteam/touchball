@@ -1,9 +1,12 @@
-package com.eavteam.touchball;
+package com.eavteam.touchball.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.eavteam.touchball.actors.BackgroundActor;
+import com.eavteam.touchball.actors.BallActor;
+import com.eavteam.touchball.TouchBallGame;
 
 public class PlayScreen implements Screen{
 

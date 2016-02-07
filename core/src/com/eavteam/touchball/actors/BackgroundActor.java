@@ -1,4 +1,4 @@
-package com.eavteam.touchball;
+package com.eavteam.touchball.actors;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
@@ -14,7 +14,7 @@ public class BackgroundActor extends Actor {
     private Sprite backgroundSprite;
 
     public BackgroundActor(){
-        backgroundTexture = new Texture("background5554.jpg");
+        backgroundTexture = new Texture("images/background5554.jpg");
         backgroundSprite = new Sprite(backgroundTexture);
         backgroundSprite.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
     }

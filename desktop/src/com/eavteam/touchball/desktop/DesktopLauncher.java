@@ -9,7 +9,7 @@ public class DesktopLauncher {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
 		config.width = 480;
 		config.height = 800;
-		config.title = "Touch Ball | version:0.01";
+		config.title = "Touch Ball | version:0.02";
 		new LwjglApplication(new TouchBallGame(), config);
 	}
 }
