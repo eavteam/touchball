@@ -14,7 +14,6 @@ public class PlayScreen implements Screen{
     SpriteBatch batch;
     BackgroundActor background;
     BallActor ball;
-    float rot = 0;
 
     public PlayScreen(final TouchBallGame gam){
         game = gam;
@@ -22,8 +21,8 @@ public class PlayScreen implements Screen{
         background = new BackgroundActor();
         background.setPosition(0, 0);
         ball = new BallActor();
-        ball.setPosition(240-64, 400 - 64);
-        ball.setScale(0.5f, 0.5f);
+        ball.setPosition((Gdx.graphics.getWidth() / 2) - (ball.getWidth() / 2), (Gdx.graphics.getHeight() / 2) - (ball.getHeight() / 2));
+        ball.setAnimationColor(0.2f);
     }
 
     @Override
@@ -34,12 +33,11 @@ public class PlayScreen implements Screen{
 
     @Override
     public void render(float delta) {
-        rot++;
-        Gdx.gl.glClearColor(0, 0, 0, 1);
+        Gdx.gl.glClearColor(0.5f, 0.5f, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        ball.animationUpdate(delta);
         batch.begin();
-        background.draw(batch, 1);
-        background.rotationFuck(rot);
+  //      background.draw(batch, 1);
         ball.draw(batch, 1);
         batch.end();
     }
