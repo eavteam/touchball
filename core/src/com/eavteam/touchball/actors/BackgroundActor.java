@@ -6,9 +6,6 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
-/**
- * Created by nepeyvoda-va on 05.02.2016.
- */
 public class BackgroundActor extends Actor {
     private Texture backgroundTexture;
     private Sprite backgroundSprite;

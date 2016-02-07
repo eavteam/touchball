@@ -6,9 +6,6 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.eavteam.touchball.TouchBallGame;
 
-/**
- * Created by nepeyvoda-va on 05.02.2016.
- */
 public class MenuScreen implements Screen{
 
     final TouchBallGame game;
