@@ -6,9 +6,6 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.eavteam.touchball.TouchBallGame;
 
-/**
- * Created by nepeyvoda-va on 05.02.2016.
- */
 public class MenuScreen implements Screen{
 
     final TouchBallGame game;
@@ -17,7 +14,7 @@ public class MenuScreen implements Screen{
     public MenuScreen(final TouchBallGame gam){
         game = gam;
         camera = new OrthographicCamera();
-        camera.setToOrtho(false, 480, 800);
+        camera.setToOrtho(false, 480, 850);
     }
 
     @Override
@@ -66,6 +63,5 @@ public class MenuScreen implements Screen{
 
     @Override
     public void dispose() {
-
     }
 }
