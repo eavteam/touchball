@@ -26,6 +26,6 @@ public class BackgroundActor extends Actor {
     }
 //TODO
     public void dispose() {
-        backgroundTexture.dispose();
+        this.remove();
     }
 }

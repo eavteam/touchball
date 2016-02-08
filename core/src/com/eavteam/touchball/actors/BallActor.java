@@ -1,5 +1,6 @@
 package com.eavteam.touchball.actors;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -12,19 +13,19 @@ public class BallActor extends Actor {
     private Sprite ballSprite;
     private Rectangle rectangle;
 
-    private boolean b = false;
-    private float speedAnimation = 0;
-    private float scaleX = 0.5f;
-    private float scaleY = 0.5f;
-    private float colorR = 1;
+    private boolean increment = false;
+    private float speedAnimationColor = 0f;
+    private float scaleX = 1f;
+    private float scaleY = 1f;
+    private float colorR = 1f;
 
 
     public BallActor(){
         ballTexture = new Texture("images/ball_ink.png");
 
         ballSprite = new Sprite(ballTexture);
-        ballSprite.setSize(ballTexture.getWidth(), ballTexture.getHeight());
-        ballSprite.setScale(0.5f, 0.5f);
+        ballSprite.setSize(Gdx.graphics.getHeight() * 6 / 100, Gdx.graphics.getHeight() * 6 / 100); // размер шарика 6% от длины дисплея
+        ballSprite.setScale(scaleX, scaleY);
 
         rectangle = new Rectangle();
         rectangle.x = (int)ballSprite.getX();
@@ -53,13 +54,18 @@ public class BallActor extends Actor {
         return this.ballSprite.getHeight();
     }
 
-    public void setAnimationColor(float speed){
-        this.speedAnimation = speed;
+    public void setAnimationColor(float speedAnimation){
+        this.speedAnimationColor = speedAnimation;
     }
 
-    public void animationUpdate(float delta){
-
-        this.ballSprite.setColor(1f, 1f, 1f, 1f);
+    public void animationColorUpdate(float delta){
+        if(increment){
+            this.ballSprite.setColor(colorR += speedAnimationColor*delta, 1f, 1f, 1f);
+            if(colorR + speedAnimationColor*delta >= 1f){increment = false;}
+        } else {
+            this.ballSprite.setColor(colorR -= speedAnimationColor*delta, 1f, 1f, 1f);
+            if(colorR - speedAnimationColor*delta <= 0f){increment = true;}
+        }
     }
 
     @Override
@@ -68,6 +74,6 @@ public class BallActor extends Actor {
     }
 // TODO
     public void dispose() {
-        ballTexture.dispose();
+        this.remove();
     }
 }
