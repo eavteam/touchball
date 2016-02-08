@@ -22,7 +22,7 @@ public class PlayScreen implements Screen{
         background.setPosition(0, 0);
         ball = new BallActor();
         ball.setPosition((Gdx.graphics.getWidth() / 2) - (ball.getWidth() / 2), (Gdx.graphics.getHeight() / 2) - (ball.getHeight() / 2));
-        ball.setAnimationColor(0.2f);
+        ball.setAnimationColor(0.8f);
     }
 
     @Override
@@ -35,7 +35,7 @@ public class PlayScreen implements Screen{
     public void render(float delta) {
         Gdx.gl.glClearColor(0.5f, 0.5f, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        ball.animationUpdate(delta);
+        ball.animationColorUpdate(delta);
         batch.begin();
   //      background.draw(batch, 1);
         ball.draw(batch, 1);

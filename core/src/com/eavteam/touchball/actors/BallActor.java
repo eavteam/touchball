@@ -15,11 +15,11 @@ public class BallActor extends Actor {
     private Sprite ballSprite;
     private Rectangle rectangle;
 
-    private boolean b = false;
-    private float speedAnimation = 0;
+    private boolean increment = false;
+    private float speedAnimationColor = 0f;
     private float scaleX = 0.5f;
     private float scaleY = 0.5f;
-    private float colorR = 1;
+    private float colorR = 1f;
 
 
     public BallActor(){
@@ -27,7 +27,7 @@ public class BallActor extends Actor {
 
         ballSprite = new Sprite(ballTexture);
         ballSprite.setSize(ballTexture.getWidth(), ballTexture.getHeight());
-        ballSprite.setScale(0.5f, 0.5f);
+        ballSprite.setScale(scaleX, scaleY);
 
         rectangle = new Rectangle();
         rectangle.x = (int)ballSprite.getX();
@@ -56,13 +56,19 @@ public class BallActor extends Actor {
         return this.ballSprite.getHeight();
     }
 
-    public void setAnimationColor(float speed){
-        this.speedAnimation = speed;
+    public void setAnimationColor(float speedAnimation){
+        this.speedAnimationColor = speedAnimation;
     }
 
-    public void animationUpdate(float delta){
-
-        this.ballSprite.setColor(1f, 1f, 1f, 1f);
+    public void animationColorUpdate(float delta){
+        if(increment){
+            this.ballSprite.setColor(colorR += speedAnimationColor*delta, 1f, 1f, 1f);
+            if(colorR + speedAnimationColor*delta >= 1f){increment = false;}
+        } else {
+            this.ballSprite.setColor(colorR -= speedAnimationColor*delta, 1f, 1f, 1f);
+            if(colorR - speedAnimationColor*delta <= 0f){increment = true;}
+        }
+//        this.ballSprite.setColor(1f, 1f, 1f, 1f);
     }
 
     @Override
