@@ -14,7 +14,7 @@ public class MenuScreen implements Screen{
     public MenuScreen(final TouchBallGame gam){
         game = gam;
         camera = new OrthographicCamera();
-        camera.setToOrtho(false, 480, 850);
+        camera.setToOrtho(false, 480, 800);
     }
 
     @Override

@@ -77,6 +77,6 @@ public class BallActor extends Actor {
     }
 // TODO
     public void dispose() {
-        ballTexture.dispose();
+        this.remove();
     }
 }

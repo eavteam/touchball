@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.input.GestureDetector;
 import com.eavteam.touchball.actors.BackgroundActor;
 import com.eavteam.touchball.actors.BallActor;
 import com.eavteam.touchball.TouchBallGame;
@@ -33,9 +34,12 @@ public class PlayScreen implements Screen{
 
     @Override
     public void render(float delta) {
-        Gdx.gl.glClearColor(0.7f, 0.5f, 0, 1);
+        Gdx.gl.glClearColor(0.2f, 0.5f, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        ball.animationColorUpdate(delta);
+  //      ball.animationColorUpdate(delta);
+
+//        if(Gdx.input.setInputProcessor());
+
         batch.begin();
   //      background.draw(batch, 1);
         ball.draw(batch, 1);
