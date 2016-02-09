@@ -62,7 +62,7 @@ public class PlayScreen implements Screen{
         cam.update();
         batch.setProjectionMatrix(cam.combined);
 
-  //      ball.animationColorUpdate(delta);
+        ball.animationColorUpdate(delta);
 
 //        if(Gdx.input.setInputProcessor());
 
