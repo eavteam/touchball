@@ -1,6 +1,6 @@
-package mdesl.swipe;
+package com.eavteam.touchball.swipe;
 
-import mdesl.swipe.simplify.ResolverRadialChaikin;
+import com.eavteam.touchball.swipe.simplify.ResolverRadialChaikin;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputAdapter;
@@ -23,6 +23,8 @@ public class SwipeHandler extends InputAdapter {
     private Vector2 lastPoint = new Vector2();
 
     private boolean isDrawing = false;
+    private boolean isDissolving = false;
+    public long timer;
 
     private SwipeResolver simplifier = new ResolverRadialChaikin();
     private Array<Vector2> simplified;
@@ -31,6 +33,14 @@ public class SwipeHandler extends InputAdapter {
         this.inputPoints = new FixedList<Vector2>(maxInputPoints, Vector2.class);
         simplified = new Array<Vector2>(true, maxInputPoints, Vector2.class);
         resolve(); //copy initial empty list
+    }
+
+    public SwipeHandler(int maxInputPoints,int minDistance,int initialDistance){
+        this.inputPoints = new FixedList<Vector2>(maxInputPoints, Vector2.class);
+        simplified = new Array<Vector2>(true, maxInputPoints, Vector2.class);
+        resolve();
+        this.minDistance = minDistance;
+        this.initialDistance = initialDistance;
     }
 
     /**
@@ -60,7 +70,8 @@ public class SwipeHandler extends InputAdapter {
         if (pointer!=inputPointer)
             return false;
         isDrawing = true;
-
+        isDissolving = false;
+        timer = System.nanoTime();
         //clear points
         inputPoints.clear();
 
@@ -76,14 +87,27 @@ public class SwipeHandler extends InputAdapter {
         //on release, the line is simplified
         resolve();
         isDrawing = false;
+        isDissolving = true;
         return false;
+    }
+
+    public boolean getDissolve(){return this.isDissolving;}
+    public boolean getTimer(){
+        boolean drawing = System.nanoTime()-timer>500000000;
+        if(drawing) {
+            resolve();
+            inputPoints.clear();
+            isDrawing = false;
+        }
+        return drawing;
     }
 
     public boolean touchDragged(int screenX, int screenY, int pointer) {
         if (pointer!=inputPointer)
             return false;
         isDrawing = true;
-
+        isDissolving = false;
+        timer = System.nanoTime();
         Vector2 v = new Vector2(screenX, Gdx.graphics.getHeight()-screenY);
 
         //calc length

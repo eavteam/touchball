@@ -4,21 +4,14 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
-import java.awt.*;
 
 public class BallActor extends Actor {
     private Texture ballTexture;
     private Sprite ballSprite;
-    private Rectangle rectangle;
-
-    private boolean increment = false;
-    private float speedAnimationColor = 0f;
-    private float scaleX = 1f;
-    private float scaleY = 1f;
-    private float colorR = 1f;
-
+    private Circle circle;
 
     public BallActor(){
         ballTexture = new Texture("images/ball_ink.png");
@@ -27,53 +20,37 @@ public class BallActor extends Actor {
         ballSprite.setSize(Gdx.graphics.getHeight() * 6 / 100, Gdx.graphics.getHeight() * 6 / 100); // размер шарика 6% от длины дисплея
         ballSprite.setScale(scaleX, scaleY);
 
-        rectangle = new Rectangle();
-        rectangle.x = (int)ballSprite.getX();
-        rectangle.y = (int)ballSprite.getY();
-        rectangle.width = (int)ballSprite.getWidth();
-        rectangle.height = (int)ballSprite.getHeight();
+        circle = new Circle();
+        circle.radius = ballSprite.getHeight() / 2;
+        circle.x = ballSprite.getX() + ballSprite.getHeight() / 2;
+        circle.y = ballSprite.getY() + ballSprite.getHeight() / 2;
+
+        this.setPosition((Gdx.graphics.getWidth() / 2), (Gdx.graphics.getHeight() / 2));
     }
 
-    public void setPosition(float x, float y){
-        this.ballSprite.setPosition(x, y);
-        this.rectangle.x = (int)x;
-        this.rectangle.y = (int)y;
+    //координатами задается центр шарика
+    public void setPosition(float centerX, float centerY){
+        this.ballSprite.setPosition(centerX - this.ballSprite.getHeight()/2, centerY - this.ballSprite.getHeight()/2);
+        this.circle.x = centerX;
+        this.circle.y = centerY;
     }
 
-    public void setScale(float x, float y){
-        this.ballSprite.setScale(x, y);
-        this.rectangle.width = (int)x;
-        this.rectangle.height = (int)y;
+    public void setScale(float scale){
+        this.ballSprite.setScale(scale);
+        this.circle.radius = ballSprite.getHeight() / 2;
+        this.setPosition(this.circle.x, this.circle.y);
     }
 
-    public float getWidth(){
-        return this.ballSprite.getWidth();
-    }
-
-    public float getHeight(){
-        return this.ballSprite.getHeight();
-    }
-
-    public void setAnimationColor(float speedAnimation){
-        this.speedAnimationColor = speedAnimation;
-    }
-
-    public void animationColorUpdate(float delta){
-        if(increment){
-            this.ballSprite.setColor(colorR += speedAnimationColor*delta, 1f, 1f, 1f);
-            if(colorR + speedAnimationColor*delta >= 1f){increment = false;}
-        } else {
-            this.ballSprite.setColor(colorR -= speedAnimationColor*delta, 1f, 1f, 1f);
-            if(colorR - speedAnimationColor*delta <= 0f){increment = true;}
-        }
+    public float getRadius(){
+        return this.ballSprite.getWidth() / 2;
     }
 
     @Override
     public void draw(Batch batch, float alpha){
-        this.ballSprite.draw(batch);
+        this.ballSprite.draw(batch,alpha);
     }
 // TODO
     public void dispose() {
-        this.remove();
+        this.ballTexture.dispose();
     }
 }
