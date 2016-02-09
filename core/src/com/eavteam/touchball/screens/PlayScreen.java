@@ -13,6 +13,7 @@ import com.eavteam.touchball.actors.BackgroundActor;
 import com.eavteam.touchball.actors.BallActor;
 import com.eavteam.touchball.TouchBallGame;
 import com.eavteam.touchball.actors.SwipeActor;
+import com.eavteam.touchball.actors.BallRoundActor;
 import com.eavteam.touchball.swipe.SwipeHandler;
 import com.eavteam.touchball.swipe.mesh.SwipeTriStrip;
 
@@ -23,12 +24,15 @@ public class PlayScreen implements Screen{
     BackgroundActor background;
     BallActor ball;
     SwipeActor swiper;
+    BallRoundActor round;
 
     OrthographicCamera cam;
     SwipeHandler swipe;
 
     public PlayScreen(final TouchBallGame gam){
         game = gam;
+
+
         batch = new SpriteBatch();
         background = new BackgroundActor();
         ball = new BallActor();
@@ -56,6 +60,7 @@ public class PlayScreen implements Screen{
         batch.begin();
 //        background.draw(batch, 1);
         ball.draw(batch, 1);
+        round.draw(batch, 1);
         batch.end();
 
         Gdx.gl.glEnable(GL20.GL_BLEND);
@@ -90,6 +95,7 @@ public class PlayScreen implements Screen{
     public void dispose() {
         batch.dispose();
         ball.dispose();
+        round.dispose();
         background.dispose();
         swiper.dispose();
     }
