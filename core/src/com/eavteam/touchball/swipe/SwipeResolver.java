@@ -1,4 +1,4 @@
-package mdesl.swipe;
+package com.eavteam.touchball.swipe;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;

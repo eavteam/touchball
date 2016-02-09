@@ -1,9 +1,10 @@
-package mdesl.swipe.mesh;
+package com.eavteam.touchball.swipe.mesh;
 
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.glutils.ImmediateModeRenderer20;
+
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 
@@ -48,7 +49,7 @@ public class SwipeTriStrip {
         } else {
             Vector2 p = input.get(0);
             Vector2 p2 = input.get(1);
-//            perp.set(p).sub(p2).mul(endcap);
+            perp.set(p).sub(p2).scl(endcap);
             tristrip.add(new Vector2(p.x+perp.x, p.y+perp.y));
         }
         texcoord.add(new Vector2(0f, 0f));
@@ -66,10 +67,10 @@ public class SwipeTriStrip {
             float thick = thickness * (1f-((i)/(float)(input.size)));
 
             //move outward by thickness
-//            perp.mul(thick/2f);
+            perp.scl(thick/2f);
 
             //decide on which side we are using
-//            perp.mul(mult);
+            perp.scl(mult);
 
             //add the tip of perpendicular
             tristrip.add(new Vector2(p.x+perp.x, p.y+perp.y));
@@ -88,7 +89,7 @@ public class SwipeTriStrip {
         } else {
             Vector2 p = input.get(input.size-2);
             Vector2 p2 = input.get(input.size-1);
-//            perp.set(p2).sub(p).mul(endcap);
+            perp.set(p2).sub(p).scl(endcap);
             tristrip.add(new Vector2(p2.x+perp.x, p2.y+perp.y));
         }
         //end cap is transparent

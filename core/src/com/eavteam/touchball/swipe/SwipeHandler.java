@@ -1,6 +1,6 @@
-package mdesl.swipe;
+package com.eavteam.touchball.swipe;
 
-import mdesl.swipe.simplify.ResolverRadialChaikin;
+import com.eavteam.touchball.swipe.simplify.ResolverRadialChaikin;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputAdapter;
