@@ -33,9 +33,11 @@ public class PlayScreen implements Screen{
         batch = new SpriteBatch();
         background = new BackgroundActor();
         background.setPosition(0, 0);
+
         ball = new BallActor();
         ball.setPosition((Gdx.graphics.getWidth() / 2) - (ball.getWidth() / 2), (Gdx.graphics.getHeight() / 2) - (ball.getHeight() / 2));
         ball.setAnimationColor(0.8f);
+
         tris = new SwipeTriStrip();
         swipe = new SwipeHandler(10);
         swipe.minDistance = 10;
@@ -62,22 +64,21 @@ public class PlayScreen implements Screen{
         cam.update();
         batch.setProjectionMatrix(cam.combined);
 
-        ball.animationColorUpdate(delta);
+//        ball.animationColorUpdate(delta);
 
 //        if(Gdx.input.setInputProcessor());
+        batch.begin();
+  //      background.draw(batch, 1);
+        ball.draw(batch, 1);
+        batch.end();
 
         Gdx.gl.glEnable(GL20.GL_BLEND);
         Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
         tex.bind();
         tris.thickness = 30f;
-        tris.update(swipe.path());
-        tris.color = Color.WHITE;
+        tris.update(swipe.path(), swipe.getDissolve());
+        tris.color = Color.RED;
         tris.draw(cam);
-
-        batch.begin();
-  //      background.draw(batch, 1);
-        ball.draw(batch, 1);
-        batch.end();
     }
 
     @Override

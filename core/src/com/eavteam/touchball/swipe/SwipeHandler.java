@@ -23,6 +23,7 @@ public class SwipeHandler extends InputAdapter {
     private Vector2 lastPoint = new Vector2();
 
     private boolean isDrawing = false;
+    private boolean isDissolving = false;
 
     private SwipeResolver simplifier = new ResolverRadialChaikin();
     private Array<Vector2> simplified;
@@ -60,6 +61,7 @@ public class SwipeHandler extends InputAdapter {
         if (pointer!=inputPointer)
             return false;
         isDrawing = true;
+        isDissolving = false;
 
         //clear points
         inputPoints.clear();
@@ -76,8 +78,11 @@ public class SwipeHandler extends InputAdapter {
         //on release, the line is simplified
         resolve();
         isDrawing = false;
+        isDissolving = true;
         return false;
     }
+
+    public boolean getDissolve(){return this.isDissolving;}
 
     public boolean touchDragged(int screenX, int screenY, int pointer) {
         if (pointer!=inputPointer)
