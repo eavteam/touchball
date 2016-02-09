@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.eavteam.touchball.screens.MenuScreen;
+import com.eavteam.touchball.screens.OpenningScreen;
 
 public class TouchBallGame extends Game {
 	public SpriteBatch batch;

@@ -18,7 +18,7 @@ public class BallActor extends Actor {
 
         ballSprite = new Sprite(ballTexture);
         ballSprite.setSize(Gdx.graphics.getHeight() * 6 / 100, Gdx.graphics.getHeight() * 6 / 100); // размер шарика 6% от длины дисплея
-        ballSprite.setScale(scaleX, scaleY);
+        ballSprite.setScale(1f, 1f);
 
         circle = new Circle();
         circle.radius = ballSprite.getHeight() / 2;

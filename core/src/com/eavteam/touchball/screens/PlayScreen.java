@@ -32,10 +32,10 @@ public class PlayScreen implements Screen{
     public PlayScreen(final TouchBallGame gam){
         game = gam;
 
-
         batch = new SpriteBatch();
         background = new BackgroundActor();
         ball = new BallActor();
+        round = new BallRoundActor();
         swipe = new SwipeHandler(10,10,10);
         swiper = new SwipeActor();
         Gdx.input.setInputProcessor(swipe);
