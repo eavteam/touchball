@@ -34,6 +34,14 @@ public class SwipeHandler extends InputAdapter {
         resolve(); //copy initial empty list
     }
 
+    public SwipeHandler(int maxInputPoints,int minDistance,int initialDistance){
+        this.inputPoints = new FixedList<Vector2>(maxInputPoints, Vector2.class);
+        simplified = new Array<Vector2>(true, maxInputPoints, Vector2.class);
+        resolve();
+        this.minDistance = minDistance;
+        this.initialDistance = initialDistance;
+    }
+
     /**
      * Returns the fixed list of input points (not simplified).
      * @return the list of input points

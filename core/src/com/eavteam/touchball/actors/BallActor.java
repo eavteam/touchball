@@ -35,6 +35,9 @@ public class BallActor extends Actor {
         rectangle.y = (int)ballSprite.getY();
         rectangle.width = (int)ballSprite.getWidth();
         rectangle.height = (int)ballSprite.getHeight();
+
+        this.setPosition((Gdx.graphics.getWidth() / 2) - (this.getWidth() / 2), (Gdx.graphics.getHeight() / 2) - (this.getHeight() / 2));
+
     }
 
     public void setPosition(float x, float y){
@@ -59,16 +62,6 @@ public class BallActor extends Actor {
 
     public void setAnimationColor(float speedAnimation){
         this.speedAnimationColor = speedAnimation;
-    }
-
-    public void animationColorUpdate(float delta){
-        if(increment){
-            this.ballSprite.setColor(colorR += speedAnimationColor*delta, 1f, 1f, 1f);
-            if(colorR + speedAnimationColor*delta >= 1f){increment = false;}
-        } else {
-            this.ballSprite.setColor(colorR -= speedAnimationColor*delta, 1f, 1f, 1f);
-            if(colorR - speedAnimationColor*delta <= 0f){increment = true;}
-        }
     }
 
     @Override

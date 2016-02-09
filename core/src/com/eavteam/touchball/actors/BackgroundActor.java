@@ -17,6 +17,7 @@ public class BackgroundActor extends Actor {
         backgroundTexture = new Texture("images/background5554.jpg");
         backgroundSprite = new Sprite(backgroundTexture);
         backgroundSprite.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        this.setPosition(0, 0);
     }
 
     public void rotationFuck(float z){
