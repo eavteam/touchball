@@ -63,7 +63,7 @@ public class BallActor extends Actor {
 
     @Override
     public void draw(Batch batch, float alpha){
-        this.ballSprite.draw(batch);
+        this.ballSprite.draw(batch,alpha);
     }
 // TODO
     public void dispose() {

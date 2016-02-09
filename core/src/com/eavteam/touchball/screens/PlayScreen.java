@@ -12,6 +12,7 @@ import com.badlogic.gdx.input.GestureDetector;
 import com.eavteam.touchball.actors.BackgroundActor;
 import com.eavteam.touchball.actors.BallActor;
 import com.eavteam.touchball.TouchBallGame;
+import com.eavteam.touchball.actors.SwipeActor;
 import com.eavteam.touchball.swipe.SwipeHandler;
 import com.eavteam.touchball.swipe.mesh.SwipeTriStrip;
 
@@ -21,30 +22,21 @@ public class PlayScreen implements Screen{
     SpriteBatch batch;
     BackgroundActor background;
     BallActor ball;
+    SwipeActor swiper;
 
     OrthographicCamera cam;
     SwipeHandler swipe;
-    Texture tex;
-    ShapeRenderer shapes;
-    SwipeTriStrip tris;
 
     public PlayScreen(final TouchBallGame gam){
         game = gam;
-
-
         batch = new SpriteBatch();
         background = new BackgroundActor();
         ball = new BallActor();
         swipe = new SwipeHandler(10,10,10);
+        swiper = new SwipeActor();
         Gdx.input.setInputProcessor(swipe);
         cam = new OrthographicCamera();
         cam.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-
-        tris = new SwipeTriStrip();
-        tex = new Texture("images/gradient.png");
-        tex.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
-        shapes = new ShapeRenderer();
-
     }
 
     @Override
@@ -57,7 +49,6 @@ public class PlayScreen implements Screen{
     public void render(float delta) {
         Gdx.gl.glClearColor(0.2f, 0.5f, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
         cam.update();
         batch.setProjectionMatrix(cam.combined);
 
@@ -68,11 +59,11 @@ public class PlayScreen implements Screen{
 
         Gdx.gl.glEnable(GL20.GL_BLEND);
         Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
-        tex.bind();
-        tris.thickness = 20f;
-        tris.update(swipe.path(), swipe.getDissolve(),swipe.getTimer());
-        tris.color = Color.ORANGE;
-        tris.draw(cam);
+        swiper.init();
+        swiper.getTris().update(swipe.path(), swipe.getDissolve(),swipe.getTimer());
+        swiper.getTris().draw(cam);
+
+
     }
 
     @Override
@@ -100,7 +91,6 @@ public class PlayScreen implements Screen{
         batch.dispose();
         ball.dispose();
         background.dispose();
-        shapes.dispose();
-        tex.dispose();
+        swiper.dispose();
     }
 }
