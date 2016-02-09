@@ -9,7 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import java.awt.*;
 
 /**
- * Created by хуй on 05.02.2016.
+ * Created by хуй пизда джигурда on 05.02.2016.
  */
 public class BallActor extends Actor {
     private Texture ballTexture;
