@@ -49,6 +49,7 @@ public class PlayScreen implements Screen{
     public void render(float delta) {
         Gdx.gl.glClearColor(0.2f, 0.5f, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
         cam.update();
         batch.setProjectionMatrix(cam.combined);
 
@@ -59,11 +60,10 @@ public class PlayScreen implements Screen{
 
         Gdx.gl.glEnable(GL20.GL_BLEND);
         Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
+
         swiper.init();
         swiper.getTris().update(swipe.path(), swipe.getDissolve(),swipe.getTimer());
         swiper.getTris().draw(cam);
-
-
     }
 
     @Override

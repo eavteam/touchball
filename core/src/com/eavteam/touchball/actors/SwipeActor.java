@@ -17,13 +17,13 @@ public class SwipeActor extends Actor {
         tex = new Texture("images/gradient.png");
         tex.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
         shapes = new ShapeRenderer();
-
     }
 
-    public void init(){
+    public SwipeActor init(){
         this.tex.bind();
-        this.tris.thickness = 20f;
+        this.tris.thickness = 15f;
         this.tris.color = Color.ORANGE;
+        return this;
     }
 
     public SwipeTriStrip getTris(){
