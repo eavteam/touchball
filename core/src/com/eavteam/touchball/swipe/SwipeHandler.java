@@ -24,6 +24,7 @@ public class SwipeHandler extends InputAdapter {
 
     private boolean isDrawing = false;
     private boolean isDissolving = false;
+    public long timer;
 
     private SwipeResolver simplifier = new ResolverRadialChaikin();
     private Array<Vector2> simplified;
@@ -70,7 +71,7 @@ public class SwipeHandler extends InputAdapter {
             return false;
         isDrawing = true;
         isDissolving = false;
-
+        timer = System.nanoTime();
         //clear points
         inputPoints.clear();
 
@@ -91,12 +92,22 @@ public class SwipeHandler extends InputAdapter {
     }
 
     public boolean getDissolve(){return this.isDissolving;}
+    public boolean getTimer(){
+        boolean drawing = System.nanoTime()-timer>500000000;
+        if(drawing) {
+            resolve();
+            inputPoints.clear();
+            isDrawing = false;
+        }
+        return drawing;
+    }
 
     public boolean touchDragged(int screenX, int screenY, int pointer) {
         if (pointer!=inputPointer)
             return false;
         isDrawing = true;
-
+        isDissolving = false;
+        timer = System.nanoTime();
         Vector2 v = new Vector2(screenX, Gdx.graphics.getHeight()-screenY);
 
         //calc length

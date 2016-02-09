@@ -70,7 +70,7 @@ public class PlayScreen implements Screen{
         Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
         tex.bind();
         tris.thickness = 20f;
-        tris.update(swipe.path(), swipe.getDissolve());
+        tris.update(swipe.path(), swipe.getDissolve(),swipe.getTimer());
         tris.color = Color.ORANGE;
         tris.draw(cam);
     }

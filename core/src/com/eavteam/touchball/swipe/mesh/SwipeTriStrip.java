@@ -98,11 +98,11 @@ public class SwipeTriStrip {
         return tristrip.size-c;
     }
 
-    public void update(Array<Vector2> input, boolean dissolving) {
+    public void update(Array<Vector2> input, boolean dissolving, boolean timer) {
         tristrip.clear();
         texcoord.clear();
 
-        if(dissolving){
+        if(dissolving || timer){
             if((this.color.a - 0.08f) > 0) {this.color.a -= 0.08f;}else{this.color.a = 0;}
         }else{
             this.color.a = 1f;
