@@ -1,21 +1,15 @@
 package com.eavteam.touchball.screens;
 
-import aurelienribon.tweenengine.Tween;
-import aurelienribon.tweenengine.TweenManager;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.eavteam.touchball.actors.BackgroundActor;
 import com.eavteam.touchball.actors.BallActor;
 import com.eavteam.touchball.TouchBallGame;
 import com.eavteam.touchball.actors.SwipeActor;
 import com.eavteam.touchball.actors.BallRoundActor;
-import com.eavteam.touchball.tween.ActorAccessor;
-import com.eavteam.touchball.tween.SpriteAccessor;
 
 public class PlayScreen implements Screen{
 
@@ -60,10 +54,11 @@ public class PlayScreen implements Screen{
         game.batch.setProjectionMatrix(camera.combined);
 
         round.update(delta);
+        ball.update(delta, round.getCircle());
         batch.begin();
 //        background.draw(batch, 1);
-        ball.draw(batch, 1);
         round.draw(batch, 1);
+        ball.draw(batch, 1);
         batch.end();
 
         swiper.update(camera);

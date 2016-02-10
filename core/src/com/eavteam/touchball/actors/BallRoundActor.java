@@ -54,6 +54,8 @@ public class BallRoundActor extends Actor {
         return this.circle.radius;
     }
 
+    public Circle getCircle(){return this.circle;}
+
     @Override
     public void draw(Batch batch, float alpha){
         this.roundSprite.draw(batch);
@@ -62,9 +64,10 @@ public class BallRoundActor extends Actor {
     public void show(){
         Tween.registerAccessor(Actor.class,new ActorAccessor());
 
-        Tween.set(this, ActorAccessor.SIZE).target(70).start(tweenManager);
+        Tween.set(this,ActorAccessor.SIZE).target(70).start(tweenManager);
         Tween.to(this,ActorAccessor.SIZE,1).target(20).start(tweenManager);
     }
+
     public void update(float delta){
         tweenManager.update(delta);
     }

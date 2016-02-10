@@ -37,7 +37,7 @@ public class OpenningScreen implements Screen {
         Tween.registerAccessor(Sprite.class,new SpriteAccessor());
 
         Tween.set(logoSprite,SpriteAccessor.ALPHA).target(0).start(tweenManager);
-        Tween.to(logoSprite,SpriteAccessor.ALPHA,2).target(1).repeatYoyo(1,1).start(tweenManager);
+        Tween.to(logoSprite,SpriteAccessor.ALPHA,4).target(1).repeatYoyo(2,2).start(tweenManager);
     }
 
     @Override
@@ -49,7 +49,7 @@ public class OpenningScreen implements Screen {
         batch.setProjectionMatrix(camera.combined);
         batch.begin();
         logoSprite.draw(batch);
-        game.font.draw(batch, "ХУЙ", ((Gdx.graphics.getWidth() / 2) - 2*game.font.getXHeight() ), Gdx.graphics.getHeight() /2 + game.font.getLineHeight() );
+//        game.font.draw(batch, "Touch Balls ", ((Gdx.graphics.getWidth() / 2) - 2*game.font.getXHeight() ), Gdx.graphics.getHeight() - game.font.getLineHeight() );
   //      game.font.draw(batch, "version for little Vovochka", (Gdx.graphics.getWidth() / 8), Gdx.graphics.getHeight() - 2 * game.font.getLineHeight());
         batch.end();
 
