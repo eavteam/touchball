@@ -21,27 +21,26 @@ public class BallActor extends Actor {
 
         circle = new Circle();
         circle.radius = ballSprite.getHeight() / 2;
-        circle.x = ballSprite.getX() + ballSprite.getHeight() / 2;
-        circle.y = ballSprite.getY() + ballSprite.getHeight() / 2;
 
         this.setPosition((Gdx.graphics.getWidth() / 2), (Gdx.graphics.getHeight() / 2));
     }
 
     //координатами задается центр шарика
     public void setPosition(float centerX, float centerY){
-        this.ballSprite.setPosition(centerX - this.ballSprite.getHeight()/2, centerY - this.ballSprite.getHeight()/2);
+        this.ballSprite.setPosition(centerX - this.circle.radius, centerY - this.circle.radius);
         this.circle.x = centerX;
         this.circle.y = centerY;
     }
 
-    public void setScale(float scale){
-        this.ballSprite.setScale(scale);
+    //размер задается в % от высоты дисплея
+    public void setSize(float percent){
+        this.ballSprite.setSize(Gdx.graphics.getHeight() * percent / 100, Gdx.graphics.getHeight() * percent / 100);
         this.circle.radius = ballSprite.getHeight() / 2;
         this.setPosition(this.circle.x, this.circle.y);
     }
 
     public float getRadius(){
-        return this.ballSprite.getWidth() / 2;
+        return this.circle.radius;
     }
 
     @Override

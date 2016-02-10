@@ -37,7 +37,9 @@ public class PlayScreen implements Screen{
         batch = new SpriteBatch();
         background = new BackgroundActor();
         ball = new BallActor();
+        ball.setSize(4);
         round = new BallRoundActor();
+        round.setSize(20);
         swipe = new SwipeHandler(20,5,10);
         swiper = new SwipeActor();
         Gdx.input.setInputProcessor(swipe);

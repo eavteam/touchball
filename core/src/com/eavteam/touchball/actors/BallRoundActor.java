@@ -32,14 +32,15 @@ public class BallRoundActor extends Actor {
         this.circle.y = centerY;
     }
 
-    public void setScale(float scale){
-        this.roundSprite.setScale(scale);
-        this.circle.radius = scale * roundSprite.getHeight() / 2;
+    //размер задается в % от высоты дисплея
+    public void setSize(float percent){
+        this.roundSprite.setSize(Gdx.graphics.getHeight() * percent / 100, Gdx.graphics.getHeight() * percent / 100);
+        this.circle.radius = roundSprite.getHeight() / 2;
         this.setPosition(this.circle.x, this.circle.y);
     }
 
     public float getRadius(){
-        return this.roundSprite.getWidth() / 2;
+        return this.circle.radius;
     }
 
     @Override
