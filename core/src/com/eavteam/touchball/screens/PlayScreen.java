@@ -26,21 +26,21 @@ public class PlayScreen implements Screen{
     SwipeActor swiper;
     BallRoundActor round;
 
-    OrthographicCamera cam;
+    OrthographicCamera camera;
     SwipeHandler swipe;
 
     public PlayScreen(final TouchBallGame gam){
         game = gam;
+        camera = new OrthographicCamera();
+        camera.setToOrtho(false, 480, 800);
 
         batch = new SpriteBatch();
         background = new BackgroundActor();
         ball = new BallActor();
         round = new BallRoundActor();
-        swipe = new SwipeHandler(10,10,10);
+        swipe = new SwipeHandler(20,5,10);
         swiper = new SwipeActor();
         Gdx.input.setInputProcessor(swipe);
-        cam = new OrthographicCamera();
-        cam.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
     }
 
     @Override
@@ -54,8 +54,8 @@ public class PlayScreen implements Screen{
         Gdx.gl.glClearColor(0.2f, 0.5f, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        cam.update();
-        batch.setProjectionMatrix(cam.combined);
+        camera.update();
+        game.batch.setProjectionMatrix(camera.combined);
 
         batch.begin();
 //        background.draw(batch, 1);
@@ -68,12 +68,12 @@ public class PlayScreen implements Screen{
 
         swiper.init();
         swiper.getTris().update(swipe.path(), swipe.getDissolve(),swipe.getTimer());
-        swiper.getTris().draw(cam);
+        swiper.getTris().draw(camera);
     }
 
     @Override
     public void resize(int width, int height) {
-        cam.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
     }
 
     @Override

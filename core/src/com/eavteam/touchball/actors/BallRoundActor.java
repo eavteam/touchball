@@ -52,6 +52,4 @@ public class BallRoundActor extends Actor {
         this.roundTexture.dispose();
     }
 
- //   public String getQWE(){return new String("Height: " + this.roundSprite.getHeight());}
-//    public String getQWE(){return new String("x: " + (this.roundSprite.getX()+this.roundSprite.getHeight()/2) + ", y: " + (this.roundSprite.getY()+this.roundSprite.getHeight()/2));}
 }

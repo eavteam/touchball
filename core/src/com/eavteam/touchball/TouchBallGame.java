@@ -36,11 +36,11 @@ public class TouchBallGame extends Game {
 		super.render();
 		}
 
-    @Override
-    public void dispose() {
-        super.dispose();
-        batch.dispose();
-        font.dispose();
-        levels.dispose();
-    }
+	@Override
+	public void dispose(){
+		this.batch.dispose();
+		this.font.dispose();
+		this.levels.dispose();
+		super.dispose();
+	}
 }
