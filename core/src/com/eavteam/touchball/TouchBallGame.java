@@ -10,6 +10,10 @@ import com.eavteam.touchball.screens.MenuScreen;
 import com.eavteam.touchball.screens.OpenningScreen;
 
 public class TouchBallGame extends Game {
+
+	public static final String TITLE = "Touch Ball";
+	public static final String VERSION = "0.0001";
+
 	public SpriteBatch batch;
 	public BitmapFont font, levels;
 	private static final String FONT_CHARACTERS = "абвгдеёжзийклмнопрстуфхцчшщъыьэюяАБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789][_!$%#@|\\/?-+=()*&.;,{}\"´`'<>";

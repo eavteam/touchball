@@ -4,12 +4,25 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.eavteam.touchball.TouchBallGame;
 
 public class MenuScreen implements Screen{
 
-    final TouchBallGame game;
-    OrthographicCamera camera;
+    private final TouchBallGame game;
+    private OrthographicCamera camera;
+
+    private Stage stage;
+    private TextureAtlas atlas;
+    private Skin skin;
+    private Table table;
+    private TextButton buttonStart, buttonExit, buttonSettings;
+    private Label heading;
 
     public MenuScreen(final TouchBallGame gam){
         game = gam;
@@ -19,7 +32,8 @@ public class MenuScreen implements Screen{
 
     @Override
     public void show() {
-
+        atlas = new TextureAtlas("images/ui/button.pack");
+        skin = new Skin(atlas);
     }
 
     @Override
@@ -28,7 +42,6 @@ public class MenuScreen implements Screen{
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         camera.update();
-
 
 
         if(Gdx.input.isTouched()){

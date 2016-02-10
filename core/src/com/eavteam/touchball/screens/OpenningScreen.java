@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.eavteam.touchball.TouchBallGame;
 import com.eavteam.touchball.tween.SpriteAccessor;
 
@@ -18,9 +19,11 @@ public class OpenningScreen implements Screen {
     private TweenManager tweenManager;
     private Texture logo;
     private Sprite logoSprite;
+    private SpriteBatch batch;
 
     public OpenningScreen(TouchBallGame game) {
         this.game = game;
+        batch = new SpriteBatch();
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 480, 800);
         logo = new Texture(Gdx.files.internal("images/Vovik.png"));
@@ -33,6 +36,8 @@ public class OpenningScreen implements Screen {
         tweenManager = new TweenManager();
         Tween.registerAccessor(Sprite.class,new SpriteAccessor());
 
+        Tween.set(logoSprite,SpriteAccessor.ALPHA).target(0).start(tweenManager);
+        Tween.to(logoSprite,SpriteAccessor.ALPHA,2).target(1).repeatYoyo(1,1).start(tweenManager);
     }
 
     @Override
@@ -41,12 +46,12 @@ public class OpenningScreen implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         tweenManager.update(delta);
-        game.batch.setProjectionMatrix(camera.combined);
-        game.batch.begin();
-        logoSprite.draw(game.batch);
+        batch.setProjectionMatrix(camera.combined);
+        batch.begin();
+        logoSprite.draw(batch);
 //        game.font.draw(game.batch, "TouchBall", ((Gdx.graphics.getWidth() / 2) - 2*game.font.getXHeight() ), Gdx.graphics.getHeight() - game.font.getLineHeight() );
 //        game.font.draw(game.batch, "version for little Vovochka", (Gdx.graphics.getWidth() / 8), Gdx.graphics.getHeight() - 2 * game.font.getLineHeight());
-        game.batch.end();
+        batch.end();
 
         if(Gdx.input.isTouched()){
             game.setScreen(new PlayScreen(game));

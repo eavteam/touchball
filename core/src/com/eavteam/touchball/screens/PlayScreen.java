@@ -19,19 +19,19 @@ import com.eavteam.touchball.swipe.mesh.SwipeTriStrip;
 
 public class PlayScreen implements Screen{
 
-    final TouchBallGame game;
-    SpriteBatch batch;
-    BackgroundActor background;
-    BallActor ball;
-    SwipeActor swiper;
-    BallRoundActor round;
+    private final TouchBallGame game;
 
-    OrthographicCamera cam;
-    SwipeHandler swipe;
+    private SpriteBatch batch;
+    private BackgroundActor background;
+    private BallActor ball;
+    private SwipeActor swiper;
+    private BallRoundActor round;
+
+    private OrthographicCamera cam;
+    private SwipeHandler swipe;
 
     public PlayScreen(final TouchBallGame gam){
         game = gam;
-
         batch = new SpriteBatch();
         background = new BackgroundActor();
         ball = new BallActor();
