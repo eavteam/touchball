@@ -49,8 +49,8 @@ public class OpenningScreen implements Screen {
         batch.setProjectionMatrix(camera.combined);
         batch.begin();
         logoSprite.draw(batch);
-//        game.font.draw(game.batch, "TouchBall", ((Gdx.graphics.getWidth() / 2) - 2*game.font.getXHeight() ), Gdx.graphics.getHeight() - game.font.getLineHeight() );
-//        game.font.draw(game.batch, "version for little Vovochka", (Gdx.graphics.getWidth() / 8), Gdx.graphics.getHeight() - 2 * game.font.getLineHeight());
+        game.font.draw(batch, "ХУЙ", ((Gdx.graphics.getWidth() / 2) - 2*game.font.getXHeight() ), Gdx.graphics.getHeight() /2 + game.font.getLineHeight() );
+  //      game.font.draw(batch, "version for little Vovochka", (Gdx.graphics.getWidth() / 8), Gdx.graphics.getHeight() - 2 * game.font.getLineHeight());
         batch.end();
 
 
