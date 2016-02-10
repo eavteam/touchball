@@ -16,7 +16,7 @@ public class BallRoundActor extends Actor {
     private Circle circle;
 
     public BallRoundActor(){
-        roundTexture = new Texture(Gdx.files.internal("images/round2.png"));
+        roundTexture = new Texture("images/round2.png");
         roundSprite = new Sprite(roundTexture);
         roundSprite.setSize(Gdx.graphics.getHeight() * 20 / 100, Gdx.graphics.getHeight() * 20 / 100); //20% высоты дисплея
 
@@ -32,14 +32,15 @@ public class BallRoundActor extends Actor {
         this.circle.y = centerY;
     }
 
-    public void setScale(float scale){
-        this.roundSprite.setScale(scale);
-        this.circle.radius = scale * roundSprite.getHeight() / 2;
+    //размер задается в % от высоты дисплея
+    public void setSize(float percent){
+        this.roundSprite.setSize(Gdx.graphics.getHeight() * percent / 100, Gdx.graphics.getHeight() * percent / 100);
+        this.circle.radius = roundSprite.getHeight() / 2;
         this.setPosition(this.circle.x, this.circle.y);
     }
 
     public float getRadius(){
-        return this.roundSprite.getWidth() / 2;
+        return this.circle.radius;
     }
 
     @Override
@@ -52,6 +53,4 @@ public class BallRoundActor extends Actor {
         this.roundTexture.dispose();
     }
 
- //   public String getQWE(){return new String("Height: " + this.roundSprite.getHeight());}
-//    public String getQWE(){return new String("x: " + (this.roundSprite.getX()+this.roundSprite.getHeight()/2) + ", y: " + (this.roundSprite.getY()+this.roundSprite.getHeight()/2));}
 }
