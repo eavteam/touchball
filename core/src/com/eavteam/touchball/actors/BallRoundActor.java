@@ -1,6 +1,7 @@
 package com.eavteam.touchball.actors;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -19,7 +20,8 @@ public class BallRoundActor extends Actor {
         roundTexture = new Texture("images/round2.png");
         roundSprite = new Sprite(roundTexture);
         roundSprite.setSize(Gdx.graphics.getHeight() * 20 / 100, Gdx.graphics.getHeight() * 20 / 100); //20% высоты дисплея
-
+        roundSprite.setColor(Color.GRAY);
+        roundSprite.setAlpha(0.5f);
         circle = new Circle();
         circle.radius = roundSprite.getHeight() / 2;
 
