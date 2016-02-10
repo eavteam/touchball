@@ -27,7 +27,6 @@ public class PlayScreen implements Screen{
     BallRoundActor round;
 
     OrthographicCamera camera;
-    SwipeHandler swipe;
 
     public PlayScreen(final TouchBallGame gam){
         game = gam;
@@ -40,9 +39,7 @@ public class PlayScreen implements Screen{
         ball.setSize(4);
         round = new BallRoundActor();
         round.setSize(20);
-        swipe = new SwipeHandler(20,5,10);
         swiper = new SwipeActor();
-        Gdx.input.setInputProcessor(swipe);
     }
 
     @Override
@@ -65,12 +62,7 @@ public class PlayScreen implements Screen{
         round.draw(batch, 1);
         batch.end();
 
-        Gdx.gl.glEnable(GL20.GL_BLEND);
-        Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
-
-        swiper.init();
-        swiper.getTris().update(swipe.path(), swipe.getDissolve(),swipe.getTimer());
-        swiper.getTris().draw(camera);
+        swiper.update(camera);
     }
 
     @Override

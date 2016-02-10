@@ -58,6 +58,7 @@ public class SwipeHandler extends InputAdapter {
     public Array<Vector2> path() {
         return simplified;
     }
+    public FixedList<Vector2> getFixedList(){return inputPoints;}
 
     /**
      * If the points are dirty, the line is simplified.
@@ -96,10 +97,10 @@ public class SwipeHandler extends InputAdapter {
         boolean drawing = System.nanoTime()-timer>500000000;
         if(drawing) {
             resolve();
-            inputPoints.clear();
+//            inputPoints.clear();
             isDrawing = false;
         }
-        return drawing;
+           return drawing;
     }
 
     public boolean touchDragged(int screenX, int screenY, int pointer) {
