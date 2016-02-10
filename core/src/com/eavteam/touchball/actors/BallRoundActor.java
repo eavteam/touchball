@@ -17,11 +17,10 @@ public class BallRoundActor extends Actor {
     private Circle circle;
 
     public BallRoundActor(){
-        roundTexture = new Texture("images/round2.png");
+        roundTexture = new Texture("images/round_white.png");
         roundSprite = new Sprite(roundTexture);
         roundSprite.setSize(Gdx.graphics.getHeight() * 20 / 100, Gdx.graphics.getHeight() * 20 / 100); //20% высоты дисплея
-        roundSprite.setColor(Color.GRAY);
-        roundSprite.setAlpha(0.5f);
+        roundSprite.setColor(new Color(0.7f, 0.7f, 0.7f, 0.6f));
         circle = new Circle();
         circle.radius = roundSprite.getHeight() / 2;
 
