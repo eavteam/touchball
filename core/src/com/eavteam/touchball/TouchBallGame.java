@@ -28,7 +28,7 @@ public class TouchBallGame extends Game {
 		levels.setColor(Color.WHITE);
 		generator.dispose();
 
-		this.setScreen(new MenuScreen(this));
+		this.setScreen(new OpenningScreen(this));
 	}
 
 	@Override
@@ -36,11 +36,11 @@ public class TouchBallGame extends Game {
 		super.render();
 		}
 
-	@Override
-	public void dispose(){
-		this.batch.dispose();
-		this.font.dispose();
-		this.levels.dispose();
-		super.dispose();
-	}
+    @Override
+    public void dispose() {
+        super.dispose();
+        batch.dispose();
+        font.dispose();
+        levels.dispose();
+    }
 }

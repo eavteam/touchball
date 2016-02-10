@@ -29,11 +29,7 @@ public class MenuScreen implements Screen{
 
         camera.update();
 
-        game.batch.setProjectionMatrix(camera.combined);
-        game.batch.begin();
-        game.font.draw(game.batch, "TouchBall", ((Gdx.graphics.getWidth() / 2) - 2*game.font.getXHeight() ), Gdx.graphics.getHeight() - game.font.getLineHeight() );
-        game.font.draw(game.batch, "version for little Vovochka", (Gdx.graphics.getWidth() / 8), Gdx.graphics.getHeight() - 2 * game.font.getLineHeight());
-        game.batch.end();
+
 
         if(Gdx.input.isTouched()){
             game.setScreen(new PlayScreen(game));

@@ -7,7 +7,6 @@ import com.badlogic.gdx.graphics.glutils.ImmediateModeRenderer20;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
-import com.eavteam.touchball.swipe.FixedList;
 import sun.java2d.pipe.AlphaColorPipe;
 
 public class SwipeTriStrip {
@@ -99,12 +98,12 @@ public class SwipeTriStrip {
         return tristrip.size-c;
     }
 
-    public void update(FixedList<Vector2> inputPoints, Array<Vector2> input, boolean dissolving, boolean timer) {
+    public void update(Array<Vector2> input, boolean dissolving, boolean timer) {
         tristrip.clear();
         texcoord.clear();
 
         if(dissolving || timer){
-            if((this.color.a - 0.08f) > 0) {this.color.a -= 0.08f;}else{this.color.a = 0; inputPoints.clear();}
+            if((this.color.a - 0.08f) > 0) {this.color.a -= 0.08f;}else{this.color.a = 0;}
         }else{
             this.color.a = 1f;
         }
