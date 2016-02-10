@@ -53,6 +53,7 @@ public class OpenningScreen implements Screen {
 //        game.font.draw(game.batch, "version for little Vovochka", (Gdx.graphics.getWidth() / 8), Gdx.graphics.getHeight() - 2 * game.font.getLineHeight());
         batch.end();
 
+
         if(Gdx.input.isTouched()){
             game.setScreen(new PlayScreen(game));
             dispose();
