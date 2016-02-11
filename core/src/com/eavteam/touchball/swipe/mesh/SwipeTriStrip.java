@@ -3,6 +3,7 @@ package com.eavteam.touchball.swipe.mesh;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.glutils.ImmediateModeRenderer20;
 
 import com.badlogic.gdx.math.Vector2;
@@ -28,7 +29,6 @@ public class SwipeTriStrip {
     public void draw(Camera cam) {
         if (tristrip.size<=0)
             return;
-
         gl20.begin(cam.combined, GL20.GL_TRIANGLE_STRIP);
         for (int i=0; i<tristrip.size; i++) {
             if (i==batchSize) {

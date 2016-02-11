@@ -24,7 +24,7 @@ public class BallActor extends Actor {
         circle.radius = ballSprite.getHeight() / 2;
 
         setPosition((Gdx.graphics.getWidth() / 2), (Gdx.graphics.getHeight() / 2));
-        setTouchable(Touchable.disabled);
+
     }
 
     //координатами задается центр шарика

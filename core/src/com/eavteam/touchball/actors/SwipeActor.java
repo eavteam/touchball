@@ -1,10 +1,7 @@
 package com.eavteam.touchball.actors;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.eavteam.touchball.swipe.SwipeHandler;
@@ -35,7 +32,7 @@ public class SwipeActor extends Actor {
         return;
     }
 
-    public void update(OrthographicCamera camera){
+    public void update(Camera camera){
         this.init();
         this.tris.update(swipe.getFixedList(), swipe.path(), swipe.getDissolve(),swipe.getTimer());
         this.tris.draw(camera);

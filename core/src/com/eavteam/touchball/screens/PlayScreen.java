@@ -2,8 +2,10 @@ package com.eavteam.touchball.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.PerspectiveCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.eavteam.touchball.actors.BackgroundActor;
 import com.eavteam.touchball.actors.BallActor;
@@ -24,8 +26,6 @@ public class PlayScreen implements Screen{
 
     public PlayScreen(final TouchBallGame gam){
         game = gam;
-        camera = new OrthographicCamera();
-        camera.setToOrtho(false, 480, 800);
 
         batch = new SpriteBatch();
         background = new BackgroundActor();
@@ -33,7 +33,11 @@ public class PlayScreen implements Screen{
         ball.setSize(4);
         round = new BallRoundActor();
 
+        camera = new OrthographicCamera();
+        camera.setToOrtho(false,480,800);
+
         swiper = new SwipeActor();
+
 
     }
 
@@ -51,7 +55,7 @@ public class PlayScreen implements Screen{
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         camera.update();
-        game.batch.setProjectionMatrix(camera.combined);
+        batch.setProjectionMatrix(camera.combined);
 
         round.update(delta);
         ball.update(delta, round.getCircle());
