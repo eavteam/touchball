@@ -32,8 +32,8 @@ public class MenuScreen implements Screen{
 
     @Override
     public void show() {
-        atlas = new TextureAtlas("images/ui/button.pack");
-        skin = new Skin(atlas);
+//        atlas = new TextureAtlas("images/ui/button.pack");
+//        skin = new Skin(atlas);
     }
 
     @Override
