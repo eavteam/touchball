@@ -15,7 +15,6 @@ import com.eavteam.touchball.actors.BallRoundActor;
 
 public class PlayScreen implements Screen{
 
-    final TouchBallGame game;
     SpriteBatch batch;
     BackgroundActor background;
     BallActor ball;
@@ -24,28 +23,22 @@ public class PlayScreen implements Screen{
 
     OrthographicCamera camera;
 
-    public PlayScreen(final TouchBallGame gam){
-        game = gam;
+    public PlayScreen(){
 
         batch = new SpriteBatch();
         background = new BackgroundActor();
         ball = new BallActor();
         ball.setSize(4);
-        round = new BallRoundActor();
 
+        round = new BallRoundActor();
         camera = new OrthographicCamera();
         camera.setToOrtho(false,480,800);
-
         swiper = new SwipeActor();
-
-
     }
 
     @Override
     public void show() {
-
         round.show();
-
     }
 
 
@@ -56,11 +49,10 @@ public class PlayScreen implements Screen{
 
         camera.update();
         batch.setProjectionMatrix(camera.combined);
-
         round.update(delta);
+
         ball.update(delta, round.getCircle());
         batch.begin();
-//        background.draw(batch, 1);
         round.draw(batch, 1);
         ball.draw(batch, 1);
         batch.end();

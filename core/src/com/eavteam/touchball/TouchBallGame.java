@@ -14,25 +14,24 @@ public class TouchBallGame extends Game {
 	public static final String TITLE = "Touch Ball";
 	public static final String VERSION = "0.0001";
 
-	public SpriteBatch batch;
-	public BitmapFont font, levels;
-	private static final String FONT_CHARACTERS = "абвгдеёжзийклмнопрстуфхцчшщъыьэюяАБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789][_!$%#@|\\/?-+=()*&.;,{}\"´`'<>";
-
 	@Override
 	public void create () {
-		batch = new SpriteBatch();
-		FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/obelix_pro_broken.ttf"));
-		FreeTypeFontGenerator.FreeTypeFontParameter param = new FreeTypeFontGenerator.FreeTypeFontParameter();
-		param.size = Gdx.graphics.getHeight() / 36; // Размер шрифта.
-		param.characters = FONT_CHARACTERS; // Cимволы.
-		font = generator.generateFont(param); // Генерируем шрифт.
-		param.size = Gdx.graphics.getHeight() / 20;
-		levels = generator.generateFont(param);
-		font.setColor(Color.ORANGE); // Цвет.
-		levels.setColor(Color.WHITE);
-		generator.dispose();
+		this.setScreen(new OpenningScreen());
+	}
 
-		this.setScreen(new OpenningScreen(this));
+	@Override
+	public void pause() {
+		super.pause();
+	}
+
+	@Override
+	public void resume() {
+		super.resume();
+	}
+
+	@Override
+	public void resize(int width, int height) {
+		super.resize(width, height);
 	}
 
 	@Override
@@ -43,8 +42,5 @@ public class TouchBallGame extends Game {
     @Override
     public void dispose() {
         super.dispose();
-        batch.dispose();
-        font.dispose();
-        levels.dispose();
     }
 }
