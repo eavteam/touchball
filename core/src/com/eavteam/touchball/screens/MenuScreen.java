@@ -20,25 +20,21 @@ public class MenuScreen implements Screen{
     private Table table;
     private FontActor fontActor;
 
-    private Label title;
-
     public MenuScreen(){
 
         ScreenViewport viewport = new ScreenViewport();
         stage = new Stage(viewport);
         Gdx.input.setInputProcessor(stage);
 
-        fontActor = new FontActor(Gdx.graphics.getHeight() / 15);
+        fontActor = new FontActor(Gdx.graphics.getHeight() * 10/100);
 
         table = new Table();
         table.setBounds(0,0,Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
 
         Label.LabelStyle labelStyle = new Label.LabelStyle(fontActor.white, Color.ORANGE);
 
-        title = new Label(TouchBallGame.TITLE,labelStyle);
-
-        table.add(title);
-//        table.debug();
+        table.add(new Label(TouchBallGame.TITLE,labelStyle));
+        table.debug();
         stage.addActor(table);
     }
 
