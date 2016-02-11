@@ -51,8 +51,8 @@ public class MenuScreen implements Screen{
         stage.draw();
         stage.act();
 
-        if(Gdx.input.isTouched()){
-            ((Game) Gdx.app.getApplicationListener()).setScreen(new PlayScreen());
+        if(Gdx.input.justTouched()){
+            ((Game)Gdx.app.getApplicationListener()).setScreen(new PlayScreen());
         }
     }
 

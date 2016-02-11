@@ -47,7 +47,9 @@ public class OpenningScreen implements Screen {
 
         stage.act(delta);
         stage.draw();
-
+        if(Gdx.input.justTouched()){
+            ((Game)Gdx.app.getApplicationListener()).setScreen(new MenuScreen());
+        }
     }
 
     @Override

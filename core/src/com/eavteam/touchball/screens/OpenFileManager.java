@@ -35,7 +35,7 @@ public class OpenFileManager implements Screen {
         container.setFillParent(true);
 
         Table table = new Table();
-        // table.debug();
+         table.debug();
 
         final ScrollPane scroll = new ScrollPane(table, skin);
 

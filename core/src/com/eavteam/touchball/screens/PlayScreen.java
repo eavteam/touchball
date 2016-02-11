@@ -10,7 +10,6 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.eavteam.touchball.actors.BackgroundActor;
 import com.eavteam.touchball.actors.BallActor;
-import com.eavteam.touchball.TouchBallGame;
 import com.eavteam.touchball.actors.SwipeActor;
 import com.eavteam.touchball.actors.BallRoundActor;
 
@@ -20,10 +19,10 @@ public class PlayScreen implements Screen{
 
     BackgroundActor background;
     BallActor ball;
-    SwipeActor swiper;
+//    SwipeActor swiper;
     BallRoundActor round;
 
-    OrthographicCamera camera;
+//    OrthographicCamera camera;
 
     public PlayScreen(){
 
@@ -33,18 +32,19 @@ public class PlayScreen implements Screen{
         background = new BackgroundActor();
         ball = new BallActor();
         round = new BallRoundActor();
-        camera = new OrthographicCamera();
-        camera.setToOrtho(false,480,800);
-        swiper = new SwipeActor();
+//        camera = new OrthographicCamera();
+//        camera.setToOrtho(false,480,800);
+//        swiper = new SwipeActor();
 
         stage.addActor(ball);
+        stage.addActor(round);
 
+//        Gdx.input.setInputProcessor(stage);
     }
 
     @Override
     public void show() {
 
-//        round.show();
     }
 
 
@@ -53,14 +53,12 @@ public class PlayScreen implements Screen{
         Gdx.gl.glClearColor(0.2f, 0.5f, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        camera.update();
-
-//        round.update(delta);
+//        camera.update();
 
         stage.act(delta);
         stage.draw();
 
-        swiper.update(camera);
+//        swiper.update(camera);
     }
 
     @Override

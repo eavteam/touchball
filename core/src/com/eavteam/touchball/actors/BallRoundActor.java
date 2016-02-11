@@ -20,59 +20,65 @@ public class BallRoundActor extends Actor {
     private TweenManager tweenManager;
 
     public BallRoundActor(){
+
         roundTexture = new Texture("images/round_white.png");
         roundSprite = new Sprite(roundTexture);
-       // roundSprite.setSize(Gdx.graphics.getHeight() * 20 / 100, Gdx.graphics.getHeight() * 20 / 100); //20% высоты дисплея
         roundSprite.setColor(new Color(0.7f, 0.7f, 0.7f, 0.6f));
+
         circle = new Circle();
         circle.radius = roundSprite.getHeight() / 2;
 
         setSize(20f);
         setPosition((Gdx.graphics.getWidth() / 2), (Gdx.graphics.getHeight() / 2));
-        tweenManager = new TweenManager();
-    }
 
+        tweenManager = new TweenManager();
+        Tween.registerAccessor(Actor.class,new ActorAccessor());
+
+        Tween.set(this,ActorAccessor.SIZE).target(70).start(tweenManager);
+        Tween.to(this,ActorAccessor.SIZE,1).target(20).start(tweenManager);
+
+    }
+    @Override
     public void setPosition(float centerX, float centerY){
-        this.roundSprite.setPosition(centerX - this.circle.radius, centerY - this.circle.radius);
-        this.circle.x = centerX;
-        this.circle.y = centerY;
+        roundSprite.setPosition(centerX - this.circle.radius, centerY - this.circle.radius);
+        circle.x = centerX;
+        circle.y = centerY;
     }
 
     //размер задается в % от высоты дисплея
     public void setSize(float percent){
         this.percent = percent;
-        this.roundSprite.setSize(Gdx.graphics.getHeight() * percent / 100, Gdx.graphics.getHeight() * percent / 100);
-        this.circle.radius = roundSprite.getHeight() / 2;
-        this.setPosition(this.circle.x, this.circle.y);
+        setSize(Gdx.graphics.getHeight() * percent / 100,Gdx.graphics.getHeight() * percent / 100);
+    }
+    @Override
+    public void setSize(float x,float y){
+        roundSprite.setSize(x,y);
+        circle.radius = roundSprite.getHeight() / 2;
+        setPosition(circle.x, circle.y);
     }
 
-    public float getSize(){ return this.percent;}
+    public float getSize(){ return percent;}
 
     public float getRadius(){
-        return this.circle.radius;
+        return circle.radius;
     }
 
-    public Circle getCircle(){return this.circle;}
+    public Circle getCircle(){return circle;}
 
     @Override
     public void draw(Batch batch, float alpha){
-        this.roundSprite.draw(batch);
+        roundSprite.draw(batch);
     }
 
-    public void show(){
-        Tween.registerAccessor(Actor.class,new ActorAccessor());
-
-        Tween.set(this,ActorAccessor.SIZE).target(70).start(tweenManager);
-        Tween.to(this,ActorAccessor.SIZE,1).target(20).start(tweenManager);
-    }
-
-    public void update(float delta){
+    @Override
+    public void act(float delta) {
+        super.act(delta);
         tweenManager.update(delta);
     }
 
-    // TODO
-    public void dispose() {
-        this.roundTexture.dispose();
+    @Override
+    public boolean remove() {
+        roundTexture.dispose();
+        return super.remove();
     }
-
 }

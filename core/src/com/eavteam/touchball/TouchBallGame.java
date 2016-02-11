@@ -1,14 +1,9 @@
 package com.eavteam.touchball;
 
 import com.badlogic.gdx.Game;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
-import com.eavteam.touchball.screens.MenuScreen;
 import com.eavteam.touchball.screens.OpenFileManager;
 import com.eavteam.touchball.screens.OpenningScreen;
+import com.eavteam.touchball.tests.DragAndDropTest;
 
 public class TouchBallGame extends Game {
 
@@ -17,7 +12,7 @@ public class TouchBallGame extends Game {
 
 	@Override
 	public void create () {
-		this.setScreen(new OpenningScreen());
+		this.setScreen(new DragAndDropTest());
 	}
 
 	@Override

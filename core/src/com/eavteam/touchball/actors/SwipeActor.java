@@ -12,7 +12,7 @@ public class SwipeActor extends Actor {
     private Texture tex;
     private ShapeRenderer shapes;
     private SwipeTriStrip tris;
-    SwipeHandler swipe;
+    private SwipeHandler swipe;
 
     public SwipeActor(){
         tris = new SwipeTriStrip();
