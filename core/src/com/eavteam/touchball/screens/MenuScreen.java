@@ -26,7 +26,7 @@ public class MenuScreen implements Screen{
         stage = new Stage(viewport);
         Gdx.input.setInputProcessor(stage);
 
-        fontActor = new FontActor(Gdx.graphics.getHeight() * 10/100);
+        fontActor = new FontActor(Gdx.graphics.getHeight() * 6/100);
 
         table = new Table();
         table.setBounds(0,0,Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
@@ -34,7 +34,7 @@ public class MenuScreen implements Screen{
         Label.LabelStyle labelStyle = new Label.LabelStyle(fontActor.white, Color.ORANGE);
 
         table.add(new Label(TouchBallGame.TITLE,labelStyle));
-        table.debug();
+//        table.debug();
         stage.addActor(table);
     }
 
@@ -58,7 +58,7 @@ public class MenuScreen implements Screen{
 
     @Override
     public void resize(int width, int height) {
-
+        stage.getViewport().update(width, height, true);
     }
 
     @Override

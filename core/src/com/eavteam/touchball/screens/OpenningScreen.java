@@ -48,14 +48,11 @@ public class OpenningScreen implements Screen {
         stage.act(delta);
         stage.draw();
 
-
-
-
     }
 
     @Override
     public void resize(int width, int height) {
-
+        stage.getViewport().update(width, height, true);
     }
 
     @Override

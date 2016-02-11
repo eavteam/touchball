@@ -6,6 +6,8 @@ import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.eavteam.touchball.actors.BackgroundActor;
 import com.eavteam.touchball.actors.BallActor;
 import com.eavteam.touchball.TouchBallGame;
@@ -14,40 +16,35 @@ import com.eavteam.touchball.actors.BallRoundActor;
 
 public class PlayScreen implements Screen{
 
-    SpriteBatch batch;
+    private Stage stage;
+
     BackgroundActor background;
     BallActor ball;
     SwipeActor swiper;
     BallRoundActor round;
-    FileHandle fileHandle;
 
     OrthographicCamera camera;
 
     public PlayScreen(){
 
-        batch = new SpriteBatch();
+        ScreenViewport viewport = new ScreenViewport();
+        stage = new Stage(viewport);
+
         background = new BackgroundActor();
         ball = new BallActor();
-        ball.setSize(4);
-
         round = new BallRoundActor();
         camera = new OrthographicCamera();
         camera.setToOrtho(false,480,800);
         swiper = new SwipeActor();
 
+        stage.addActor(ball);
+
     }
 
     @Override
     public void show() {
-        int i =1;
-        String extRoot = Gdx.files.getExternalStoragePath();
-        System.out.println("i "+i+" created");
-        FileHandle[] files = Gdx.files.absolute(extRoot).list();
-        for(FileHandle file: files) {
-            System.out.println("extRootDirectory "+i+" "+file.name());
-            i++;
-        }
-        round.show();
+
+//        round.show();
     }
 
 
@@ -57,21 +54,18 @@ public class PlayScreen implements Screen{
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         camera.update();
-        batch.setProjectionMatrix(camera.combined);
-        round.update(delta);
 
-        ball.update(delta, round.getCircle());
-        batch.begin();
-        round.draw(batch, 1);
-        ball.draw(batch, 1);
-        batch.end();
+//        round.update(delta);
+
+        stage.act(delta);
+        stage.draw();
 
         swiper.update(camera);
     }
 
     @Override
     public void resize(int width, int height) {
-        camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        stage.getViewport().update(width, height, true);
     }
 
     @Override
@@ -91,10 +85,6 @@ public class PlayScreen implements Screen{
 
     @Override
     public void dispose() {
-        batch.dispose();
-        ball.dispose();
-        round.dispose();
-        background.dispose();
-        swiper.dispose();
+        stage.dispose();
     }
 }

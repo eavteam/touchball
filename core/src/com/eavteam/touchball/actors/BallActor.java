@@ -10,35 +10,40 @@ import com.badlogic.gdx.scenes.scene2d.Touchable;
 
 
 public class BallActor extends Actor {
-    private Texture ballTexture;
+
     private Sprite ballSprite;
     private Circle circle;
 
     public BallActor(){
-        ballTexture = new Texture("images/ball_ink.png");
 
-        ballSprite = new Sprite(ballTexture);
-        ballSprite.setSize(Gdx.graphics.getHeight() * 6 / 100, Gdx.graphics.getHeight() * 6 / 100); // размер шарика 6% от длины дисплея
+        ballSprite = new Sprite(new Texture("images/ball_ink.png"));
+        ballSprite.setSize(ballSprite.getTexture().getWidth() * 20 / 100, ballSprite.getTexture().getHeight() * 20 / 100);
+        setBounds(ballSprite.getX(),ballSprite.getY(),ballSprite.getWidth(),ballSprite.getHeight());
 
         circle = new Circle();
         circle.radius = ballSprite.getHeight() / 2;
+        setSize(4);
 
         setPosition((Gdx.graphics.getWidth() / 2), (Gdx.graphics.getHeight() / 2));
-
-    }
-
-    //координатами задается центр шарика
-    public void setPosition(float centerX, float centerY){
-        this.ballSprite.setPosition(centerX - this.circle.radius, centerY - this.circle.radius);
-        this.circle.x = centerX;
-        this.circle.y = centerY;
     }
 
     //размер задается в % от высоты дисплея
     public void setSize(float percent){
-        this.ballSprite.setSize(Gdx.graphics.getHeight() * percent / 100, Gdx.graphics.getHeight() * percent / 100);
-        this.circle.radius = ballSprite.getHeight() / 2;
-        this.setPosition(this.circle.x, this.circle.y);
+        setSize(Gdx.graphics.getHeight() * percent / 100,Gdx.graphics.getHeight() * percent / 100);
+    }
+
+    @Override
+    public void setSize(float width, float height) {
+        ballSprite.setSize(width, height);
+        circle.radius = ballSprite.getHeight() / 2;
+        setPosition(this.circle.x, this.circle.y);
+    }
+
+    @Override
+    public void setPosition(float x, float y) {
+        this.ballSprite.setPosition(x - this.circle.radius, y - this.circle.radius);
+        this.circle.x = x;
+        this.circle.y = y;
     }
 
     public float getRadius(){
@@ -50,17 +55,23 @@ public class BallActor extends Actor {
         this.ballSprite.draw(batch);
     }
 
-    public void update(float delta, Circle round){
-//        if(Gdx.input.isTouched()){
+    @Override
+    public void act(float delta) {
+        super.act(delta);
+        //        if(Gdx.input.isTouched()){
 //            setPosition(Gdx.input.getX(), Gdx.graphics.getHeight() - Gdx.input.getY());
 //        }
-        if(!circle.overlaps(round)){
-            this.setTouchable(Touchable.disabled);
-        }
+//        if(!circle.overlaps(round)){
+//            this.setTouchable(Touchable.disabled);
+//        }
+
     }
 
-    // TODO
-    public void dispose() {
-        this.ballTexture.dispose();
+
+    @Override
+    public boolean remove() {
+        ballSprite.getTexture().dispose();
+        return super.remove();
     }
+
 }
