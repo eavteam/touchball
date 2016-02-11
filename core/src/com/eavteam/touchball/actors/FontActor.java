@@ -2,39 +2,33 @@ package com.eavteam.touchball.actors;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
 
 public class FontActor extends Actor {
 
-
-    public BitmapFont orangeBig, white;
+    public BitmapFont white;
     private static final String FONT_CHARACTERS = "абвгдеёжзийклмнопрстуфхцчшщъыьэюяАБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789][_!$%#@|\\/?-+=()*&.;,{}\"´`'<>";
 
-    public FontActor(){
+    public FontActor(int size){
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/obelix_pro_broken.ttf"));
         FreeTypeFontGenerator.FreeTypeFontParameter param = new FreeTypeFontGenerator.FreeTypeFontParameter();
 
         param.characters = FONT_CHARACTERS; // Cимволы.
-        param.size = Gdx.graphics.getHeight() / 36; // Размер шрифта.
-        orangeBig = generator.generateFont(param); // Генерируем шрифт.
-        orangeBig.setColor(Color.ORANGE); // Цвет.
-
-        param.size = Gdx.graphics.getHeight() / 20;
+        param.size = size;
         white = generator.generateFont(param);
         white.setColor(Color.WHITE);
 
         generator.dispose();
-
     }
 
-    public void orangeBig(){
 
-    }
-
-    public void white(){
+    @Override
+    public void draw(Batch batch, float parentAlpha) {
 
     }
 
@@ -43,10 +37,10 @@ public class FontActor extends Actor {
 
     }
 
+
     @Override
     public boolean remove() {
         white.dispose();
-        orangeBig.dispose();
         return super.remove();
     }
 }

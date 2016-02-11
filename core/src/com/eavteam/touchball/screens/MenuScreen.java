@@ -3,46 +3,60 @@ package com.eavteam.touchball.screens;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.eavteam.touchball.TouchBallGame;
+import com.eavteam.touchball.actors.FontActor;
 
 public class MenuScreen implements Screen{
 
-    private OrthographicCamera camera;
-
+//    private TextButton buttonStart, buttonExit, buttonSettings;
+//    private TextureAtlas atlas;
+//    private Skin skin;
     private Stage stage;
-    private TextureAtlas atlas;
-    private Skin skin;
     private Table table;
-    private TextButton buttonStart, buttonExit, buttonSettings;
-    private Label heading;
+    private FontActor fontActor;
+
+    private Label title;
 
     public MenuScreen(){
-        camera = new OrthographicCamera();
-        camera.setToOrtho(false, 480, 800);
+
+        ScreenViewport viewport = new ScreenViewport();
+        stage = new Stage(viewport);
+        Gdx.input.setInputProcessor(stage);
+
+        fontActor = new FontActor(Gdx.graphics.getHeight() / 15);
+
+        table = new Table();
+        table.setBounds(0,0,Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
+
+        Label.LabelStyle labelStyle = new Label.LabelStyle(fontActor.white, Color.ORANGE);
+
+        title = new Label(TouchBallGame.TITLE,labelStyle);
+
+        table.add(title);
+//        table.debug();
+        stage.addActor(table);
     }
 
     @Override
     public void show() {
-//        atlas = new TextureAtlas("images/ui/button.pack");
-//        skin = new Skin(atlas);
+
     }
 
     @Override
     public void render(float delta) {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        camera.update();
+
+        stage.draw();
+        stage.act();
+
         if(Gdx.input.isTouched()){
             ((Game) Gdx.app.getApplicationListener()).setScreen(new PlayScreen());
-            dispose();
         }
     }
 
@@ -68,5 +82,6 @@ public class MenuScreen implements Screen{
 
     @Override
     public void dispose() {
+        stage.dispose();
     }
 }

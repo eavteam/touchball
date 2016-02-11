@@ -11,10 +11,8 @@ import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.eavteam.touchball.tween.ActorAccessor;
 
-/*
- Женечка просто дура, с выдвинутой без особой на то причины вздрыжневой генетальной пяней.
-  */
 public class BallRoundActor extends Actor {
+
     private Texture roundTexture;
     private Sprite roundSprite;
     private Circle circle;
