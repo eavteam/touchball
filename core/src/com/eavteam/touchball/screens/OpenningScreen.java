@@ -1,27 +1,14 @@
 package com.eavteam.touchball.screens;
 
-import aurelienribon.tweenengine.BaseTween;
-import aurelienribon.tweenengine.Tween;
-import aurelienribon.tweenengine.TweenCallback;
-import aurelienribon.tweenengine.TweenManager;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
-import com.eavteam.touchball.TouchBallGame;
 import com.eavteam.touchball.actors.LogoActor;
-import com.eavteam.touchball.tween.SpriteAccessor;
 
 public class OpenningScreen implements Screen {
-
-
-    private TweenManager tweenManager;
 
     private Stage stage;
     private LogoActor logo;
@@ -46,7 +33,7 @@ public class OpenningScreen implements Screen {
         stage.act(delta);
         stage.draw();
         if(Gdx.input.justTouched()){
-            ((Game)Gdx.app.getApplicationListener()).setScreen(new MenuScreen());
+            ((Game)Gdx.app.getApplicationListener()).setScreen(new FileManager());
         }
     }
 

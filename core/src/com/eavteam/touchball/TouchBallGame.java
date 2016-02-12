@@ -12,7 +12,7 @@ public class TouchBallGame extends Game {
 
 	@Override
 	public void create () {
-		this.setScreen(new PlayScreen());
+		this.setScreen(new OpenningScreen());
 	}
 
 	@Override

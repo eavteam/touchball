@@ -32,8 +32,6 @@ public class PlayScreen implements Screen {
 //    OrthographicCamera camera;
 
     public PlayScreen(){
-        final Skin skin = new Skin();
-        skin.add("default", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
 
         ScreenViewport viewport = new ScreenViewport();
         stage = new Stage(viewport);

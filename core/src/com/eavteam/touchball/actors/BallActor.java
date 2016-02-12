@@ -23,6 +23,7 @@ public class BallActor extends Actor {
             BallActor b = (BallActor) event.getRelatedActor();
             Gdx.app.log("Ball", "touchDown");
             b.setPosition(x,y);
+
             return false;
         }
         @Override
