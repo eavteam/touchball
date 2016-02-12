@@ -10,9 +10,6 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
-/**
- * Created by nepeyvoda-va on 11.02.2016.
- */
 public class FileManager implements Screen {
 
     private Stage stage;
@@ -32,7 +29,7 @@ public class FileManager implements Screen {
         skin = new Skin(Gdx.files.internal("skins/uiskin.json"));
         Gdx.input.setInputProcessor(stage);
 
-        // Gdx.graphics.setVSync(false);
+//         Gdx.graphics.setVSync(true);
 
         sdCardDerectory = Gdx.files.getExternalStoragePath();                   //получаем путь к SDCARD
         rootDirectory = "/";                                                    //получаем путь к ROOT
@@ -117,7 +114,7 @@ public class FileManager implements Screen {
     private void buildTable(){
 
         table.clear();
-        table.debug();
+//        table.debug();
 
         table.top().pad(10).defaults().expandX().space(4);
         table.row();
@@ -125,7 +122,7 @@ public class FileManager implements Screen {
         table.add(backButton).left();
         backButton.addListener(new ClickListener() {
             public void clicked(InputEvent event, float x, float y){
-                if(pathDirectory != rootDirectory){
+                if(pathDirectory.length() != 1){
                     int index = pathDirectory.lastIndexOf("/");
                     pathDirectory = pathDirectory.substring(0, index);
                     index = pathDirectory.lastIndexOf("/");
