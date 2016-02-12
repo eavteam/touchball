@@ -5,7 +5,12 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.eavteam.touchball.screens.DebugScreen;
 import com.eavteam.touchball.screens.FileManager;
 import com.eavteam.touchball.screens.OpenningScreen;
 import com.eavteam.touchball.screens.PlayScreen;
@@ -16,16 +21,17 @@ public class TouchBallGame extends Game {
 	public static final String TITLE = "Touch Ball";
 	public static final String VERSION = "0.0001";
 	public static MyProperties p;
-	BitmapFont font;
-	SpriteBatch batch;
+	private BitmapFont font;
+	private SpriteBatch batch;
 	@Override
 	public void create () {
-		this.setScreen(new FileManager());
 		p.init();
-//		this.setScreen(new OpenningScreen());
 		font = new BitmapFont(); batch = new SpriteBatch();
 		font.setColor(Color.RED);
-
+		if(p.app.getProperty("debug").equals("true")){
+			this.setScreen(new DebugScreen());
+		} else
+			this.setScreen(new OpenningScreen());
 	}
 
 	@Override
@@ -49,7 +55,7 @@ public class TouchBallGame extends Game {
 
 		if(p.app.getProperty("debug").equals("true")) {
 			batch.begin();
-			this.font.draw(this.batch, "FPS Bitch: " + Gdx.graphics.getFramesPerSecond(), 0, Gdx.graphics.getHeight()-20);
+			this.font.draw(this.batch, "FPS: " + Gdx.graphics.getFramesPerSecond(), Gdx.graphics.getWidth()-100, Gdx.graphics.getHeight()-20);
 			batch.end();
 		}
 
@@ -58,6 +64,7 @@ public class TouchBallGame extends Game {
     @Override
     public void dispose() {
         this.getScreen().dispose();
+		font.dispose();
 		super.dispose();
     }
 }
