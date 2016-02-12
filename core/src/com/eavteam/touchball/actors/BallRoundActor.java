@@ -21,6 +21,7 @@ public class BallRoundActor extends Actor {
 
     public BallRoundActor(){
 
+        this.setZIndex(100);
         roundTexture = new Texture("images/round_white.png");
         roundSprite = new Sprite(roundTexture);
         roundSprite.setColor(new Color(0.7f, 0.7f, 0.7f, 0.6f));
@@ -36,6 +37,7 @@ public class BallRoundActor extends Actor {
 
         Tween.set(this,ActorAccessor.SIZE).target(70).start(tweenManager);
         Tween.to(this,ActorAccessor.SIZE,1).target(20).start(tweenManager);
+
 
     }
     @Override

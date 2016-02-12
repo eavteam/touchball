@@ -1,7 +1,6 @@
-package com.eavteam.touchball.swipe;
+package com.eavteam.touchball.tests.swipe;
 
-import com.eavteam.touchball.swipe.simplify.ResolverCopy;
-import com.eavteam.touchball.swipe.simplify.ResolverRadialChaikin;
+import com.eavteam.touchball.tests.swipe.simplify.ResolverRadialChaikin;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputAdapter;

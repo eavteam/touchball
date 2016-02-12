@@ -29,15 +29,13 @@ public class OpenningScreen implements Screen {
     public OpenningScreen() {
         ScreenViewport viewport = new ScreenViewport();
         stage = new Stage(viewport);
-        Gdx.input.setInputProcessor(stage);
-
         logo = new LogoActor();
         stage.addActor(logo);
     }
 
     @Override
     public void show() {
-
+        Gdx.input.setInputProcessor(stage);
     }
 
     @Override

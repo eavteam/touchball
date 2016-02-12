@@ -1,15 +1,13 @@
-package com.eavteam.touchball.swipe.mesh;
+package com.eavteam.touchball.tests.swipe.mesh;
 
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.glutils.ImmediateModeRenderer20;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
-import com.eavteam.touchball.swipe.FixedList;
-import sun.java2d.pipe.AlphaColorPipe;
+import com.eavteam.touchball.tests.swipe.FixedList;
 
 public class SwipeTriStrip {
 

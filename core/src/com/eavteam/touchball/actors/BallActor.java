@@ -6,13 +6,33 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
+import com.badlogic.gdx.scenes.scene2d.utils.DragListener;
 
 
 public class BallActor extends Actor {
 
     private Sprite ballSprite;
     private Circle circle;
+
+    private static DragListener dl = new DragListener() {
+        @Override
+        public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+            BallActor b = (BallActor) event.getRelatedActor();
+            Gdx.app.log("Ball", "touchDown");
+            b.setPosition(x,y);
+            return false;
+        }
+        @Override
+        public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+            BallActor b = (BallActor) event.getRelatedActor();
+            Gdx.app.log("Ball", "touchUp");
+            b.setPosition(x,y);
+        }
+
+    };
 
     public BallActor(){
 
@@ -24,7 +44,8 @@ public class BallActor extends Actor {
         circle.radius = ballSprite.getHeight() / 2;
         setSize(4);
 
-        setPosition((Gdx.graphics.getWidth() / 2), (Gdx.graphics.getHeight() / 2));
+        refreshPosition();
+        addListener(dl);
     }
 
     //размер задается в % от высоты дисплея
@@ -44,6 +65,10 @@ public class BallActor extends Actor {
         this.ballSprite.setPosition(x - this.circle.radius, y - this.circle.radius);
         this.circle.x = x;
         this.circle.y = y;
+    }
+
+    public void refreshPosition(){
+        setPosition((Gdx.graphics.getWidth() / 2), (Gdx.graphics.getHeight() / 2));
     }
 
     public float getRadius(){

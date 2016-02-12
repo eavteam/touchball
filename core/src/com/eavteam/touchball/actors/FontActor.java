@@ -17,12 +17,10 @@ public class FontActor extends Actor {
     public FontActor(int size){
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/obelix_pro_broken.ttf"));
         FreeTypeFontGenerator.FreeTypeFontParameter param = new FreeTypeFontGenerator.FreeTypeFontParameter();
-
         param.characters = FONT_CHARACTERS; // Cимволы.
         param.size = size;
         white = generator.generateFont(param);
         white.setColor(Color.WHITE);
-
         generator.dispose();
     }
 

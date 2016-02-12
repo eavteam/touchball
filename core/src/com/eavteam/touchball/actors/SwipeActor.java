@@ -4,8 +4,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.eavteam.touchball.swipe.SwipeHandler;
-import com.eavteam.touchball.swipe.mesh.SwipeTriStrip;
+import com.eavteam.touchball.tests.swipe.SwipeHandler;
+import com.eavteam.touchball.tests.swipe.mesh.SwipeTriStrip;
 
 public class SwipeActor extends Actor {
 

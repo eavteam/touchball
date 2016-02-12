@@ -1,6 +1,6 @@
-package com.eavteam.touchball.swipe.simplify;
+package com.eavteam.touchball.tests.swipe.simplify;
 
-import com.eavteam.touchball.swipe.SwipeResolver;
+import com.eavteam.touchball.tests.swipe.SwipeResolver;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;

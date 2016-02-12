@@ -21,10 +21,8 @@ public class MenuScreen implements Screen{
     private FontActor fontActor;
 
     public MenuScreen(){
-
         ScreenViewport viewport = new ScreenViewport();
         stage = new Stage(viewport);
-        Gdx.input.setInputProcessor(stage);
 
         fontActor = new FontActor(Gdx.graphics.getHeight() * 6/100);
 
@@ -40,7 +38,7 @@ public class MenuScreen implements Screen{
 
     @Override
     public void show() {
-
+        Gdx.input.setInputProcessor(stage);
     }
 
     @Override

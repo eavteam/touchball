@@ -1,4 +1,4 @@
-package com.eavteam.touchball.swipe;
+package com.eavteam.touchball.tests.swipe;
 
 import com.badlogic.gdx.utils.Array;
 

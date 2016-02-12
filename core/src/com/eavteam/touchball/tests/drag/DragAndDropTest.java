@@ -14,7 +14,7 @@
  * limitations under the License.
  ******************************************************************************/
 
-package com.eavteam.touchball.tests;
+package com.eavteam.touchball.tests.drag;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
@@ -47,7 +47,7 @@ public class DragAndDropTest implements Screen {
         skin.add("default", new LabelStyle(new BitmapFont(), Color.WHITE));
         skin.add("logo", new Texture("images/eav_logo.png"));
 
-        Image sourceImage = new Image(skin, "logo");
+        final Image sourceImage = new Image(skin, "logo");
         sourceImage.setBounds(50, 125, 100, 100);
         stage.addActor(sourceImage);
 
@@ -65,7 +65,9 @@ public class DragAndDropTest implements Screen {
                 Payload payload = new Payload();
                 payload.setObject("Some payload!");
 
-                payload.setDragActor(new Label("Some payload!", skin));
+//                payload.setDragActor(new Label("Some payload!", skin));
+
+                payload.setDragActor(sourceImage);
 
                 Label validLabel = new Label("Some payload!", skin);
                 validLabel.setColor(0, 1, 0, 1);
