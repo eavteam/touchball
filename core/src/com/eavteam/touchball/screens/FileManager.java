@@ -156,10 +156,29 @@ public class FileManager implements Screen {
             table.add(mp3button).left();
             mp3button.addListener(new ClickListener() {
                 public void clicked (InputEvent event, float x, float y) {
+                    ConfirmDialog dia = new ConfirmDialog("title",skin);
+                    dia.show(stage);
 //                    loadmp3File();TODO
                     System.out.println("click at mp3button");
                 }
             });
+        }
+    }
+
+    public static class ConfirmDialog extends Dialog{
+
+        public ConfirmDialog(String title, Skin skin) {
+            super(title, skin);
+        }
+        {
+            text("Vovik mudak?");
+            button("Yes","soglasen");
+            button("No","ne pitaisya meny obmanut'");
+        }
+
+        @Override
+        protected void result(Object object) {
+            System.out.println(object.toString());
         }
     }
 }

@@ -3,31 +3,24 @@ package com.eavteam.touchball.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.files.FileHandle;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.utils.DragAndDrop;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.eavteam.touchball.actors.BackgroundActor;
 import com.eavteam.touchball.actors.BallActor;
 import com.eavteam.touchball.actors.SwipeActor;
 import com.eavteam.touchball.actors.BallRoundActor;
 
-public class PlayScreen implements Screen {
+public class PlayScreen implements Screen,InputProcessor {
 
     private Stage stage;
+    private Group group;
 
-    BackgroundActor background;
-    BallActor ball;
-//    SwipeActor swiper;
-    BallRoundActor round;
+    private BackgroundActor background;
+    private BallActor ball;
+    private SwipeActor swiper;
+    private BallRoundActor round;
 
 //    OrthographicCamera camera;
 
@@ -35,6 +28,7 @@ public class PlayScreen implements Screen {
 
         ScreenViewport viewport = new ScreenViewport();
         stage = new Stage(viewport);
+        group = new Group();
 
         background = new BackgroundActor();
         ball = new BallActor();
@@ -43,8 +37,11 @@ public class PlayScreen implements Screen {
 //        camera.setToOrtho(false,480,800);
 //        swiper = new SwipeActor();
 
-        stage.addActor(round);
-        stage.addActor(ball);
+        group.addActor(background);
+        group.addActor(round);
+        group.addActor(ball);
+
+        stage.addActor(group);
     }
 
     @Override
@@ -90,6 +87,49 @@ public class PlayScreen implements Screen {
     @Override
     public void dispose() {
         stage.dispose();
+    }
+
+
+    @Override
+    public boolean keyDown(int keycode) {
+        return false;
+    }
+
+    @Override
+    public boolean keyUp(int keycode) {
+        return false;
+    }
+
+    @Override
+    public boolean keyTyped(char character) {
+        return false;
+    }
+
+    @Override
+    public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+
+        return false;
+    }
+
+    @Override
+    public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+        return false;
+    }
+
+    @Override
+    public boolean touchDragged(int screenX, int screenY, int pointer) {
+        return false;
+    }
+
+
+    @Override
+    public boolean mouseMoved(int screenX, int screenY) {
+        return false;
+    }
+
+    @Override
+    public boolean scrolled(int amount) {
+        return false;
     }
 
 }

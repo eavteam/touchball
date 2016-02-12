@@ -1,6 +1,7 @@
 package com.eavteam.touchball;
 
 import com.badlogic.gdx.Game;
+import com.eavteam.touchball.screens.FileManager;
 import com.eavteam.touchball.screens.OpenningScreen;
 import com.eavteam.touchball.screens.PlayScreen;
 import com.eavteam.touchball.tests.drag.DragAndDropTest;
@@ -12,7 +13,7 @@ public class TouchBallGame extends Game {
 
 	@Override
 	public void create () {
-		this.setScreen(new OpenningScreen());
+		this.setScreen(new FileManager());
 	}
 
 	@Override
