@@ -67,11 +67,17 @@ public class LoadingScreen extends AbstractScreen {
         // loadingBar = new Image(atlas.findRegion("loading-bar1"));
 
         // Add all the actors to the stage
+        table.top();
         table.addActor(screenBg);
+        table.row();
         table.addActor(loadingBar);
+        table.row();
         table.addActor(loadingBg);
+        table.row();
         table.addActor(loadingBarHidden);
+        table.row();
         table.addActor(loadingFrame);
+        table.row();
         table.addActor(logo);
 
         stage.addActor(table);
