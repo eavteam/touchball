@@ -15,13 +15,14 @@ public class TouchBallGame extends Game {
 	public static final String TITLE = "Touch Ball";
 	public static final String VERSION = "0.0001";
 	public static MyProperties p;
-	private BitmapFont font;
 	private SpriteBatch batch;
+	private BitmapFont font;
 	@Override
 	public void create () {
 		p.init();
 		Assets.load();
-		font = new BitmapFont(); batch = new SpriteBatch();
+		batch = new SpriteBatch();
+		font = Assets.font_24;
 		font.setColor(Color.RED);
 		if(p.app.getProperty("debug").equals("true")){
 			this.setScreen(new DebugScreen(this));
@@ -60,7 +61,6 @@ public class TouchBallGame extends Game {
     @Override
     public void dispose() {
 		Assets.dispose();
-		font.dispose();
 		super.dispose();
     }
 }

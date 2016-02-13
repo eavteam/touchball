@@ -13,6 +13,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.eavteam.touchball.TouchBallGame;
+import com.eavteam.touchball.tests.loading.screens.*;
+import com.eavteam.touchball.tests.loading.screens.LoadingScreen;
 
 public class DebugScreen implements Screen {
 
@@ -79,6 +81,15 @@ public class DebugScreen implements Screen {
         playScreen.addListener(new ClickListener() {
             public void clicked (InputEvent event, float x, float y) {
                 ((Game) Gdx.app.getApplicationListener()).setScreen(new PlayScreen(game));
+            }
+        });
+
+        this.table.row();
+        TextButton loadingScreen = new TextButton("LoadingScreen", this.skin);
+        this.table.add(loadingScreen).left();
+        loadingScreen.addListener(new ClickListener() {
+            public void clicked (InputEvent event, float x, float y) {
+                ((Game) Gdx.app.getApplicationListener()).setScreen(new LoadingScreen(game));
             }
         });
     }
