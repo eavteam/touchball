@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.eavteam.touchball.TouchBallGame;
 import com.eavteam.touchball.actors.BackgroundActor;
 import com.eavteam.touchball.actors.BallActor;
 import com.eavteam.touchball.actors.SwipeActor;
@@ -14,9 +15,9 @@ import com.eavteam.touchball.actors.BallRoundActor;
 
 public class PlayScreen implements Screen,InputProcessor {
 
+    public final TouchBallGame game;
     private Stage stage;
     private Group group;
-
     private BackgroundActor background;
     private BallActor ball;
     private SwipeActor swiper;
@@ -24,8 +25,8 @@ public class PlayScreen implements Screen,InputProcessor {
 
 //    OrthographicCamera camera;
 
-    public PlayScreen(){
-
+    public PlayScreen(final TouchBallGame game){
+        this.game = game;
         ScreenViewport viewport = new ScreenViewport();
         stage = new Stage(viewport);
         group = new Group();

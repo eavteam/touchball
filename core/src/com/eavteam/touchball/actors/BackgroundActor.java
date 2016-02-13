@@ -5,27 +5,23 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.eavteam.touchball.common.Assets;
 
 public class BackgroundActor extends Actor {
-    private Texture backgroundTexture;
+
     private Sprite backgroundSprite;
 
     public BackgroundActor(){
-        backgroundTexture = new Texture(Gdx.files.internal("images/background5554.jpg"));
-        backgroundSprite = new Sprite(backgroundTexture);
+        backgroundSprite = new Sprite(Assets.manager.get(Assets.background,Texture.class));
         backgroundSprite.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         this.setPosition(0, 0);
-    }
-
-    public void rotationFuck(float z){
-        backgroundSprite.setRotation(z);
     }
 
     @Override
     public void draw(Batch batch, float alpha){
         backgroundSprite.draw(batch);
     }
-//TODO
+
     public void dispose() {
         this.remove();
     }

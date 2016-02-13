@@ -9,9 +9,11 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.eavteam.touchball.TouchBallGame;
 
 public class FileManager implements Screen {
 
+    public final TouchBallGame game;
     private Stage stage;
     private Table container, table;
     private Skin skin;
@@ -23,33 +25,33 @@ public class FileManager implements Screen {
     private FileHandle[] allFiles;
     private TextButton backButton;
 
-    public FileManager() {
-
-        stage = new Stage();
-        skin = new Skin(Gdx.files.internal("skins/uiskin.json"));
+    public FileManager( final TouchBallGame game) {
+        this.game = game;
+        this.stage = new Stage();
+        this.skin = new Skin(Gdx.files.internal("skins/uiskin.json"));
         Gdx.input.setInputProcessor(stage);
 
 //         Gdx.graphics.setVSync(true);
 
-        sdCardDerectory = Gdx.files.getExternalStoragePath();                   //получаем путь к SDCARD
-        rootDirectory = "/";                                                    //получаем путь к ROOT
-        pathDirectory = rootDirectory;                                          //по умолчанию текущий каталог выставляем в ROOT
-        pathLabelDirectory = new Label("Directory: " + pathDirectory, skin);
-        mp3Files = Gdx.files.absolute(pathDirectory).list(".mp3");              // получаем данные mp3 файлов находящихся в текущем каталоге
-        allFiles = Gdx.files.absolute(pathDirectory).list();                    // получаем данные всех файлов в текущем каталоге
+        this.sdCardDerectory = Gdx.files.getExternalStoragePath();                   //получаем путь к SDCARD
+        this.rootDirectory = "/";                                                    //получаем путь к ROOT
+        this.pathDirectory = rootDirectory;                                          //по умолчанию текущий каталог выставляем в ROOT
+        this.pathLabelDirectory = new Label("Directory: " + this.pathDirectory, this.skin);
+        this.mp3Files = Gdx.files.absolute(pathDirectory).list(".mp3");              // получаем данные mp3 файлов находящихся в текущем каталоге
+        this.allFiles = Gdx.files.absolute(pathDirectory).list();                    // получаем данные всех файлов в текущем каталоге
 
-        container = new Table();
-        stage.addActor(container);
-        container.setFillParent(true);
-        container.row();
-        container.add(pathLabelDirectory).left();
-        container.row();
+        this.container = new Table();
+        this.stage.addActor(container);
+        this.container.setFillParent(true);
+        this.container.row();
+        this.container.add(pathLabelDirectory).left();
+        this.container.row();
 
-        table = new Table();
+        this.table = new Table();
         buildTable();
-        final ScrollPane scroll = new ScrollPane(table, skin);
-        container.add(scroll).expand().fill().colspan(4);
-        container.row().space(10).padBottom(10);
+        final ScrollPane scroll = new ScrollPane(this.table, this.skin);
+        this.container.add(scroll).expand().fill().colspan(4);
+        this.container.row().space(10).padBottom(10);
 
         InputListener stopTouchDown = new InputListener() {
             public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
@@ -69,16 +71,13 @@ public class FileManager implements Screen {
     public void render(float delta) {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        stage.act(Gdx.graphics.getDeltaTime());
-        stage.draw();
+        this.stage.act(Gdx.graphics.getDeltaTime());
+        this.stage.draw();
     }
 
     @Override
     public void resize(int width, int height) {
         stage.getViewport().update(width, height, true);
-//
-//         Gdx.gl.glViewport(100, 100, width - 200, height - 200);
-////         stage.setViewport(800, 600, false, 100, 100, width - 200, height - 200);
     }
 
     @Override
@@ -98,7 +97,7 @@ public class FileManager implements Screen {
 
     @Override
     public void dispose() {
-        stage.dispose();
+        this.stage.dispose();
     }
 
     public boolean needsGL20 () {
@@ -106,22 +105,22 @@ public class FileManager implements Screen {
     }
 
     private void updateDataTable(){
-        mp3Files = Gdx.files.absolute(pathDirectory).list(".mp3"); // получаем данные mp3 файлов
-        allFiles = Gdx.files.absolute(pathDirectory).list();// получаем данные всех файлов
-        pathLabelDirectory.setText("Directory: " + pathDirectory);
-        buildTable();
+        this.mp3Files = Gdx.files.absolute(pathDirectory).list(".mp3"); // получаем данные mp3 файлов
+        this.allFiles = Gdx.files.absolute(pathDirectory).list();// получаем данные всех файлов
+        this.pathLabelDirectory.setText("Directory: " + pathDirectory);
+        this.buildTable();
     }
 
     private void buildTable(){
 
-        table.clear();
+        this.table.clear();
 //        table.debug();
 
-        table.top().pad(10).defaults().expandX().space(4);
-        table.row();
-        backButton = new TextButton("...", skin);
-        table.add(backButton).left();
-        backButton.addListener(new ClickListener() {
+        this.table.top().pad(10).defaults().expandX().space(4);
+        this.table.row();
+        this.backButton = new TextButton("...", this.skin);
+        this.table.add(backButton).left();
+        this.backButton.addListener(new ClickListener() {
             public void clicked(InputEvent event, float x, float y){
                 if(pathDirectory.length() != 1){
                     int index = pathDirectory.lastIndexOf("/");
@@ -136,9 +135,9 @@ public class FileManager implements Screen {
         });
         for (final FileHandle file: allFiles) {
             if(file.isDirectory()){ //если папка, то добавляем в таблицу
-                table.row();
-                TextButton directoryButton = new TextButton(file.name(), skin);
-                table.add(directoryButton).left();
+                this.table.row();
+                TextButton directoryButton = new TextButton(file.name(), this.skin);
+                this.table.add(directoryButton).left();
                 directoryButton.addListener(new ClickListener() {
                     public void clicked (InputEvent event, float x, float y) {
                         pathDirectory += file.name() + "/";
@@ -149,9 +148,9 @@ public class FileManager implements Screen {
             }
         }
         for (FileHandle file: mp3Files) {
-            table.row();
-            TextButton mp3button = new TextButton(file.name(), skin);
-            table.add(mp3button).left();
+            this.table.row();
+            TextButton mp3button = new TextButton(file.name(), this.skin);
+            this.table.add(mp3button).left();
             mp3button.addListener(new ClickListener() {
                 public void clicked (InputEvent event, float x, float y) {
                     ConfirmDialog dia = new ConfirmDialog("title",skin);

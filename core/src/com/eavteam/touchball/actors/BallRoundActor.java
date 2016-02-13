@@ -9,11 +9,11 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.eavteam.touchball.common.Assets;
 import com.eavteam.touchball.tween.ActorAccessor;
 
 public class BallRoundActor extends Actor {
 
-    private Texture roundTexture;
     private Sprite roundSprite;
     private Circle circle;
     private float percent;
@@ -21,9 +21,7 @@ public class BallRoundActor extends Actor {
 
     public BallRoundActor(){
 
-        this.setZIndex(100);
-        roundTexture = new Texture("images/round_white.png");
-        roundSprite = new Sprite(roundTexture);
+        roundSprite = new Sprite(Assets.manager.get(Assets.roundWhite,Texture.class));
         roundSprite.setColor(new Color(0.7f, 0.7f, 0.7f, 0.6f));
 
         circle = new Circle();
@@ -80,7 +78,6 @@ public class BallRoundActor extends Actor {
 
     @Override
     public boolean remove() {
-        roundTexture.dispose();
         return super.remove();
     }
 }

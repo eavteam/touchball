@@ -1,4 +1,4 @@
-package com.eavteam.touchball;
+package com.eavteam.touchball.common;
 
 import java.io.File;
 import java.io.FileInputStream;

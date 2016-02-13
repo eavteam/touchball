@@ -6,14 +6,17 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.eavteam.touchball.TouchBallGame;
 import com.eavteam.touchball.actors.LogoActor;
 
 public class OpenningScreen implements Screen {
 
+    public final TouchBallGame game;
     private Stage stage;
     private LogoActor logo;
 
-    public OpenningScreen() {
+    public OpenningScreen(final TouchBallGame game) {
+        this.game = game;
         ScreenViewport viewport = new ScreenViewport();
         stage = new Stage(viewport);
         logo = new LogoActor();
@@ -33,7 +36,7 @@ public class OpenningScreen implements Screen {
         stage.act(delta);
         stage.draw();
         if(Gdx.input.justTouched()){
-            ((Game)Gdx.app.getApplicationListener()).setScreen(new MenuScreen());
+            ((Game)Gdx.app.getApplicationListener()).setScreen(new MenuScreen(game));
         }
     }
 

@@ -9,27 +9,26 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.eavteam.touchball.TouchBallGame;
-import com.eavteam.touchball.actors.FontActor;
+import com.eavteam.touchball.common.Assets;
 
 public class MenuScreen implements Screen{
 
+    public final TouchBallGame game;
 //    private TextButton buttonStart, buttonExit, buttonSettings;
 //    private TextureAtlas atlas;
 //    private Skin skin;
     private Stage stage;
     private Table table;
-    private FontActor fontActor;
 
-    public MenuScreen(){
+    public MenuScreen(final TouchBallGame game){
+        this.game = game;
         ScreenViewport viewport = new ScreenViewport();
         stage = new Stage(viewport);
-
-        fontActor = new FontActor(Gdx.graphics.getHeight() * 6/100);
 
         table = new Table();
         table.setBounds(0,0,Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
 
-        Label.LabelStyle labelStyle = new Label.LabelStyle(fontActor.white, Color.ORANGE);
+        Label.LabelStyle labelStyle = new Label.LabelStyle(Assets.font_48, Color.ORANGE);
 
         table.add(new Label(TouchBallGame.TITLE,labelStyle));
 //        table.debug();
@@ -50,7 +49,7 @@ public class MenuScreen implements Screen{
         stage.act();
 
         if(Gdx.input.justTouched()){
-            ((Game)Gdx.app.getApplicationListener()).setScreen(new PlayScreen());
+            ((Game)Gdx.app.getApplicationListener()).setScreen(new PlayScreen(game));
         }
     }
 

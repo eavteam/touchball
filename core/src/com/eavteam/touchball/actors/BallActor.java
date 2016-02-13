@@ -10,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.utils.DragListener;
+import com.eavteam.touchball.common.Assets;
 
 
 public class BallActor extends Actor {
@@ -37,7 +38,7 @@ public class BallActor extends Actor {
 
     public BallActor(){
 
-        ballSprite = new Sprite(new Texture("images/ball_ink.png"));
+        ballSprite = new Sprite(Assets.manager.get(Assets.ball,Texture.class));
         ballSprite.setSize(ballSprite.getTexture().getWidth() * 20 / 100, ballSprite.getTexture().getHeight() * 20 / 100);
         setBounds(ballSprite.getX(),ballSprite.getY(),ballSprite.getWidth(),ballSprite.getHeight());
 
@@ -96,7 +97,6 @@ public class BallActor extends Actor {
 
     @Override
     public boolean remove() {
-        ballSprite.getTexture().dispose();
         return super.remove();
     }
 

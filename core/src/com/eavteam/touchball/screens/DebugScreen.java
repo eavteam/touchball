@@ -1,6 +1,5 @@
 package com.eavteam.touchball.screens;
 
-
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
@@ -13,71 +12,73 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.eavteam.touchball.TouchBallGame;
 
 public class DebugScreen implements Screen {
+
+    public final TouchBallGame game;
 
     private Stage stage;
     private Table container, table;
     private Skin skin;
 
-    public DebugScreen(){
+    public DebugScreen( final TouchBallGame game){
+        this.game = game;
         ScreenViewport viewport = new ScreenViewport();
-        stage = new Stage(viewport);
-        skin = new Skin(Gdx.files.internal("skins/uiskin.json"));
-        Gdx.input.setInputProcessor(stage);
+        this.stage = new Stage(viewport);
+        this.skin = new Skin(Gdx.files.internal("skins/uiskin.json"));
+        Gdx.input.setInputProcessor(this.stage);
 
-        container = new Table();
-        stage.addActor(container);
-        container.setFillParent(true);
-        container.row();
+        this.container = new Table();
+        this.stage.addActor(container);
+        this.container.setFillParent(true);
+        this.container.row();
 
-        table = new Table();
+        this.table = new Table();
         buildTable();
 
-        final ScrollPane scroll = new ScrollPane(table, skin);
-        container.add(scroll).expand().fill().colspan(4);
-        container.row().space(10).padBottom(10);
-
-
+        final ScrollPane scroll = new ScrollPane(this.table, this.skin);
+        this.container.add(scroll).expand().fill().colspan(4);
+        this.container.row().space(10).padBottom(10);
     }
 
     private void buildTable() {
-        table.clear();
-        table.top().pad(10).defaults().expandX().space(4);
+        this.table.clear();
+        this.table.top().pad(10).defaults().expandX().space(4);
 
-        table.row();
-        TextButton menuScreen = new TextButton("MenuScreen", skin);
-        table.add(menuScreen).left();
+        this.table.row();
+        TextButton menuScreen = new TextButton("MenuScreen", this.skin);
+        this.table.add(menuScreen).left();
         menuScreen.addListener(new ClickListener() {
             public void clicked (InputEvent event, float x, float y) {
-                ((Game) Gdx.app.getApplicationListener()).setScreen(new MenuScreen());
+                ((Game) Gdx.app.getApplicationListener()).setScreen(new MenuScreen(game));
             }
         });
 
-        table.row();
-        TextButton openningScreen = new TextButton("OpenningScreen", skin);
-        table.add(openningScreen).left();
+        this.table.row();
+        TextButton openningScreen = new TextButton("OpenningScreen", this.skin);
+        this.table.add(openningScreen).left();
         openningScreen.addListener(new ClickListener() {
             public void clicked (InputEvent event, float x, float y) {
-                ((Game) Gdx.app.getApplicationListener()).setScreen(new OpenningScreen());
+                ((Game) Gdx.app.getApplicationListener()).setScreen(new OpenningScreen(game));
             }
         });
 
-        table.row();
-        TextButton fileManagerScreen = new TextButton("FileManagerScreen", skin);
-        table.add(fileManagerScreen).left();
+        this.table.row();
+        TextButton fileManagerScreen = new TextButton("FileManagerScreen", this.skin);
+        this.table.add(fileManagerScreen).left();
         fileManagerScreen.addListener(new ClickListener() {
             public void clicked (InputEvent event, float x, float y) {
-                ((Game) Gdx.app.getApplicationListener()).setScreen(new FileManager());
+                ((Game) Gdx.app.getApplicationListener()).setScreen(new FileManager(game));
             }
         });
 
-        table.row();
-        TextButton playScreen = new TextButton("PlayScreen", skin);
-        table.add(playScreen).left();
+        this.table.row();
+        TextButton playScreen = new TextButton("PlayScreen", this.skin);
+        this.table.add(playScreen).left();
         playScreen.addListener(new ClickListener() {
             public void clicked (InputEvent event, float x, float y) {
-                ((Game) Gdx.app.getApplicationListener()).setScreen(new PlayScreen());
+                ((Game) Gdx.app.getApplicationListener()).setScreen(new PlayScreen(game));
             }
         });
     }
@@ -91,13 +92,13 @@ public class DebugScreen implements Screen {
     public void render(float delta) {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        stage.act(Gdx.graphics.getDeltaTime());
-        stage.draw();
+        this.stage.act(Gdx.graphics.getDeltaTime());
+        this. stage.draw();
     }
 
     @Override
     public void resize(int width, int height) {
-        stage.getViewport().update(width, height, true);
+        this.stage.getViewport().update(width, height, true);
     }
 
     @Override
@@ -117,6 +118,6 @@ public class DebugScreen implements Screen {
 
     @Override
     public void dispose() {
-        stage.dispose();
+        this.stage.dispose();
     }
 }

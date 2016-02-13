@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.eavteam.touchball.common.Assets;
 import com.eavteam.touchball.tests.swipe.SwipeHandler;
 import com.eavteam.touchball.tests.swipe.mesh.SwipeTriStrip;
 
@@ -16,7 +17,7 @@ public class SwipeActor extends Actor {
 
     public SwipeActor(){
         tris = new SwipeTriStrip();
-        tex = new Texture("images/gradient.png");
+        tex = Assets.manager.get(Assets.gradient,Texture.class);
         tex.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
         shapes = new ShapeRenderer();
         swipe = new SwipeHandler(20,5,10);
@@ -43,7 +44,6 @@ public class SwipeActor extends Actor {
     }
 
     public void dispose() {
-        tex.dispose();
         shapes.dispose();
     }
 }
