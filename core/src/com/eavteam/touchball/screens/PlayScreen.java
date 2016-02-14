@@ -6,6 +6,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.eavteam.touchball.TouchBallGame;
 import com.eavteam.touchball.actors.BackgroundActor;
@@ -24,8 +25,9 @@ public class PlayScreen implements Screen {
 
     public PlayScreen(final TouchBallGame game){
         this.game = game;
-        ScreenViewport viewport = new ScreenViewport();
+        FitViewport viewport = new FitViewport(Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
         stage = new Stage(viewport);
+        Gdx.input.setInputProcessor(stage);
         group = new Group();
 
         background = new BackgroundActor();
@@ -41,7 +43,7 @@ public class PlayScreen implements Screen {
 
     @Override
     public void show() {
-        Gdx.input.setInputProcessor(stage);
+
     }
 
     @Override
