@@ -40,6 +40,7 @@ public class BallRoundActor extends Actor {
     }
     @Override
     public void setPosition(float centerX, float centerY){
+        super.setPosition(centerX - this.circle.radius,centerY - this.circle.radius);
         roundSprite.setPosition(centerX - this.circle.radius, centerY - this.circle.radius);
         circle.x = centerX;
         circle.y = centerY;
@@ -52,6 +53,7 @@ public class BallRoundActor extends Actor {
     }
     @Override
     public void setSize(float x,float y){
+        super.setSize(x,y);
         roundSprite.setSize(x,y);
         circle.radius = roundSprite.getHeight() / 2;
         setPosition(circle.x, circle.y);

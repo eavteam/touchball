@@ -22,7 +22,7 @@ public class TouchBallGame extends Game {
 		p.init();
 		Assets.load();
 		batch = new SpriteBatch();
-		font = Assets.font_24;
+		font = Assets.font24;
 		font.setColor(Color.RED);
 		if(p.app.getProperty("debug").equals("true")){
 			this.setScreen(new DebugScreen(this));

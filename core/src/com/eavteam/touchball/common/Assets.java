@@ -18,17 +18,17 @@ public class Assets {
     public static final String background = "images/background.jpg";
     public static final String gradientBall = "images/gradient_ball.png";
 
-    public static BitmapFont font_24 = generateFont(24);
-    public static BitmapFont font_48 = generateFont(48);
+    public static BitmapFont font24 = generateFont(24);
+    public static BitmapFont font32 = generateFont(32);
+    public static BitmapFont font48 = generateFont(48);
     private static final String FONT_CHARACTERS = "абвгдеёжзийклмнопрстуфхцчшщъыьэюяАБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789][_!$%#@|\\/?-+=()*&.;,{}\"´`'<>";
 
     private static BitmapFont generateFont(int size) {
-        BitmapFont font = new BitmapFont();
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/obelix_pro_broken.ttf"));
         FreeTypeFontGenerator.FreeTypeFontParameter param = new FreeTypeFontGenerator.FreeTypeFontParameter();
         param.characters = FONT_CHARACTERS; // Cимволы.
         param.size = size;
-        font = generator.generateFont(param);
+        BitmapFont font = generator.generateFont(param);
         font.setColor(Color.WHITE);
         generator.dispose();
         return font;
@@ -45,8 +45,9 @@ public class Assets {
 
     public static void dispose() {
         manager.dispose();
-        font_24.dispose();
-        font_48.dispose();
+        font24.dispose();
+        font32.dispose();
+        font48.dispose();
     }
 
 }

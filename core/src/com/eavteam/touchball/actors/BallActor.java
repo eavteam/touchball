@@ -38,6 +38,8 @@ public class BallActor extends Actor {
         public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
             BallActor b = (BallActor) event.getTarget();
             b.moveBy(x,y);
+            b.lastX = b.getX();
+            b.lastY = b.getY();
             return true;
         }
 
@@ -115,8 +117,6 @@ public class BallActor extends Actor {
     @Override
     public void act(float delta) {
         super.act(delta);
-        velocityX = Math.abs(lastX-getX());
-        velocityY = Math.abs(lastY-getY());
 
     }
 
