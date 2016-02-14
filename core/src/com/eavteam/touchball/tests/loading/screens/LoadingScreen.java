@@ -90,7 +90,6 @@ public class LoadingScreen extends AbstractScreen {
 
     @Override
     public void resize(int width, int height) {
-        // Set our screen to always be XXX x 480 in size
         stage.getViewport().update(width, height, true);
     }
 

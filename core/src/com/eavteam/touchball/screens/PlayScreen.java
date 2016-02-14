@@ -13,17 +13,14 @@ import com.eavteam.touchball.actors.BallActor;
 import com.eavteam.touchball.actors.SwipeActor;
 import com.eavteam.touchball.actors.BallRoundActor;
 
-public class PlayScreen implements Screen,InputProcessor {
+public class PlayScreen implements Screen {
 
     public final TouchBallGame game;
     private Stage stage;
     private Group group;
     private BackgroundActor background;
     private BallActor ball;
-    private SwipeActor swiper;
     private BallRoundActor round;
-
-//    OrthographicCamera camera;
 
     public PlayScreen(final TouchBallGame game){
         this.game = game;
@@ -34,9 +31,6 @@ public class PlayScreen implements Screen,InputProcessor {
         background = new BackgroundActor();
         ball = new BallActor();
         round = new BallRoundActor();
-//        camera = new OrthographicCamera();
-//        camera.setToOrtho(false,480,800);
-//        swiper = new SwipeActor();
 
         group.addActor(background);
         group.addActor(round);
@@ -55,13 +49,12 @@ public class PlayScreen implements Screen,InputProcessor {
         Gdx.gl.glClearColor(0.2f, 0.5f, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-//        camera.update();
-
-        stage.act(delta);
+        update(delta);
         stage.draw();
+    }
 
-//        swiper.update(camera);
-
+    public void update(float delta){
+        this.stage.act(delta);
 
     }
 
@@ -90,47 +83,5 @@ public class PlayScreen implements Screen,InputProcessor {
         stage.dispose();
     }
 
-
-    @Override
-    public boolean keyDown(int keycode) {
-        return false;
-    }
-
-    @Override
-    public boolean keyUp(int keycode) {
-        return false;
-    }
-
-    @Override
-    public boolean keyTyped(char character) {
-        return false;
-    }
-
-    @Override
-    public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-
-        return false;
-    }
-
-    @Override
-    public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-        return false;
-    }
-
-    @Override
-    public boolean touchDragged(int screenX, int screenY, int pointer) {
-        return false;
-    }
-
-
-    @Override
-    public boolean mouseMoved(int screenX, int screenY) {
-        return false;
-    }
-
-    @Override
-    public boolean scrolled(int amount) {
-        return false;
-    }
 
 }

@@ -35,6 +35,13 @@ public class MenuScreen implements Screen{
         stage.addActor(table);
     }
 
+    public void update(float delta){
+        this.stage.act(delta);
+        if(Gdx.input.justTouched()){
+            ((Game)Gdx.app.getApplicationListener()).setScreen(new PlayScreen(game));
+        }
+    }
+
     @Override
     public void show() {
         Gdx.input.setInputProcessor(stage);
@@ -45,12 +52,9 @@ public class MenuScreen implements Screen{
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
+        update(delta);
         stage.draw();
-        stage.act();
 
-        if(Gdx.input.justTouched()){
-            ((Game)Gdx.app.getApplicationListener()).setScreen(new PlayScreen(game));
-        }
     }
 
     @Override

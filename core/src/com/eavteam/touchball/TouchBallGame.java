@@ -8,7 +8,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.eavteam.touchball.common.Assets;
 import com.eavteam.touchball.common.MyProperties;
 import com.eavteam.touchball.screens.DebugScreen;
-import com.eavteam.touchball.screens.OpenningScreen;
+import com.eavteam.touchball.screens.OpeningScreen;
 
 public class TouchBallGame extends Game {
 
@@ -27,7 +27,7 @@ public class TouchBallGame extends Game {
 		if(p.app.getProperty("debug").equals("true")){
 			this.setScreen(new DebugScreen(this));
 		} else
-			this.setScreen(new OpenningScreen(this));
+			this.setScreen(new OpeningScreen(this));
 	}
 
 	@Override

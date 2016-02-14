@@ -1,46 +1,27 @@
 package com.eavteam.touchball.actors;
 
-import aurelienribon.tweenengine.BaseTween;
-import aurelienribon.tweenengine.Tween;
-import aurelienribon.tweenengine.TweenCallback;
-import aurelienribon.tweenengine.TweenManager;
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.Touchable;
+
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.eavteam.touchball.common.Assets;
-import com.eavteam.touchball.screens.MenuScreen;
-import com.eavteam.touchball.tween.SpriteAccessor;
+import static com.badlogic.gdx.scenes.scene2d.actions.Actions.*;
 
-public class LogoActor extends Actor {
-
-    private Sprite logoSprite;
-//    private TweenManager tweenManager;
+public class LogoActor extends Image {
 
     public LogoActor(){
+        super(Assets.manager.get(Assets.eavLogo,Texture.class));
+        Texture tex = Assets.manager.get(Assets.eavLogo,Texture.class);
 
-        logoSprite = new Sprite(Assets.manager.get(Assets.eavLogo,Texture.class));
-        logoSprite.setSize(logoSprite.getTexture().getWidth() * 20 / 100, logoSprite.getTexture().getHeight() * 20 / 100);
-        logoSprite.setPosition(Gdx.graphics.getWidth()/2- logoSprite.getWidth()/2,Gdx.graphics.getHeight()/2- logoSprite.getHeight()/1.5f);
+        setSize(tex.getWidth() * 20 / 100, tex.getHeight() * 20 / 100);
+        setPosition(Gdx.graphics.getWidth()/2- getWidth()/2,Gdx.graphics.getHeight()/2- getHeight()/1.5f);
+        setBounds(getX(),getY(),getWidth(), getHeight());
 
-        setBounds(logoSprite.getX(),logoSprite.getY(),logoSprite.getWidth()*20/100,logoSprite.getRegionHeight()*20/100);
-
-        setTouchable(Touchable.enabled);
-//        tweenManager = new TweenManager();
-//        Tween.registerAccessor(Sprite.class,new SpriteAccessor());
-//        Tween.set(logoSprite,SpriteAccessor.ALPHA).target(0).start(tweenManager);
-//        Tween.to(logoSprite,SpriteAccessor.ALPHA,2).target(1).repeatYoyo(1,2).setCallback(new TweenCallback() {
-//            @Override
-//            public void onEvent(int type, BaseTween<?> source) {
-//                ((Game) Gdx.app.getApplicationListener()).setScreen(new MenuScreen());
-//            }
-//        })
-//                .start(tweenManager);
+        addAction(sequence(alpha(0f),delay(2f),fadeIn(3f),delay(2f),fadeOut(2f)));
     }
-
 
     @Override
     public boolean remove() {
@@ -49,12 +30,11 @@ public class LogoActor extends Actor {
 
     @Override
     public void draw(Batch batch, float parentAlpha) {
-        logoSprite.draw(batch);
+        super.draw(batch, parentAlpha);
     }
 
     @Override
     public void act(float delta) {
         super.act(delta);
-//        tweenManager.update(delta);
     }
 }

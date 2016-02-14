@@ -4,13 +4,18 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.utils.DragListener;
 import com.eavteam.touchball.common.Assets;
+import static com.badlogic.gdx.scenes.scene2d.actions.Actions.*;
+import static com.badlogic.gdx.scenes.scene2d.actions.Actions.moveBy;
+import static com.badlogic.gdx.scenes.scene2d.actions.Actions.scaleBy;
 
 
 public class BallActor extends Actor {
@@ -18,23 +23,23 @@ public class BallActor extends Actor {
     private Sprite ballSprite;
     private Circle circle;
 
-    private static DragListener dl = new DragListener() {
-        @Override
-        public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-            BallActor b = (BallActor) event.getRelatedActor();
-            Gdx.app.log("Ball", "touchDown");
-            b.setPosition(x,y);
-
-            return false;
-        }
-        @Override
-        public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-            BallActor b = (BallActor) event.getRelatedActor();
-            Gdx.app.log("Ball", "touchUp");
-            b.setPosition(x,y);
-        }
-
-    };
+//    private static DragListener dl = new DragListener() {
+//        @Override
+//        public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+//            BallActor b = (BallActor) event.getRelatedActor();
+//            Gdx.app.log("Ball", "touchDown");
+//            b.setPosition(x,y);
+//
+//            return false;
+//        }
+//        @Override
+//        public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+//            BallActor b = (BallActor) event.getRelatedActor();
+//            Gdx.app.log("Ball", "touchUp");
+//            b.setPosition(x,y);
+//        }
+//
+//    };
 
     public BallActor(){
 
@@ -47,7 +52,9 @@ public class BallActor extends Actor {
         setSize(4);
 
         refreshPosition();
-        addListener(dl);
+//        addListener(dl);
+
+
     }
 
     //размер задается в % от высоты дисплея

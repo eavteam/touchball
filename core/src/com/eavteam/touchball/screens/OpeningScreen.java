@@ -9,23 +9,30 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.eavteam.touchball.TouchBallGame;
 import com.eavteam.touchball.actors.LogoActor;
 
-public class OpenningScreen implements Screen {
+public class OpeningScreen implements Screen {
 
     public final TouchBallGame game;
     private Stage stage;
     private LogoActor logo;
 
-    public OpenningScreen(final TouchBallGame game) {
+    public OpeningScreen(final TouchBallGame game) {
         this.game = game;
         ScreenViewport viewport = new ScreenViewport();
-        stage = new Stage(viewport);
-        logo = new LogoActor();
-        stage.addActor(logo);
+        this.stage = new Stage(viewport);
+        Gdx.input.setInputProcessor(this.stage);
+        this.logo = new LogoActor();
+        this.stage.addActor(logo);
     }
 
     @Override
     public void show() {
-        Gdx.input.setInputProcessor(stage);
+    }
+
+    public void update(float delta){
+        this.stage.act(delta);
+        if(Gdx.input.justTouched()){
+            ((Game)Gdx.app.getApplicationListener()).setScreen(new MenuScreen(game));
+        }
     }
 
     @Override
@@ -33,11 +40,9 @@ public class OpenningScreen implements Screen {
         Gdx.gl.glClearColor(0,0,0,1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        stage.act(delta);
-        stage.draw();
-        if(Gdx.input.justTouched()){
-            ((Game)Gdx.app.getApplicationListener()).setScreen(new MenuScreen(game));
-        }
+        update(delta);
+
+        this.stage.draw();
     }
 
     @Override
@@ -62,6 +67,6 @@ public class OpenningScreen implements Screen {
 
     @Override
     public void dispose() {
-        stage.dispose();
+        this.stage.dispose();
     }
 }
