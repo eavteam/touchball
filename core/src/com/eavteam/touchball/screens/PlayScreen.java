@@ -23,7 +23,10 @@ public class PlayScreen implements Screen {
     private BackgroundActor background;
     private BallActor ball;
     private BallRoundActor round;
-
+//------------------------------------
+    private final float TIMESTEP = 1/60f;
+    private final int VELOSITYITERATIONS = 8, POSITIONITERATIONS = 3;
+//-------------------------------------
     public PlayScreen(final TouchBallGame game){
         this.game = game;
         FillViewport viewport = new FillViewport(Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
@@ -45,14 +48,19 @@ public class PlayScreen implements Screen {
 
     @Override
     public void show() {
-        world = new World(new Vector2(0, 0), true);
+//        -----------------------------------------------
+        world = new World(new Vector2(0, -9.8f), true);
+        world.createBody(ball.getBodyDef());//.createFixture(ball.getFixtureDef());
+//        -----------------------------------------------------
     }
 
     @Override
     public void render(float delta) {
         Gdx.gl.glClearColor(0.1f,0.1f,0.1f,1f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
+//-----------------------------------------------------
+        world.step(TIMESTEP, VELOSITYITERATIONS, POSITIONITERATIONS);
+//-------------------------------------------------------
         update(delta);
         stage.draw();
     }
@@ -85,6 +93,7 @@ public class PlayScreen implements Screen {
     @Override
     public void dispose() {
         stage.dispose();
+        world.dispose();
     }
 
 
