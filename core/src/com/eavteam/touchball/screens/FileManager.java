@@ -36,7 +36,8 @@ public class FileManager implements Screen {
         this.sdCardDerectory = Gdx.files.getExternalStoragePath();                   //получаем путь к SDCARD
         this.rootDirectory = "/";                                                    //получаем путь к ROOT
         this.pathDirectory = rootDirectory;                                          //по умолчанию текущий каталог выставляем в ROOT
-        this.pathLabelDirectory = new Label("Directory: " + this.pathDirectory, this.skin);
+        this.pathLabelDirectory = new Label("", this.skin);
+        setPathLabelDirectory();
         this.mp3Files = Gdx.files.absolute(pathDirectory).list(".mp3");              // получаем данные mp3 файлов находящихся в текущем каталоге
         this.allFiles = Gdx.files.absolute(pathDirectory).list();                    // получаем данные всех файлов в текущем каталоге
 
@@ -111,7 +112,7 @@ public class FileManager implements Screen {
     private void updateDataTable(){
         this.mp3Files = Gdx.files.absolute(pathDirectory).list(".mp3"); // получаем данные mp3 файлов
         this.allFiles = Gdx.files.absolute(pathDirectory).list();// получаем данные всех файлов
-        this.pathLabelDirectory.setText("Directory: " + pathDirectory);
+        this.setPathLabelDirectory();
         this.buildTable();
     }
 
@@ -127,14 +128,9 @@ public class FileManager implements Screen {
         this.backButton.addListener(new ClickListener() {
             public void clicked(InputEvent event, float x, float y){
                 if(pathDirectory.length() != 1){
-                    int index = pathDirectory.lastIndexOf("/");
-                    pathDirectory = pathDirectory.substring(0, index);
-                    index = pathDirectory.lastIndexOf("/");
-                    pathDirectory = pathDirectory.substring(0, index+1);
+                    pathDirectory = pathDirectory.substring(0, pathDirectory.length() - 1); // отсекаем последний слэш
+                    pathDirectory = pathDirectory.substring(0, pathDirectory.lastIndexOf("/") + 1); // отсекаем название текущей папки
                     updateDataTable();}
-
-                System.out.println("click at backButton");
-                System.out.println("pathDirectory: " + pathDirectory.length());
             }
         });
         for (final FileHandle file: allFiles) {
@@ -146,7 +142,6 @@ public class FileManager implements Screen {
                     public void clicked (InputEvent event, float x, float y) {
                         pathDirectory += file.name() + "/";
                         updateDataTable();
-                        System.out.println("click at directoryButton");
                     }
                 });
             }
@@ -160,21 +155,27 @@ public class FileManager implements Screen {
                     ConfirmDialog dia = new ConfirmDialog("title",skin);
                     dia.show(stage);
 //                    loadmp3File();TODO
-                    System.out.println("click at mp3button");
                 }
             });
         }
     }
 
-    public static class ConfirmDialog extends Dialog{
+    private void setPathLabelDirectory(){
+        if(this.pathDirectory.length() > 40){
+            this.pathLabelDirectory.setText("Directory: " + "/..." + this.pathDirectory.substring(this.pathDirectory.length() - 40));
+        }else{
+        this.pathLabelDirectory.setText("Directory: " + this.pathDirectory);}
+    }
+
+    private static class ConfirmDialog extends Dialog{
 
         public ConfirmDialog(String title, Skin skin) {
             super(title, skin);
         }
         {
             text("Vovik mudak?");
-            button("Yes","soglasen");
-            button("No","ne pitaisya meny obmanut'");
+            button("Yes","Da kak ti smeesh!");
+            button("No","prail'no");
         }
 
         @Override

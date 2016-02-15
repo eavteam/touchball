@@ -1,22 +1,21 @@
 package com.eavteam.touchball.screens;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.eavteam.touchball.TouchBallGame;
 import com.eavteam.touchball.actors.BackgroundActor;
 import com.eavteam.touchball.actors.BallActor;
-import com.eavteam.touchball.actors.SwipeActor;
 import com.eavteam.touchball.actors.BallRoundActor;
 
 public class PlayScreen implements Screen {
 
     public final TouchBallGame game;
+    private World world;
     private Stage stage;
     private Group group;
     private BackgroundActor background;
