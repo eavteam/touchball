@@ -46,7 +46,7 @@ public class MenuScreen implements Screen{
 
     @Override
     public void render(float delta) {
-        Gdx.gl.glClearColor(0.25f, 0.25f, 0.25f, 1);
+        Gdx.gl.glClearColor(0.1f,0.1f,0.1f,1f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         update(delta);
@@ -89,6 +89,13 @@ public class MenuScreen implements Screen{
         table.row();
         Label start = new Label("start",labelStyleButtons);
         table.add(start);
+        start.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                TouchBallGame game = (TouchBallGame) Gdx.app.getApplicationListener();
+                game.setScreen(new PlayScreen(game));
+            }
+        });
 
         table.row();
         Label settings = new Label("settings",labelStyleButtons);

@@ -7,6 +7,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.utils.viewport.FillViewport;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.eavteam.touchball.TouchBallGame;
 import com.eavteam.touchball.actors.BackgroundActor;
@@ -25,7 +26,8 @@ public class PlayScreen implements Screen {
 
     public PlayScreen(final TouchBallGame game){
         this.game = game;
-        FitViewport viewport = new FitViewport(Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
+        FillViewport viewport = new FillViewport(Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
+//                (Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
         stage = new Stage(viewport);
         Gdx.input.setInputProcessor(stage);
         group = new Group();
@@ -48,7 +50,7 @@ public class PlayScreen implements Screen {
 
     @Override
     public void render(float delta) {
-        Gdx.gl.glClearColor(0.2f, 0.5f, 0, 1);
+        Gdx.gl.glClearColor(0.1f,0.1f,0.1f,1f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         update(delta);
