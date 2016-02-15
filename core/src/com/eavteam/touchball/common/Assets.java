@@ -15,7 +15,7 @@ public class Assets {
     public static final String eavLogo = "images/eav_logo.png";
     public static final String roundWhite = "images/round_white.png";
     public static final String gradient = "images/gradient.png";
-    public static final String background = "images/background.jpg";
+    public static final String background = "images/background_sky.png";
     public static final String gradientBall = "images/gradient_ball.png";
 
     public static BitmapFont font24 = generateFont(24);
