@@ -4,7 +4,9 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.input.GestureDetector;
 import com.badlogic.gdx.math.Circle;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -18,6 +20,7 @@ public class BallActor extends Actor {
     private BodyDef bodyDef;
     private FixtureDef fixtureDef;
     public Body body;
+    private float velocityX, velocityY;
 //---------------------------------------------------
     private static DragListener dl = new DragListener() {
         @Override
@@ -31,15 +34,17 @@ public class BallActor extends Actor {
         public void touchDragged(InputEvent event, float x, float y, int pointer) {
             BallActor b = (BallActor) event.getTarget();
             b.moveBy(x,y);
+
         }
 
         @Override
         public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
             BallActor b = (BallActor) event.getTarget();
             b.moveBy(x,y);
-
+            b.body.setLinearVelocity(b.velocityX,b.velocityY);
         }
     };
+
 
     public BallActor(){
 
@@ -52,20 +57,15 @@ public class BallActor extends Actor {
 //      ------------------------------------------
         bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.DynamicBody;
-        bodyDef.position.set(0,0);
-
-//        CircleShape shape = new CircleShape();
-//        shape.setRadius(0.5f);
+        bodyDef.position.set((Gdx.graphics.getWidth() / 2), (Gdx.graphics.getHeight() / 2));
+        CircleShape shape = new CircleShape();
+        shape.setRadius(ballSprite.getWidth()/2);
 
         fixtureDef = new FixtureDef();
-//        fixtureDef.shape = shape;
-        fixtureDef.density = 2.5f;
-        fixtureDef.friction = 0.25f;
-        fixtureDef.restitution = 0.75f;
-//        shape.dispose();
-//        body = world.createBody(bodyDef);
-//        body.createFixture(fixtureDef);
-//        body.setUserData(ballSprite);
+        fixtureDef.shape = shape;
+        fixtureDef.density = 1.0f;
+        fixtureDef.friction = 0.8f;
+        fixtureDef.restitution = 3f;
 //        --------------------------------------
 
         refreshPosition();
@@ -73,12 +73,14 @@ public class BallActor extends Actor {
     }
 
 //---------------------------------------------
-    public BodyDef getBodyDef(){
-        return this.bodyDef;
+    public void makeBody(World world){
+        body = world.createBody(bodyDef);
+        body.createFixture(fixtureDef);
+        body.setUserData(ballSprite);
     }
 
-    public FixtureDef getFixtureDef(){
-        return this.fixtureDef;
+    public void updateVelocity(float velocityX, float velocityY){
+        this.velocityX = velocityX; this.velocityY = velocityY;
     }
 //---------------------------------------------
 
@@ -95,13 +97,11 @@ public class BallActor extends Actor {
 
     @Override
     public void moveBy(float x, float y) {
-        setPosition(this.getX()+ x,this.getY() + y);
-
+        this.body.setTransform(this.getX() + x, this.getY() + y, this.body.getAngle());
     }
 
     @Override
     public void setPosition(float x, float y) {
-        bodyDef.position.set(x,y);
         super.setPosition(x - ballSprite.getWidth()/2,y - ballSprite.getHeight()/2);
         this.ballSprite.setPosition(x - ballSprite.getWidth()/2, y - ballSprite.getHeight()/2);
     }
@@ -118,7 +118,7 @@ public class BallActor extends Actor {
     @Override
     public void act(float delta) {
         super.act(delta);
-
+        this.setPosition(this.body.getPosition().x, this.body.getPosition().y);
     }
 
     @Override
