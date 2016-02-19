@@ -4,14 +4,10 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.input.GestureDetector;
-import com.badlogic.gdx.math.Circle;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ActorGestureListener;
-import com.badlogic.gdx.scenes.scene2d.utils.DragListener;
 import com.eavteam.touchball.common.Assets;
 
 public class BallActor extends Actor {
@@ -20,37 +16,37 @@ public class BallActor extends Actor {
 //    --------------------------------------------------
     private BodyDef bodyDef;
     private FixtureDef fixtureDef;
-    public Body body;
+    private Body body;
     private float velocityX, velocityY;
 //---------------------------------------------------
 
     private static ActorGestureListener actorGestureListener = new ActorGestureListener(){
         @Override
         public void touchDown(InputEvent event, float x, float y, int pointer, int button) {
-            BallActor b = (BallActor) event.getTarget();
-            b.moveBy(x,y);
-            b.body.setLinearVelocity(0,0);
+            BallActor ball = (BallActor) event.getTarget();
+            ball.moveBy(x,y);
+            ball.body.setLinearVelocity(0,0);
             return ;
         }
 
         @Override
         public void fling (InputEvent event, float velocityX, float velocityY, int button) {
-            BallActor b = (BallActor) event.getTarget();
-            b.velocityX = velocityX; b.velocityY = velocityY;
+            BallActor ball = (BallActor) event.getTarget();
+            ball.velocityX = velocityX; ball.velocityY = velocityY;
         }
 
         @Override
         public void pan (InputEvent event, float x, float y, float deltaX, float deltaY) {
-            BallActor b = (BallActor) event.getTarget();
-            b.moveBy(x,y);
-            b.velocityX = 0;b.velocityY = 0;
+            BallActor ball = (BallActor) event.getTarget();
+            ball.moveBy(x,y);
+            ball.velocityX = 0;ball.velocityY = 0;
         }
 
         @Override
         public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-            BallActor b = (BallActor) event.getTarget();
-            b.moveBy(x,y);
-            b.body.setLinearVelocity(b.velocityX,b.velocityY);
+            BallActor ball = (BallActor) event.getTarget();
+            ball.moveBy(x,y);
+            ball.body.setLinearVelocity(ball.velocityX,ball.velocityY);
         }
     };
 
@@ -72,9 +68,9 @@ public class BallActor extends Actor {
 
         fixtureDef = new FixtureDef();
         fixtureDef.shape = shape;
-        fixtureDef.density = 1.0f;
-        fixtureDef.friction = 0.8f;
-        fixtureDef.restitution = 3f;
+        fixtureDef.density = .5f;     //плотность
+        fixtureDef.friction = 10.8f;    //трение
+        fixtureDef.restitution = .8f; //остаток энергии после столкновения
 //        --------------------------------------
 
         refreshPosition();
