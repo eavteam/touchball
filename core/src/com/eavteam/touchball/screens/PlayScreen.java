@@ -19,7 +19,7 @@ import com.eavteam.touchball.actors.BackgroundActor;
 import com.eavteam.touchball.actors.BallActor;
 import com.eavteam.touchball.actors.BallRoundActor;
 
-public class PlayScreen implements Screen, GestureDetector.GestureListener {
+public class PlayScreen implements Screen {
 
     public final TouchBallGame game;
     private World world;
@@ -32,7 +32,6 @@ public class PlayScreen implements Screen, GestureDetector.GestureListener {
     private Box2DDebugRenderer debugRenderer;
     private final float TIMESTEP = 1/60f;
     private final int VELOSITYITERATIONS = 8, POSITIONITERATIONS = 3;
-    private float velocityX, velocityY;
 //-------------------------------------
     public PlayScreen(final TouchBallGame game){
         this.game = game;
@@ -45,8 +44,6 @@ public class PlayScreen implements Screen, GestureDetector.GestureListener {
 //        -----------------------------------------------
         world = new World(new Vector2(0, 0), true);
         debugRenderer = new Box2DDebugRenderer();
-//        GestureDetector gd = new GestureDetector(this);
-//        Gdx.input.setInputProcessor(gd);
 //        -----------------------------------------------------
 
         background = new BackgroundActor();
@@ -84,8 +81,6 @@ public class PlayScreen implements Screen, GestureDetector.GestureListener {
 
     public void update(float delta){
         this.stage.act(delta);
-        this.ball.updateVelocity(this.velocityX, this.velocityY);
-
     }
 
     @Override
@@ -112,47 +107,5 @@ public class PlayScreen implements Screen, GestureDetector.GestureListener {
     public void dispose() {
         stage.dispose();
         world.dispose();
-    }
-
-
-    @Override
-    public boolean touchDown(float x, float y, int pointer, int button) {
-        return false;
-    }
-
-    @Override
-    public boolean tap(float x, float y, int count, int button) {
-        return false;
-    }
-
-    @Override
-    public boolean longPress(float x, float y) {
-        return false;
-    }
-
-    @Override
-    public boolean fling(float velocityX, float velocityY, int button) {
-        this.velocityX = velocityX; this.velocityY = velocityY;
-        return false;
-    }
-
-    @Override
-    public boolean pan(float x, float y, float deltaX, float deltaY) {
-        return false;
-    }
-
-    @Override
-    public boolean panStop(float x, float y, int pointer, int button) {
-        return false;
-    }
-
-    @Override
-    public boolean zoom(float initialDistance, float distance) {
-        return false;
-    }
-
-    @Override
-    public boolean pinch(Vector2 initialPointer1, Vector2 initialPointer2, Vector2 pointer1, Vector2 pointer2) {
-        return false;
     }
 }

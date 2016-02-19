@@ -10,6 +10,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.utils.ActorGestureListener;
 import com.badlogic.gdx.scenes.scene2d.utils.DragListener;
 import com.eavteam.touchball.common.Assets;
 
@@ -22,19 +23,27 @@ public class BallActor extends Actor {
     public Body body;
     private float velocityX, velocityY;
 //---------------------------------------------------
-    private static DragListener dl = new DragListener() {
+
+    private static ActorGestureListener actorGestureListener = new ActorGestureListener(){
         @Override
-        public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+        public void touchDown(InputEvent event, float x, float y, int pointer, int button) {
             BallActor b = (BallActor) event.getTarget();
             b.moveBy(x,y);
-            return true;
+            b.body.setLinearVelocity(0,0);
+            return ;
         }
 
         @Override
-        public void touchDragged(InputEvent event, float x, float y, int pointer) {
+        public void fling (InputEvent event, float velocityX, float velocityY, int button) {
+            BallActor b = (BallActor) event.getTarget();
+            b.velocityX = velocityX; b.velocityY = velocityY;
+        }
+
+        @Override
+        public void pan (InputEvent event, float x, float y, float deltaX, float deltaY) {
             BallActor b = (BallActor) event.getTarget();
             b.moveBy(x,y);
-
+            b.velocityX = 0;b.velocityY = 0;
         }
 
         @Override
@@ -69,7 +78,7 @@ public class BallActor extends Actor {
 //        --------------------------------------
 
         refreshPosition();
-        addListener(dl);
+        addListener(actorGestureListener);
     }
 
 //---------------------------------------------
@@ -77,10 +86,6 @@ public class BallActor extends Actor {
         body = world.createBody(bodyDef);
         body.createFixture(fixtureDef);
         body.setUserData(ballSprite);
-    }
-
-    public void updateVelocity(float velocityX, float velocityY){
-        this.velocityX = velocityX; this.velocityY = velocityY;
     }
 //---------------------------------------------
 
