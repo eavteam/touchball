@@ -35,7 +35,7 @@ public class PlayScreen implements Screen {
 
     // World settings
     private Box2DDebugRenderer debugRenderer;
-    private final float TIMESTEP = 3/60f;
+    private final float TIMESTEP = 1/60f;
     private final int VELOSITYITERATIONS = 8, POSITIONITERATIONS = 3;
 
     public PlayScreen(final TouchBallGame game){
@@ -47,6 +47,7 @@ public class PlayScreen implements Screen {
 
         // World initialization
         world = new World(new Vector2(0f, 0f), true);
+        world.setContinuousPhysics(true);
         debugRenderer = new Box2DDebugRenderer();
 
         // Actors initialization
@@ -76,12 +77,12 @@ public class PlayScreen implements Screen {
         Gdx.gl.glClearColor(0.1f,0.1f,0.1f,1f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        update(delta);
-        stage.draw();
-
         // World update
         world.step(TIMESTEP, VELOSITYITERATIONS, POSITIONITERATIONS);
-//        debugRenderer.render(world,stage.getViewport().getCamera().combined);
+        debugRenderer.render(world,stage.getViewport().getCamera().combined);
+
+        update(delta);
+        stage.draw();
     }
 
     public void update(float delta){

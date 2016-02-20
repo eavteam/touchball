@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -21,11 +22,13 @@ public class BallActor extends Actor {
 //---------------------------------------------------
 
     private static ActorGestureListener actorGestureListener = new ActorGestureListener(){
+
         @Override
         public void touchDown(InputEvent event, float x, float y, int pointer, int button) {
             BallActor ball = (BallActor) event.getTarget();
             ball.moveBy(x,y);
             ball.body.setLinearVelocity(0,0);
+            ball.velocityX = 0;ball.velocityY = 0;
             return ;
         }
 
@@ -39,14 +42,18 @@ public class BallActor extends Actor {
         public void pan (InputEvent event, float x, float y, float deltaX, float deltaY) {
             BallActor ball = (BallActor) event.getTarget();
             ball.moveBy(x,y);
-            ball.velocityX = 0;ball.velocityY = 0;
+//            ball.velocityX = 0;ball.velocityY = 0;
+
         }
 
         @Override
         public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
             BallActor ball = (BallActor) event.getTarget();
             ball.moveBy(x,y);
+            System.out.println("ball.velocityX: " + ball.velocityX + ", " + "ball.velocityY: " + ball.velocityY);
             ball.body.setLinearVelocity(ball.velocityX,ball.velocityY);
+//            ball.body.applyLinearImpulse(new Vector2(ball.body.getMass()*ball.velocityX, ball.body.getMass()*ball.velocityY), new Vector2(0, 0), true );
+//            ball.body.setLinearVelocity(100f, 100f);
         }
     };
 
@@ -68,8 +75,9 @@ public class BallActor extends Actor {
 
         fixtureDef = new FixtureDef();
         fixtureDef.shape = shape;
-        fixtureDef.density = .5f;     //плотность
-        fixtureDef.friction = 10.8f;    //трение
+//        fixtureDef.
+        fixtureDef.density = .1f;     //плотность
+        fixtureDef.friction = 1.8f;    //трение
         fixtureDef.restitution = .8f; //остаток энергии после столкновения
 //        --------------------------------------
 
@@ -79,9 +87,9 @@ public class BallActor extends Actor {
 
 //---------------------------------------------
     public void makeBody(World world){
-        body = world.createBody(bodyDef);
-        body.createFixture(fixtureDef);
-        body.setUserData(ballSprite);
+        body = world.createBody(this.bodyDef);
+        body.createFixture(this.fixtureDef).setUserData(this.ballSprite);
+        body.setMassData(new MassData()); // сбрасываем массу к чертовой матери
     }
 //---------------------------------------------
 
@@ -120,6 +128,7 @@ public class BallActor extends Actor {
     public void act(float delta) {
         super.act(delta);
         this.setPosition(this.body.getPosition().x, this.body.getPosition().y);
+        System.out.println("Velocity: " + body.getLinearVelocity().toString() + " mass:" + body.getMassData().mass);
     }
 
     @Override
