@@ -78,7 +78,7 @@ public class PlayScreen implements Screen {
 
         // World update
         world.step(TIMESTEP, VELOSITYITERATIONS, POSITIONITERATIONS);
-        debugRenderer.render(world,stage.getViewport().getCamera().combined);
+//        debugRenderer.render(world,stage.getViewport().getCamera().combined);
     }
 
     public void update(float delta){
@@ -90,7 +90,6 @@ public class PlayScreen implements Screen {
     @Override
     public void resize(int width, int height) {
         stage.getViewport().update(width, height, true);
-//        stage.getViewport().setScreenSize(width/(int)Assets.PPM, height/(int)Assets.PPM);
     }
 
     @Override

@@ -20,7 +20,7 @@ public class BallActor extends Actor {
     private float velocityX, velocityY;
 //---------------------------------------------------
 
-    private static ActorGestureListener actorGestureListener = new ActorGestureListener(){
+    private static ActorGestureListener actorGestureListener = new ActorGestureListener(10/Assets.PPM, 0.4f, 1.1f, 0.15f){
 
         @Override
         public void touchDown(InputEvent event, float x, float y, int pointer, int button) {

@@ -17,7 +17,7 @@ public class Assets {
     public static final String gradient = "images/gradient.png";
     public static final String background = "images/background_sky.png";
     public static final String gradientBall = "images/gradient_ball.png";
-    public static final float PPM = 6;
+    public static final float PPM = 50;
 
     public static BitmapFont font24 = generateFont(24);
     public static BitmapFont font32 = generateFont(32);
