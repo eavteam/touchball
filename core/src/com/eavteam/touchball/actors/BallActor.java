@@ -48,6 +48,7 @@ public class BallActor extends Actor {
             BallActor ball = (BallActor) event.getTarget();
             ball.moveBy(x,y);
             ball.body.setLinearVelocity(ball.velocityX,ball.velocityY);
+            ball.body.setLinearDamping(1);
 //            ball.body.applyLinearImpulse(new Vector2(ball.body.getMass()*ball.velocityX, ball.body.getMass()*ball.velocityY), new Vector2(0, 0), true );
 //            ball.body.setLinearVelocity(100f, 100f);
         }
@@ -73,7 +74,7 @@ public class BallActor extends Actor {
 //        fixtureDef.
         fixtureDef.density = .1f;     //плотность
         fixtureDef.friction = 1.8f;    //трение
-        fixtureDef.restitution = .8f; //остаток энергии после столкновения
+        fixtureDef.restitution = .85f; //остаток энергии после столкновения
 //        --------------------------------------
 
         refreshPosition();
