@@ -25,10 +25,10 @@ public class BallRoundActor extends Actor {
         roundSprite.setColor(new Color(0.7f, 0.7f, 0.7f, 0.6f));
 
         circle = new Circle();
-        circle.radius = roundSprite.getHeight() / 2;
+//        circle.radius = roundSprite.getHeight() / 2;
 
-        setSize(20f);
-        setPosition((Gdx.graphics.getWidth() / 2), (Gdx.graphics.getHeight() / 2));
+        setSize(20);
+        setPosition((Gdx.graphics.getWidth() / 2) / Assets.PPM, (Gdx.graphics.getHeight() / 2) / Assets.PPM);
 
         tweenManager = new TweenManager();
         Tween.registerAccessor(Actor.class,new ActorAccessor());
@@ -49,10 +49,12 @@ public class BallRoundActor extends Actor {
     //размер задается в % от высоты дисплея
     public void setSize(float percent){
         this.percent = percent;
-        setSize(Gdx.graphics.getHeight() * percent / 100,Gdx.graphics.getHeight() * percent / 100);
+        this.setSize(Gdx.graphics.getHeight() * percent / 100 , Gdx.graphics.getHeight() * percent / 100 );
     }
     @Override
     public void setSize(float x,float y){
+        x /= Assets.PPM;
+        y /= Assets.PPM;
         super.setSize(x,y);
         roundSprite.setSize(x,y);
         circle.radius = roundSprite.getHeight() / 2;

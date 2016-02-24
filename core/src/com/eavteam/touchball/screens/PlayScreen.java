@@ -5,22 +5,18 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.input.GestureDetector;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.Box2D;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.FillViewport;
-import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.eavteam.touchball.TouchBallGame;
 import com.eavteam.touchball.actors.BackgroundActor;
 import com.eavteam.touchball.actors.BallActor;
 import com.eavteam.touchball.actors.BallRoundActor;
 import com.eavteam.touchball.actors.HardBox;
+import com.eavteam.touchball.common.Assets;
 
 public class PlayScreen implements Screen {
 
@@ -40,7 +36,7 @@ public class PlayScreen implements Screen {
 
     public PlayScreen(final TouchBallGame game){
         this.game = game;
-        FillViewport viewport = new FillViewport(Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
+        FillViewport viewport = new FillViewport(Gdx.graphics.getWidth()/Assets.PPM, Gdx.graphics.getHeight()/Assets.PPM);
         stage = new Stage(viewport);
         Gdx.input.setInputProcessor(stage);
         group = new Group();
@@ -77,12 +73,12 @@ public class PlayScreen implements Screen {
         Gdx.gl.glClearColor(0.1f,0.1f,0.1f,1f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
+        update(delta);
+        stage.draw();
+
         // World update
         world.step(TIMESTEP, VELOSITYITERATIONS, POSITIONITERATIONS);
         debugRenderer.render(world,stage.getViewport().getCamera().combined);
-
-        update(delta);
-        stage.draw();
     }
 
     public void update(float delta){
@@ -94,6 +90,7 @@ public class PlayScreen implements Screen {
     @Override
     public void resize(int width, int height) {
         stage.getViewport().update(width, height, true);
+//        stage.getViewport().setScreenSize(width/(int)Assets.PPM, height/(int)Assets.PPM);
     }
 
     @Override

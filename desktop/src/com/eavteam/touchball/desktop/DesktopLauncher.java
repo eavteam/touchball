@@ -10,8 +10,8 @@ public class DesktopLauncher {
 		config.title = TouchBallGame.TITLE + " v" + TouchBallGame.VERSION;
 		config.width = 480;
 		config.height = 800;
-		config.useGL30 = true;
-		config.vSyncEnabled = true;
+//		config.useGL30 = true;
+//		config.vSyncEnabled = true;
 		new LwjglApplication(new TouchBallGame(), config);
 	}
 }

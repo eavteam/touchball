@@ -4,7 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -28,8 +27,8 @@ public class BallActor extends Actor {
             BallActor ball = (BallActor) event.getTarget();
             ball.moveBy(x,y);
             ball.body.setLinearVelocity(0,0);
+            ball.body.setAngularVelocity(0);
             ball.velocityX = 0;ball.velocityY = 0;
-            return ;
         }
 
         @Override
@@ -42,34 +41,30 @@ public class BallActor extends Actor {
         public void pan (InputEvent event, float x, float y, float deltaX, float deltaY) {
             BallActor ball = (BallActor) event.getTarget();
             ball.moveBy(x,y);
-//            ball.velocityX = 0;ball.velocityY = 0;
-
         }
 
         @Override
         public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
             BallActor ball = (BallActor) event.getTarget();
             ball.moveBy(x,y);
-            System.out.println("ball.velocityX: " + ball.velocityX + ", " + "ball.velocityY: " + ball.velocityY);
             ball.body.setLinearVelocity(ball.velocityX,ball.velocityY);
 //            ball.body.applyLinearImpulse(new Vector2(ball.body.getMass()*ball.velocityX, ball.body.getMass()*ball.velocityY), new Vector2(0, 0), true );
 //            ball.body.setLinearVelocity(100f, 100f);
         }
+
     };
 
 
     public BallActor(){
 
         ballSprite = new Sprite(Assets.manager.get(Assets.ball,Texture.class));
-        setSize(ballSprite.getTexture().getWidth() * 20 / 100, ballSprite.getTexture().getHeight() * 20 / 100);
-        setBounds(ballSprite.getX(),ballSprite.getY(),ballSprite.getWidth(),ballSprite.getHeight());
-
         setSize(4);
+        setBounds(ballSprite.getX(),ballSprite.getY(),ballSprite.getWidth(),ballSprite.getHeight());
 
 //      ------------------------------------------
         bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.DynamicBody;
-        bodyDef.position.set((Gdx.graphics.getWidth() / 2), (Gdx.graphics.getHeight() / 2));
+        bodyDef.position.set((Gdx.graphics.getWidth() / 2) / Assets.PPM, (Gdx.graphics.getHeight() / 2) / Assets.PPM);
         CircleShape shape = new CircleShape();
         shape.setRadius(ballSprite.getWidth()/2);
 
@@ -89,13 +84,12 @@ public class BallActor extends Actor {
     public void makeBody(World world){
         body = world.createBody(this.bodyDef);
         body.createFixture(this.fixtureDef).setUserData(this.ballSprite);
-        body.setMassData(new MassData()); // сбрасываем массу к чертовой матери
     }
 //---------------------------------------------
 
     //размер задается в % от высоты дисплея
     public void setSize(float percent){
-        setSize(Gdx.graphics.getHeight() * percent / 100,Gdx.graphics.getHeight() * percent / 100);
+        this.setSize((Gdx.graphics.getHeight() * percent / 100) / Assets.PPM, (Gdx.graphics.getHeight() * percent / 100) / Assets.PPM);
     }
 
     @Override
@@ -111,12 +105,12 @@ public class BallActor extends Actor {
 
     @Override
     public void setPosition(float x, float y) {
-        super.setPosition(x - ballSprite.getWidth()/2,y - ballSprite.getHeight()/2);
+        super.setPosition(x - ballSprite.getWidth()/2, y - ballSprite.getHeight()/2);
         this.ballSprite.setPosition(x - ballSprite.getWidth()/2, y - ballSprite.getHeight()/2);
     }
 
     public void refreshPosition(){
-        setPosition((Gdx.graphics.getWidth() / 2), (Gdx.graphics.getHeight() / 2));
+        setPosition((Gdx.graphics.getWidth() / 2)/Assets.PPM, (Gdx.graphics.getHeight() / 2)/Assets.PPM);
     }
 
     @Override
@@ -128,7 +122,7 @@ public class BallActor extends Actor {
     public void act(float delta) {
         super.act(delta);
         this.setPosition(this.body.getPosition().x, this.body.getPosition().y);
-        System.out.println("Velocity: " + body.getLinearVelocity().toString() + " mass:" + body.getMassData().mass);
+//        System.out.println("Velocity: " + body.getLinearVelocity().toString() + " mass:" + body.getMassData().mass + " " + ballSprite.getWidth());
     }
 
     @Override
