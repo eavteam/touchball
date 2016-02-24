@@ -5,10 +5,15 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.physics.box2d.*;
+import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.actions.MoveToAction;
+import com.badlogic.gdx.scenes.scene2d.actions.ScaleToAction;
 import com.badlogic.gdx.scenes.scene2d.utils.ActorGestureListener;
 import com.eavteam.touchball.common.Assets;
+
+import java.util.Iterator;
 
 public class BallActor extends Actor {
 
@@ -47,10 +52,8 @@ public class BallActor extends Actor {
         public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
             BallActor ball = (BallActor) event.getTarget();
             ball.moveBy(x,y);
-            ball.body.setLinearVelocity(ball.velocityX,ball.velocityY);
-            ball.body.setLinearDamping(1);
-//            ball.body.applyLinearImpulse(new Vector2(ball.body.getMass()*ball.velocityX, ball.body.getMass()*ball.velocityY), new Vector2(0, 0), true );
-//            ball.body.setLinearVelocity(100f, 100f);
+            ball.body.setLinearVelocity(ball.velocityX,ball.velocityY); //сообщаем линейную скорось
+            ball.body.setLinearDamping(1);//сообщаем замедление по линейной скорости
         }
 
     };
@@ -62,23 +65,24 @@ public class BallActor extends Actor {
         setSize(4);
         setBounds(ballSprite.getX(),ballSprite.getY(),ballSprite.getWidth(),ballSprite.getHeight());
 
-//      ------------------------------------------
         bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.DynamicBody;
         bodyDef.position.set((Gdx.graphics.getWidth() / 2) / Assets.PPM, (Gdx.graphics.getHeight() / 2) / Assets.PPM);
         CircleShape shape = new CircleShape();
         shape.setRadius(ballSprite.getWidth()/2);
-
         fixtureDef = new FixtureDef();
         fixtureDef.shape = shape;
-//        fixtureDef.
         fixtureDef.density = .1f;     //плотность
         fixtureDef.friction = 1.8f;    //трение
         fixtureDef.restitution = .85f; //остаток энергии после столкновения
-//        --------------------------------------
 
         refreshPosition();
         addListener(actorGestureListener);
+
+//        ScaleToAction scaleToAction = new ScaleToAction();
+//        scaleToAction.setScale(0.5f);
+//        scaleToAction.setDuration(5f);
+//        this.addAction(scaleToAction);
     }
 
 //---------------------------------------------
@@ -123,7 +127,9 @@ public class BallActor extends Actor {
     public void act(float delta) {
         super.act(delta);
         this.setPosition(this.body.getPosition().x, this.body.getPosition().y);
-//        System.out.println("Velocity: " + body.getLinearVelocity().toString() + " mass:" + body.getMassData().mass + " " + ballSprite.getWidth());
+//        for(Iterator<Action> iter = this.getActions().iterator(); iter.hasNext();){
+//            iter.next().act(delta);
+//        }
     }
 
     @Override
