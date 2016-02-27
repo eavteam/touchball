@@ -5,11 +5,8 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.physics.box2d.*;
-import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.actions.MoveToAction;
-import com.badlogic.gdx.scenes.scene2d.actions.ScaleToAction;
 import com.badlogic.gdx.scenes.scene2d.utils.ActorGestureListener;
 import com.eavteam.touchball.common.Assets;
 
@@ -18,12 +15,11 @@ import java.util.Iterator;
 public class BallActor extends Actor {
 
     private Sprite ballSprite;
-//    --------------------------------------------------
+    private float angle;
     private BodyDef bodyDef;
     private FixtureDef fixtureDef;
     private Body body;
     private float velocityX, velocityY;
-//---------------------------------------------------
 
     private static ActorGestureListener actorGestureListener = new ActorGestureListener(10/Assets.PPM, 0.4f, 1.1f, 0.15f){
 
@@ -53,7 +49,8 @@ public class BallActor extends Actor {
             BallActor ball = (BallActor) event.getTarget();
             ball.moveBy(x,y);
             ball.body.setLinearVelocity(ball.velocityX,ball.velocityY); //сообщаем линейную скорось
-            ball.body.setLinearDamping(1);//сообщаем замедление по линейной скорости
+            ball.body.setLinearDamping(0.5f); //сообщаем замедление по линейной скорости
+            ball.body.setAngularDamping(1f); //сообщаем замедление по угловой скорости
         }
 
     };
@@ -78,11 +75,6 @@ public class BallActor extends Actor {
 
         refreshPosition();
         addListener(actorGestureListener);
-
-//        ScaleToAction scaleToAction = new ScaleToAction();
-//        scaleToAction.setScale(0.5f);
-//        scaleToAction.setDuration(5f);
-//        this.addAction(scaleToAction);
     }
 
 //---------------------------------------------
@@ -101,6 +93,7 @@ public class BallActor extends Actor {
     public void setSize(float width, float height) {
         super.setSize(width,height);
         ballSprite.setSize(width, height);
+        ballSprite.setOriginCenter(); // для вращения вокруг своей оси
     }
 
     @Override
@@ -127,9 +120,8 @@ public class BallActor extends Actor {
     public void act(float delta) {
         super.act(delta);
         this.setPosition(this.body.getPosition().x, this.body.getPosition().y);
-//        for(Iterator<Action> iter = this.getActions().iterator(); iter.hasNext();){
-//            iter.next().act(delta);
-//        }
+        angle += this.body.getAngularVelocity()*delta*Assets.PPM; //расчет угла поворота спрайта
+        this.ballSprite.setRotation(angle);
     }
 
     @Override

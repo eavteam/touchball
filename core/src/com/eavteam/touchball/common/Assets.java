@@ -17,6 +17,7 @@ public class Assets {
     public static final String gradient = "images/gradient.png";
     public static final String background = "images/background_sky.png";
     public static final String gradientBall = "images/gradient_ball.png";
+    public static final String blenderSection = "images/blender_section.png";
     public static final float PPM = 50;
 
     public static BitmapFont font24 = generateFont(24);
@@ -42,6 +43,7 @@ public class Assets {
         manager.load(gradient, Texture.class);
         manager.load(background, Texture.class);
         manager.load(gradientBall, Texture.class);
+        manager.load(blenderSection, Texture.class);
     }
 
     public static void dispose() {

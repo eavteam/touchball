@@ -10,13 +10,9 @@ import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.actions.MoveToAction;
 import com.badlogic.gdx.utils.viewport.FillViewport;
 import com.eavteam.touchball.TouchBallGame;
-import com.eavteam.touchball.actors.BackgroundActor;
-import com.eavteam.touchball.actors.BallActor;
-import com.eavteam.touchball.actors.BallRoundActor;
-import com.eavteam.touchball.actors.HardBox;
+import com.eavteam.touchball.actors.*;
 import com.eavteam.touchball.common.Assets;
 
 
@@ -30,6 +26,7 @@ public class PlayScreen implements Screen {
     private BallActor ball;
     private BallRoundActor round;
     private HardBox hardBox;
+    private BlenderActor blenderActor;
 
     // World settings
     private Box2DDebugRenderer debugRenderer;
@@ -55,10 +52,12 @@ public class PlayScreen implements Screen {
         round = new BallRoundActor();
         hardBox = new HardBox();
         hardBox.makeBody(world);
+        blenderActor = new BlenderActor();
 
         // Group form
         group.addActor(background);
         group.addActor(round);
+        group.addActor(blenderActor);
         group.addActor(ball);
         group.addActor(hardBox);
 
