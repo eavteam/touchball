@@ -10,7 +10,6 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ActorGestureListener;
 import com.eavteam.touchball.common.Assets;
 
-import java.util.Iterator;
 
 public class BallActor extends Actor {
 
@@ -77,12 +76,10 @@ public class BallActor extends Actor {
         addListener(actorGestureListener);
     }
 
-//---------------------------------------------
     public void makeBody(World world){
         body = world.createBody(this.bodyDef);
         body.createFixture(this.fixtureDef).setUserData(this.ballSprite);
     }
-//---------------------------------------------
 
     //размер задается в % от высоты дисплея
     public void setSize(float percent){

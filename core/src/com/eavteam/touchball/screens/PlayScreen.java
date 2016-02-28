@@ -4,6 +4,7 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
@@ -53,9 +54,10 @@ public class PlayScreen implements Screen {
         hardBox = new HardBox();
         hardBox.makeBody(world);
         blenderActor = new BlenderActor();
+        blenderActor.makeBody(world);
 
         // Group form
-        group.addActor(background);
+//        group.addActor(background);
         group.addActor(round);
         group.addActor(blenderActor);
         group.addActor(ball);
@@ -71,7 +73,8 @@ public class PlayScreen implements Screen {
 
     @Override
     public void render(float delta) {
-        Gdx.gl.glClearColor(0.1f,0.1f,0.1f,1f);
+//        Gdx.gl.glClearColor(Color.valueOf("07c15a").r, Color.valueOf("07c15a").g,Color.valueOf("07c15a").b, 1.0f);
+        Gdx.gl.glClearColor(0.2f, 0.2f, 0.2f, 1f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         update(delta);
@@ -79,7 +82,7 @@ public class PlayScreen implements Screen {
 
         // World update
         world.step(TIMESTEP, VELOSITYITERATIONS, POSITIONITERATIONS);
-//        debugRenderer.render(world,stage.getViewport().getCamera().combined);
+        debugRenderer.render(world,stage.getViewport().getCamera().combined);
     }
 
     public void update(float delta){

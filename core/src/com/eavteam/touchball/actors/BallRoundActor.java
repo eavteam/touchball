@@ -22,7 +22,7 @@ public class BallRoundActor extends Actor {
     public BallRoundActor(){
 
         roundSprite = new Sprite(Assets.manager.get(Assets.roundWhite,Texture.class));
-        roundSprite.setColor(new Color(0.7f, 0.7f, 0.7f, 0.6f));
+        roundSprite.setColor(new Color(0.5f, 0.5f, 0.5f, 0.6f));
 
         circle = new Circle();
 //        circle.radius = roundSprite.getHeight() / 2;
