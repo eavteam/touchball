@@ -30,11 +30,12 @@ public class BlenderActor extends Actor {
     public BlenderActor(){
         setStepChangeOfColor(12f);
         setSpeedChangeOfColor(100f);
-        setAmountOfSections(30); // устанавливаем количество секций в конструкции
+        setAmountOfSections(MathUtils.random(25 , 38)); // устанавливаем количество секций в конструкции
         buildCarcass(); // собираем конструкцию
         setSize(10); // устанавливаем размер
         refreshPosition();
         setSpeedOfRotation(30);
+        angleOfRotation = MathUtils.random(0 , 360);
     }
 
     private void setAmountOfSections(int amount){
