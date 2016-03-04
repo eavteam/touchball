@@ -5,6 +5,8 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.eavteam.touchball.common.Assets;
@@ -15,9 +17,9 @@ import com.eavteam.touchball.common.Assets;
 public class BlenderActor extends Actor {
     private BodyDef bodyDef;
     private FixtureDef fixtureDef;
-    private Body body;
-    private Sprite[] blenderSection; //массив хранящий спрайты секций крутилки
-    private float angleOfRotation; // угол поворота всей конструкции
+    private Body[] body;
+    private Sprite[] blenderSection; //массив хранящий спрайты секций конструкции
+    private float angleOfRotation; // угол поворота всей конструкции в градусах хуельсия
     private float speedOfRotation; // скорость поворота всей конструкции
     private int amountOfSections; // количество секций конструкции
     private float stepChangeOfColor; //шаг изменения цвета
@@ -32,7 +34,7 @@ public class BlenderActor extends Actor {
         buildCarcass(); // собираем конструкцию
         setSize(10); // устанавливаем размер
         refreshPosition();
-        setSpeedOfRotation(20);
+        setSpeedOfRotation(30);
     }
 
     private void setAmountOfSections(int amount){
@@ -49,6 +51,7 @@ public class BlenderActor extends Actor {
     }
 
     private void buildCarcass(){
+        body = new Body[amountOfSections];
         blenderSection = new Sprite[amountOfSections];
         changeR = new boolean[amountOfSections];
         changeG = new boolean[amountOfSections];
@@ -94,6 +97,14 @@ public class BlenderActor extends Actor {
 
     }
 
+    //применяем триготометрические формулы для расчета координат box2d секций
+    private Vector2 getCoordinates(float angle){
+        float radius = blenderSection[0].getHeight()/2 - blenderSection[0].getHeight()/30;
+        float x = (Gdx.graphics.getWidth() / 2)/Assets.PPM + radius*MathUtils.cos((angle + 90)*MathUtils.degreesToRadians);
+        float y = (Gdx.graphics.getHeight() / 2)/Assets.PPM + radius*MathUtils.sin((angle + 90)*MathUtils.degreesToRadians);
+        return new Vector2(x,y);
+    }
+
     public void makeBody(World world){
         bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.StaticBody;
@@ -105,11 +116,10 @@ public class BlenderActor extends Actor {
         fixtureDef.shape = shape ;
         fixtureDef.friction = 1.2f;
         fixtureDef.restitution = 0;
-
-        body = world.createBody(bodyDef);
-        body.createFixture(fixtureDef);
-
-        body.setTransform(body.getPosition().x, body.getPosition().y, angleOfRotation);
+        for(int i = 0; i < amountOfSections; i++) {
+            body[i] = world.createBody(bodyDef);
+            body[i].createFixture(fixtureDef);
+        }
     }
 
     //размер задается в % от высоты дисплея
@@ -139,9 +149,10 @@ public class BlenderActor extends Actor {
 
     public void setRotation(float delta){
         angleOfRotation += delta*speedOfRotation;
-        body.setTransform(body.getPosition().x, body.getPosition().y, angleOfRotation);
-        for(int i = 0; i < amountOfSections; i++)
-            this.blenderSection[i].setRotation(angleOfRotation + i*9);
+        for(int i = 0; i < amountOfSections; i++) {
+            this.blenderSection[i].setRotation(angleOfRotation + i*9); // крутим секции видимой конструкции
+            this.body[i].setTransform(this.getCoordinates(angleOfRotation + i*9), MathUtils.degreesToRadians*(angleOfRotation + i*9)); //крутим секции box2d
+        }
     }
 
     @Override

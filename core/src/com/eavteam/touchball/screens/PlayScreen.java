@@ -82,7 +82,7 @@ public class PlayScreen implements Screen {
 
         // World update
         world.step(TIMESTEP, VELOSITYITERATIONS, POSITIONITERATIONS);
-        debugRenderer.render(world,stage.getViewport().getCamera().combined);
+//        debugRenderer.render(world,stage.getViewport().getCamera().combined);
     }
 
     public void update(float delta){
