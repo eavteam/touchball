@@ -29,7 +29,7 @@ public class HardBox extends Actor {
 
         fixtureDef = new FixtureDef();
         fixtureDef.shape = chainShape;
-        fixtureDef.friction = 1.2f;
+        fixtureDef.friction = .5f;
         fixtureDef.restitution = 0;
     }
 

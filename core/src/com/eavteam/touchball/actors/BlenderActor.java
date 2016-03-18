@@ -11,9 +11,7 @@ import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.eavteam.touchball.common.Assets;
 
-/**
- * Created by XEXE on 27.02.2016.
- */
+
 public class BlenderActor extends Actor {
     private BodyDef bodyDef;
     private FixtureDef fixtureDef;
@@ -24,18 +22,21 @@ public class BlenderActor extends Actor {
     private int amountOfSections; // количество секций конструкции
     private float stepChangeOfColor; //шаг изменения цвета
     private float speedChangeOfColor; //скорость изменения цвета
+    private float colorThreshold; // насыщенность цвета в диапазоне(0.3f - 1f)
     boolean[] changeR; boolean[] changeG; boolean[] changeB;
     float x; // кто так программирует? бла бла бла
 
     public BlenderActor(){
         setStepChangeOfColor(12f);
-        setSpeedChangeOfColor(100f);
+        setSpeedChangeOfColor(70f);
+        colorThreshold = 0.9f;
         setAmountOfSections(MathUtils.random(25 , 38)); // устанавливаем количество секций в конструкции
         buildCarcass(); // собираем конструкцию
-        setSize(10); // устанавливаем размер
+        setSize(10f); // устанавливаем размер
         refreshPosition();
-        setSpeedOfRotation(30);
+        setSpeedOfRotation(30f);
         angleOfRotation = MathUtils.random(0 , 360);
+        changeColorThreshold(0.3f);
     }
 
     private void setAmountOfSections(int amount){
@@ -50,6 +51,18 @@ public class BlenderActor extends Actor {
     private void setSpeedChangeOfColor(float speedChangeOfColor){
         this.speedChangeOfColor = speedChangeOfColor;
     }
+    private void changeColorThreshold(float colorThreshold){
+        if(colorThreshold > 1f) colorThreshold = 1f;
+        if(colorThreshold < 0.3f) colorThreshold = 0.3f;
+        for(int i = 0; i < amountOfSections; i++){
+            float r = blenderSection[i].getColor().r;
+            float g = blenderSection[i].getColor().g;
+            float b = blenderSection[i].getColor().b;
+            r *= (colorThreshold / this.colorThreshold); g *= (colorThreshold / this.colorThreshold); b *= (colorThreshold / this.colorThreshold);
+            this.blenderSection[i].setColor(new Color(r, g, b, 1f));
+        }
+        this.colorThreshold = colorThreshold;
+    }
 
     private void buildCarcass(){
         body = new Body[amountOfSections];
@@ -57,22 +70,22 @@ public class BlenderActor extends Actor {
         changeR = new boolean[amountOfSections];
         changeG = new boolean[amountOfSections];
         changeB = new boolean[amountOfSections];
-        float r = 1f; float g = 0f; float b = 0f;
+        float r = 0f; float g = colorThreshold; float b = colorThreshold;
         boolean changeR = false;boolean changeG = true;boolean changeB = false;
         for(int i = 0; i < amountOfSections; i++){
             blenderSection[i] = new Sprite(Assets.manager.get(Assets.blenderSection, Texture.class));
-            if(r >= 1f){changeR = false; changeG = true; changeB = false; r = 1f; g = 0f; b = 0f;
+            if(r <= 0f){changeR = false; changeG = true; changeB = false; r = 0f; g = colorThreshold; b = colorThreshold;
                 for(int j = i; j < amountOfSections; j++){this.changeR[j] = false; this.changeG[j] = true; this.changeB[j] = false;}
             }
-            if(g >= 1f){changeR = false; changeG = false; changeB = true; r = 0f; g = 1f; b = 0f;
+            if(g <= 0f){changeR = false; changeG = false; changeB = true; r = colorThreshold; g = 0f; b = colorThreshold;
                 for(int j = i; j < amountOfSections; j++){this.changeR[j] = false; this.changeG[j] = false; this.changeB[j] = true;}
             }
-            if(b >= 1f){changeR = true; changeG = false; changeB = false; r = 0f; g = 0f; b = 1f;
+            if(b <= 0f){changeR = true; changeG = false; changeB = false; r = colorThreshold; g = colorThreshold; b = 0f;
                 for(int j = i; j < amountOfSections; j++){this.changeR[j] = true; this.changeG[j] = false; this.changeB[j] = false;}
             }
-            if(changeR){b -= 1 / stepChangeOfColor; r += 1 / stepChangeOfColor;}
-            if(changeG){r -= 1 / stepChangeOfColor; g += 1 / stepChangeOfColor;}
-            if(changeB){g -= 1 / stepChangeOfColor; b += 1 / stepChangeOfColor;}
+            if(changeR){b += (colorThreshold / stepChangeOfColor); r -= (colorThreshold / stepChangeOfColor);}else{
+            if(changeG){r += (colorThreshold / stepChangeOfColor); g -= (colorThreshold / stepChangeOfColor);}else{
+            if(changeB){g += (colorThreshold / stepChangeOfColor); b -= (colorThreshold / stepChangeOfColor);}}}
             blenderSection[i].setColor(new Color(r, g, b, 1f));
             setBounds(blenderSection[i].getX(), blenderSection[i].getY(), blenderSection[i].getWidth(), blenderSection[i].getHeight());
         }
@@ -80,17 +93,21 @@ public class BlenderActor extends Actor {
 
     private void changeColor(float delta){
         this.x += delta;
+
         if(x >= 1/speedChangeOfColor){
+            if(this.colorThreshold <= 1f){
+                changeColorThreshold(this.colorThreshold + 0.01f);
+            }
             for(int i = 0; i < amountOfSections; i++){
                 float r = blenderSection[i].getColor().r;
                 float g = blenderSection[i].getColor().g;
                 float b = blenderSection[i].getColor().b;
-                if(r >= 1f){this.changeR[i] = false; this.changeG[i] = true; this.changeB[i] = false; r = 1f; g = 0f; b = 0f;}
-                if(g >= 1f){this.changeR[i] = false; this.changeG[i] = false; this.changeB[i] = true; r = 0f; g = 1f; b = 0f;}
-                if(b >= 1f){this.changeR[i] = true; this.changeG[i] = false; this.changeB[i] = false; r = 0f; g = 0f; b = 1f;}
-                if(changeR[i]){b -= 0.02; r += 0.02;}
-                if(changeG[i]){r -= 0.02; g += 0.02;}
-                if(changeB[i]){g -= 0.02; b += 0.02;}
+                if(changeR[i]){b += colorThreshold*0.02f; r -= colorThreshold*0.02f;}else{
+                if(changeG[i]){r += colorThreshold*0.02f; g -= colorThreshold*0.02f;}else{
+                if(changeB[i]){g += colorThreshold*0.02f; b -= colorThreshold*0.02f;}}}
+                if((r <= 0f)){this.changeR[i] = false; this.changeG[i] = true; this.changeB[i] = false; r = 0f; g = colorThreshold; b = colorThreshold;}else{
+                if((g <= 0f)){this.changeR[i] = false; this.changeG[i] = false; this.changeB[i] = true; r = colorThreshold; g = 0f; b = colorThreshold;}else{
+                if((b <= 0f)){this.changeR[i] = true; this.changeG[i] = false; this.changeB[i] = false; r = colorThreshold; g = colorThreshold; b = 0f;}}}
                 blenderSection[i].setColor(new Color(r, g, b, 1f));
             }
             this.x = 0;

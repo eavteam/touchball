@@ -1,12 +1,13 @@
 package com.eavteam.touchball.actors;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.physics.box2d.*;
-import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ActorGestureListener;
 import com.eavteam.touchball.common.Assets;
 
@@ -14,6 +15,7 @@ import com.eavteam.touchball.common.Assets;
 public class BallActor extends Actor {
 
     private Sprite ballSprite;
+    private Circle circle;
     private float angle;
     private BodyDef bodyDef;
     private FixtureDef fixtureDef;
@@ -46,7 +48,6 @@ public class BallActor extends Actor {
         @Override
         public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
             BallActor ball = (BallActor) event.getTarget();
-            ball.moveBy(x,y);
             ball.body.setLinearVelocity(ball.velocityX,ball.velocityY); //сообщаем линейную скорось
             ball.body.setLinearDamping(0.5f); //сообщаем замедление по линейной скорости
             ball.body.setAngularDamping(1f); //сообщаем замедление по угловой скорости
@@ -56,8 +57,9 @@ public class BallActor extends Actor {
 
 
     public BallActor(){
-
+        circle = new Circle();
         ballSprite = new Sprite(Assets.manager.get(Assets.ball,Texture.class));
+        ballSprite.setColor(new Color(1f, 0.2f, 1f, 1f));
         setSize(4);
         setBounds(ballSprite.getX(),ballSprite.getY(),ballSprite.getWidth(),ballSprite.getHeight());
 
@@ -66,14 +68,24 @@ public class BallActor extends Actor {
         bodyDef.position.set((Gdx.graphics.getWidth() / 2) / Assets.PPM, (Gdx.graphics.getHeight() / 2) / Assets.PPM);
         CircleShape shape = new CircleShape();
         shape.setRadius(ballSprite.getWidth()/2);
+
         fixtureDef = new FixtureDef();
         fixtureDef.shape = shape;
         fixtureDef.density = .1f;     //плотность
-        fixtureDef.friction = 1.8f;    //трение
+        fixtureDef.friction = 0.18f;    //трение
         fixtureDef.restitution = .85f; //остаток энергии после столкновения
 
         refreshPosition();
+        startListener();
+    }
+
+    public void startListener(){
         addListener(actorGestureListener);
+    }
+
+    public void stopListener(){
+        this.actorGestureListener.getGestureDetector().cancel();
+        this.setTouchable(Touchable.disabled);
     }
 
     public void makeBody(World world){
@@ -91,6 +103,11 @@ public class BallActor extends Actor {
         super.setSize(width,height);
         ballSprite.setSize(width, height);
         ballSprite.setOriginCenter(); // для вращения вокруг своей оси
+        circle.setRadius(width/2);
+    }
+
+    public Circle getCircle(){
+        return circle;
     }
 
     @Override
@@ -102,6 +119,7 @@ public class BallActor extends Actor {
     public void setPosition(float x, float y) {
         super.setPosition(x - ballSprite.getWidth()/2, y - ballSprite.getHeight()/2);
         this.ballSprite.setPosition(x - ballSprite.getWidth()/2, y - ballSprite.getHeight()/2);
+        this.circle.setPosition(x - ballSprite.getWidth()/2, y - ballSprite.getHeight()/2);
     }
 
     public void refreshPosition(){
@@ -119,6 +137,7 @@ public class BallActor extends Actor {
         this.setPosition(this.body.getPosition().x, this.body.getPosition().y);
         angle += this.body.getAngularVelocity()*delta*Assets.PPM; //расчет угла поворота спрайта
         this.ballSprite.setRotation(angle);
+
     }
 
     @Override

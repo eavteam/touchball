@@ -11,6 +11,7 @@ import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.utils.viewport.FillViewport;
 import com.eavteam.touchball.TouchBallGame;
 import com.eavteam.touchball.actors.*;
@@ -29,6 +30,8 @@ public class PlayScreen implements Screen {
     private HardBox hardBox;
     private BlenderActor blenderActor;
 
+    private boolean trigger;
+
     // World settings
     private Box2DDebugRenderer debugRenderer;
     private final float TIMESTEP = 1/60f;
@@ -40,6 +43,8 @@ public class PlayScreen implements Screen {
         stage = new Stage(viewport);
         Gdx.input.setInputProcessor(stage);
         group = new Group();
+
+        trigger = true;
 
         // World initialization
         world = new World(new Vector2(0f, 0f), true);
@@ -73,7 +78,6 @@ public class PlayScreen implements Screen {
 
     @Override
     public void render(float delta) {
-//        Gdx.gl.glClearColor(Color.valueOf("07c15a").r, Color.valueOf("07c15a").g,Color.valueOf("07c15a").b, 1.0f);
         Gdx.gl.glClearColor(0.2f, 0.2f, 0.2f, 1f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
@@ -85,10 +89,17 @@ public class PlayScreen implements Screen {
 //        debugRenderer.render(world,stage.getViewport().getCamera().combined);
     }
 
-    public void update(float delta){
+    public void update(float delta) {
         this.stage.act(delta);
         if(Gdx.input.isKeyPressed(Input.Keys.ESCAPE))
             ((Game)Gdx.app.getApplicationListener()).setScreen(new DebugScreen(game));
+
+//        if(trigger) {
+//            if (!ball.getCircle().overlaps(round.getCircle())) {
+//                ball.stopListener();
+//                trigger = false;
+//            }
+//        }
     }
 
     @Override
