@@ -53,8 +53,7 @@ public class PlayScreen implements Screen {
 
         // Actors initialization
         background = new BackgroundActor();
-        ball = new BallActor();
-        ball.makeBody(world);
+        ball = new BallActor(world);
         round = new BallRoundActor();
         hardBox = new HardBox();
         hardBox.makeBody(world);
@@ -94,12 +93,12 @@ public class PlayScreen implements Screen {
         if(Gdx.input.isKeyPressed(Input.Keys.ESCAPE))
             ((Game)Gdx.app.getApplicationListener()).setScreen(new DebugScreen(game));
 
-//        if(trigger) {
-//            if (!ball.getCircle().overlaps(round.getCircle())) {
-//                ball.stopListener();
-//                trigger = false;
-//            }
-//        }
+        if(trigger) {
+            if (!ball.getCircle().overlaps(round.getCircle())) {
+                ball.stopListener();
+                trigger = false;
+            }
+        }
     }
 
     @Override

@@ -30,7 +30,7 @@ public class BlenderActor extends Actor {
         setStepChangeOfColor(12f);
         setSpeedChangeOfColor(70f);
         colorThreshold = 0.9f;
-        setAmountOfSections(MathUtils.random(25 , 38)); // устанавливаем количество секций в конструкции
+        setAmountOfSections(MathUtils.random(25 , 34)); // устанавливаем количество секций в конструкции
         buildCarcass(); // собираем конструкцию
         setSize(10f); // устанавливаем размер
         refreshPosition();

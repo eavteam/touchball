@@ -6,7 +6,10 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Circle;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
+import com.badlogic.gdx.physics.box2d.joints.MouseJoint;
+import com.badlogic.gdx.physics.box2d.joints.MouseJointDef;
 import com.badlogic.gdx.scenes.scene2d.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ActorGestureListener;
 import com.eavteam.touchball.common.Assets;
@@ -17,46 +20,52 @@ public class BallActor extends Actor {
     private Sprite ballSprite;
     private Circle circle;
     private float angle;
-    private BodyDef bodyDef;
+    private BodyDef bodyDef, bodyDef2;
     private FixtureDef fixtureDef;
-    private Body body;
-    private float velocityX, velocityY;
+    private MouseJointDef mouseJointDef;
+    private MouseJoint mouseJoint;
+    private Body body, body2;
+    private World world;
+    private Vector2 vector21, vector22;
 
     private static ActorGestureListener actorGestureListener = new ActorGestureListener(10/Assets.PPM, 0.4f, 1.1f, 0.15f){
 
         @Override
         public void touchDown(InputEvent event, float x, float y, int pointer, int button) {
             BallActor ball = (BallActor) event.getTarget();
-            ball.moveBy(x,y);
-            ball.body.setLinearVelocity(0,0);
-            ball.body.setAngularVelocity(0);
-            ball.velocityX = 0;ball.velocityY = 0;
+            ball.vector21.set(ball.getX() + x, ball.getY() + y);
+            ball.mouseJointDef.bodyB = ball.body;
+            ball.mouseJointDef.target.set(ball.vector21.x, ball.vector21.y);
+            ball.mouseJoint = (MouseJoint) ball.world.createJoint(ball.mouseJointDef);
         }
 
         @Override
         public void fling (InputEvent event, float velocityX, float velocityY, int button) {
-            BallActor ball = (BallActor) event.getTarget();
-            ball.velocityX = velocityX; ball.velocityY = velocityY;
         }
 
         @Override
         public void pan (InputEvent event, float x, float y, float deltaX, float deltaY) {
             BallActor ball = (BallActor) event.getTarget();
-            ball.moveBy(x,y);
+            if(ball.mouseJoint != null) ball.mouseJoint.setTarget(ball.vector22.set(ball.getX() + x, ball.getY() + y));
         }
 
         @Override
         public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
             BallActor ball = (BallActor) event.getTarget();
-            ball.body.setLinearVelocity(ball.velocityX,ball.velocityY); //сообщаем линейную скорось
-            ball.body.setLinearDamping(0.5f); //сообщаем замедление по линейной скорости
-            ball.body.setAngularDamping(1f); //сообщаем замедление по угловой скорости
+            if(ball.world.getJointCount() != 0) {
+                ball.world.destroyJoint(ball.mouseJoint);
+                ball.body.setLinearDamping(0.5f); //сообщаем замедление по линейной скорости
+                ball.body.setAngularDamping(1f); //сообщаем замедление по угловой скорости
+            }
         }
 
     };
 
+    public BallActor(World world){
+        this.world = world;
+        vector21 = new Vector2();
+        vector22 = new Vector2();
 
-    public BallActor(){
         circle = new Circle();
         ballSprite = new Sprite(Assets.manager.get(Assets.ball,Texture.class));
         ballSprite.setColor(new Color(1f, 0.2f, 1f, 1f));
@@ -75,22 +84,33 @@ public class BallActor extends Actor {
         fixtureDef.friction = 0.18f;    //трение
         fixtureDef.restitution = .85f; //остаток энергии после столкновения
 
+        body = this.world.createBody(this.bodyDef);
+        body.createFixture(this.fixtureDef).setUserData(this.ballSprite);
+
+        bodyDef2 = new BodyDef();
+        bodyDef2.type = BodyDef.BodyType.StaticBody;
+        body2 = this.world.createBody(this.bodyDef2);
+        mouseJointDef = new MouseJointDef();
+        mouseJointDef.collideConnected = true;
+        mouseJointDef.maxForce = 1000;
+        mouseJointDef.bodyA = body2;
+
         refreshPosition();
         startListener();
     }
 
     public void startListener(){
-        addListener(actorGestureListener);
+        this.addListener(actorGestureListener);
     }
 
     public void stopListener(){
+        if(this.world.getJointCount() != 0){
+            this.world.destroyJoint(this.mouseJoint);
+            this.body.setLinearDamping(0.5f); //сообщаем замедление по линейной скорости
+            this.body.setAngularDamping(1f); //сообщаем замедление по угловой скорости
+        }
         this.actorGestureListener.getGestureDetector().cancel();
         this.setTouchable(Touchable.disabled);
-    }
-
-    public void makeBody(World world){
-        body = world.createBody(this.bodyDef);
-        body.createFixture(this.fixtureDef).setUserData(this.ballSprite);
     }
 
     //размер задается в % от высоты дисплея
