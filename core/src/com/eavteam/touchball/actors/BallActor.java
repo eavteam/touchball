@@ -1,11 +1,14 @@
 package com.eavteam.touchball.actors;
 
+import aurelienribon.tweenengine.Tween;
+import aurelienribon.tweenengine.TweenManager;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Circle;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.physics.box2d.joints.MouseJoint;
@@ -13,6 +16,7 @@ import com.badlogic.gdx.physics.box2d.joints.MouseJointDef;
 import com.badlogic.gdx.scenes.scene2d.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ActorGestureListener;
 import com.eavteam.touchball.common.Assets;
+import com.eavteam.touchball.tween.ActorAccessor;
 
 
 public class BallActor extends Actor {
@@ -20,6 +24,7 @@ public class BallActor extends Actor {
     private Sprite ballSprite;
     private Circle circle;
     private float angle;
+    private float percent;
     private BodyDef bodyDef, bodyDef2;
     private FixtureDef fixtureDef;
     private MouseJointDef mouseJointDef;
@@ -27,15 +32,15 @@ public class BallActor extends Actor {
     private Body body, body2;
     private World world;
     private Vector2 vector21, vector22;
+    private TweenManager tweenManager;
 
     private static ActorGestureListener actorGestureListener = new ActorGestureListener(10/Assets.PPM, 0.4f, 1.1f, 0.15f){
 
         @Override
         public void touchDown(InputEvent event, float x, float y, int pointer, int button) {
             BallActor ball = (BallActor) event.getTarget();
-            ball.vector21.set(ball.getX() + x, ball.getY() + y);
             ball.mouseJointDef.bodyB = ball.body;
-            ball.mouseJointDef.target.set(ball.vector21.x, ball.vector21.y);
+            ball.mouseJointDef.target.set(ball.vector21.set(ball.body.getPosition()));
             ball.mouseJoint = (MouseJoint) ball.world.createJoint(ball.mouseJointDef);
         }
 
@@ -54,7 +59,7 @@ public class BallActor extends Actor {
             BallActor ball = (BallActor) event.getTarget();
             if(ball.world.getJointCount() != 0) {
                 ball.world.destroyJoint(ball.mouseJoint);
-                ball.body.setLinearDamping(0.5f); //сообщаем замедление по линейной скорости
+                ball.body.setLinearDamping(1f); //сообщаем замедление по линейной скорости
                 ball.body.setAngularDamping(1f); //сообщаем замедление по угловой скорости
             }
         }
@@ -77,15 +82,14 @@ public class BallActor extends Actor {
         bodyDef.position.set((Gdx.graphics.getWidth() / 2) / Assets.PPM, (Gdx.graphics.getHeight() / 2) / Assets.PPM);
         CircleShape shape = new CircleShape();
         shape.setRadius(ballSprite.getWidth()/2);
-
         fixtureDef = new FixtureDef();
         fixtureDef.shape = shape;
         fixtureDef.density = .1f;     //плотность
         fixtureDef.friction = 0.18f;    //трение
         fixtureDef.restitution = .85f; //остаток энергии после столкновения
-
         body = this.world.createBody(this.bodyDef);
         body.createFixture(this.fixtureDef).setUserData(this.ballSprite);
+        shape.dispose();
 
         bodyDef2 = new BodyDef();
         bodyDef2.type = BodyDef.BodyType.StaticBody;
@@ -97,6 +101,7 @@ public class BallActor extends Actor {
 
         refreshPosition();
         startListener();
+        tweenManager = new TweenManager();
     }
 
     public void startListener(){
@@ -106,16 +111,30 @@ public class BallActor extends Actor {
     public void stopListener(){
         if(this.world.getJointCount() != 0){
             this.world.destroyJoint(this.mouseJoint);
-            this.body.setLinearDamping(0.5f); //сообщаем замедление по линейной скорости
+            this.body.setLinearDamping(1f); //сообщаем замедление по линейной скорости
             this.body.setAngularDamping(1f); //сообщаем замедление по угловой скорости
         }
         this.actorGestureListener.getGestureDetector().cancel();
         this.setTouchable(Touchable.disabled);
     }
 
+    public Body getBody(){
+        return this.body;
+    }
+
     //размер задается в % от высоты дисплея
     public void setSize(float percent){
+        this.percent = percent;
         this.setSize((Gdx.graphics.getHeight() * percent / 100) / Assets.PPM, (Gdx.graphics.getHeight() * percent / 100) / Assets.PPM);
+    }
+
+    public float getSize(){ return percent;}
+
+    public void atata(){
+
+        Tween.registerAccessor(Actor.class,new ActorAccessor());
+        Tween.set(this,ActorAccessor.BALLSIZE).target(4).start(tweenManager);
+        Tween.to(this,ActorAccessor.BALLSIZE,1).target(1).start(tweenManager);
     }
 
     @Override
@@ -155,9 +174,9 @@ public class BallActor extends Actor {
     public void act(float delta) {
         super.act(delta);
         this.setPosition(this.body.getPosition().x, this.body.getPosition().y);
-        angle += this.body.getAngularVelocity()*delta*Assets.PPM; //расчет угла поворота спрайта
+        angle += this.body.getAngularVelocity()*delta*MathUtils.radiansToDegrees; //расчет угла поворота спрайта
         this.ballSprite.setRotation(angle);
-
+        tweenManager.update(delta);
     }
 
     @Override

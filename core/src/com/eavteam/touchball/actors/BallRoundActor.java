@@ -8,13 +8,9 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Circle;
-import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.actions.ScaleToAction;
 import com.eavteam.touchball.common.Assets;
 import com.eavteam.touchball.tween.ActorAccessor;
-
-import java.util.Iterator;
 
 public class BallRoundActor extends Actor {
 
@@ -37,8 +33,8 @@ public class BallRoundActor extends Actor {
         tweenManager = new TweenManager();
         Tween.registerAccessor(Actor.class,new ActorAccessor());
 
-        Tween.set(this,ActorAccessor.SIZE).target(70).start(tweenManager);
-        Tween.to(this,ActorAccessor.SIZE,1).target(20).start(tweenManager);
+        Tween.set(this,ActorAccessor.BALLROUNDSIZE).target(70).start(tweenManager);
+        Tween.to(this,ActorAccessor.BALLROUNDSIZE,1).target(20).start(tweenManager);
     }
     @Override
     public void setPosition(float centerX, float centerY){
