@@ -13,7 +13,7 @@ import com.eavteam.touchball.screens.OpeningScreen;
 public class TouchBallGame extends Game {
 
 	public static final String TITLE = "Touch Ball";
-	public static final String VERSION = "0.0001";
+	public static final String VERSION = "0.0002";
 	public static MyProperties p;
 	private SpriteBatch batch;
 	private BitmapFont font;

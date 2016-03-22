@@ -45,7 +45,7 @@ public class TargetActor extends Actor {
         mouseJointDef = new MouseJointDef();
         mouseJointDef.bodyA = body;
         mouseJointDef.collideConnected = true;
-        mouseJointDef.maxForce = 2;
+        mouseJointDef.maxForce = 3;
 
         tweenManager = new TweenManager();
         Tween.registerAccessor(Actor.class,new ActorAccessor());

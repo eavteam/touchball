@@ -142,6 +142,7 @@ public class BallActor extends Actor {
         ballSprite.setSize(width, height);
         ballSprite.setOriginCenter(); // для вращения вокруг своей оси
         circle.setRadius(width/2);
+        this.setPosition(circle.x, circle.y);
     }
 
     public Circle getCircle(){
@@ -154,10 +155,10 @@ public class BallActor extends Actor {
     }
 
     @Override
-    public void setPosition(float x, float y) {
-        super.setPosition(x - ballSprite.getWidth()/2, y - ballSprite.getHeight()/2);
-        this.ballSprite.setPosition(x - ballSprite.getWidth()/2, y - ballSprite.getHeight()/2);
-        this.circle.setPosition(x - ballSprite.getWidth()/2, y - ballSprite.getHeight()/2);
+    public void setPosition(float centerX, float centerY) {
+        super.setPosition(centerX - ballSprite.getWidth()/2, centerY - ballSprite.getHeight()/2);
+        this.ballSprite.setPosition(centerX - ballSprite.getWidth()/2, centerY - ballSprite.getHeight()/2);
+        this.circle.setPosition(centerX, centerY);
     }
 
     public void refreshPosition(){
