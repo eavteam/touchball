@@ -131,10 +131,9 @@ public class BallActor extends Actor {
     public float getSize(){ return percent;}
 
     public void atata(){
-
         Tween.registerAccessor(Actor.class,new ActorAccessor());
-        Tween.set(this,ActorAccessor.BALLSIZE).target(4).start(tweenManager);
-        Tween.to(this,ActorAccessor.BALLSIZE,1).target(1).start(tweenManager);
+        Tween.set(this,ActorAccessor.BALLSIZE).target(this.percent).start(tweenManager);
+        Tween.to(this,ActorAccessor.BALLSIZE,1).target(0).start(tweenManager);
     }
 
     @Override

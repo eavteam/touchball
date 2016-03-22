@@ -1,5 +1,7 @@
 package com.eavteam.touchball.actors;
 
+import aurelienribon.tweenengine.Tween;
+import aurelienribon.tweenengine.TweenManager;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
@@ -12,6 +14,7 @@ import com.badlogic.gdx.physics.box2d.joints.MouseJoint;
 import com.badlogic.gdx.physics.box2d.joints.MouseJointDef;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.eavteam.touchball.common.Assets;
+import com.eavteam.touchball.tween.ActorAccessor;
 
 public class TargetActor extends Actor {
     private Sprite targetSprite;
@@ -23,6 +26,8 @@ public class TargetActor extends Actor {
     private MouseJoint mouseJoint;
     private World world;
     private Circle circle;
+    private float percent;
+    private TweenManager tweenManager;
 
     public TargetActor(World world){
         this.world = world;
@@ -33,6 +38,19 @@ public class TargetActor extends Actor {
         setBounds(targetSprite.getX(),targetSprite.getY(),targetSprite.getWidth(),targetSprite.getHeight());
         refreshPosition();
         setSpeedOfRotation(300f);
+
+        bodyDef = new BodyDef();
+        bodyDef.type = BodyDef.BodyType.StaticBody;
+        body = this.world.createBody(bodyDef);
+        mouseJointDef = new MouseJointDef();
+        mouseJointDef.bodyA = body;
+        mouseJointDef.collideConnected = true;
+        mouseJointDef.maxForce = 2;
+
+        tweenManager = new TweenManager();
+        Tween.registerAccessor(Actor.class,new ActorAccessor());
+        Tween.set(this,ActorAccessor.TARGETSIZE).target(0).start(tweenManager);
+        Tween.to(this,ActorAccessor.TARGETSIZE,1).target(this.percent).start(tweenManager);
     }
 
     private void setSpeedOfRotation(float speedOfRotation){
@@ -44,15 +62,7 @@ public class TargetActor extends Actor {
     }
 
     public void atata(Body bodyIn){
-        this.bodyDef = new BodyDef();
-        this.bodyDef.type = BodyDef.BodyType.StaticBody;
-        this.body = this.world.createBody(this.bodyDef);
-
-        this.mouseJointDef = new MouseJointDef();
-        this.mouseJointDef.bodyA = this.body;
         this.mouseJointDef.bodyB = bodyIn;
-        this.mouseJointDef.collideConnected = true;
-        this.mouseJointDef.maxForce = 2;
         this.mouseJointDef.target.set(bodyIn.getPosition());
         this.mouseJoint = (MouseJoint) this.world.createJoint(this.mouseJointDef);
         this.mouseJoint.setTarget(new Vector2(targetSprite.getX() + targetSprite.getWidth()/2, targetSprite.getY() + targetSprite.getHeight()/2));
@@ -60,8 +70,11 @@ public class TargetActor extends Actor {
 
     //размер задается в % от высоты дисплея
     public void setSize(float percent){
+        this.percent = percent;
         this.setSize((Gdx.graphics.getHeight() * percent / 100) / Assets.PPM, (Gdx.graphics.getHeight() * percent / 100) / Assets.PPM);
     }
+
+    public float getSize(){ return percent;}
 
     @Override
     public void setSize(float width, float height) {
@@ -69,6 +82,7 @@ public class TargetActor extends Actor {
         targetSprite.setSize(width, height);
         targetSprite.setOriginCenter(); // для вращения вокруг своей оси
         this.circle.setRadius(width / 2);
+        this.setPosition(this.circle.x, this.circle.y);
     }
 
     //TODO add random position
@@ -77,10 +91,10 @@ public class TargetActor extends Actor {
     }
 
     @Override
-    public void setPosition(float x, float y) {
-        super.setPosition(x - targetSprite.getWidth()/2, y - targetSprite.getHeight()/2);
-        this.targetSprite.setPosition(x - targetSprite.getWidth()/2, y - targetSprite.getHeight()/2);
-        this.circle.setPosition(x - targetSprite.getWidth()/2, y - targetSprite.getHeight()/2);
+    public void setPosition(float centerX, float centerY) {
+        super.setPosition(centerX - targetSprite.getWidth()/2, centerY - targetSprite.getHeight()/2);
+        this.targetSprite.setPosition(centerX - targetSprite.getWidth()/2, centerY - targetSprite.getHeight()/2);
+        this.circle.setPosition(centerX, centerY);
     }
 
     @Override
@@ -94,6 +108,7 @@ public class TargetActor extends Actor {
         super.act(delta);
         angle -= delta*speedOfRotation;
         targetSprite.setRotation(angle);
+        tweenManager.update(delta);
     }
 
     @Override
