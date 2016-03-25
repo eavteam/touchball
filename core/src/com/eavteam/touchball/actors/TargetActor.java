@@ -10,9 +10,6 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.*;
-import com.badlogic.gdx.physics.box2d.joints.MouseJoint;
-import com.badlogic.gdx.physics.box2d.joints.MouseJointDef;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.eavteam.touchball.common.Assets;
 import com.eavteam.touchball.tween.ActorAccessor;
@@ -21,15 +18,19 @@ public class TargetActor extends Actor {
     private Sprite targetSprite;
     private float angle;
     private float speedOfRotation;
-    private Circle circle;
+    private Circle circle, circle2;
+    private static final float size = 6;
     private float percent;
     private TweenManager tweenManager;
 
     public TargetActor(){
         circle = new Circle();
+        circle2 = new Circle();
+        circle2.setPosition((Gdx.graphics.getWidth() / 2) / Assets.PPM, (Gdx.graphics.getHeight() / 2) / Assets.PPM);
+        circle2.radius = (Gdx.graphics.getHeight() * 4 * 10 / 200) / Assets.PPM;
         targetSprite = new Sprite(Assets.manager.get(Assets.target, Texture.class));
         targetSprite.setColor(Color.RED);
-        setSize(6f);
+        setSize(size);
         setBounds(targetSprite.getX(),targetSprite.getY(),targetSprite.getWidth(),targetSprite.getHeight());
         refreshPosition();
         setSpeedOfRotation(300f);
@@ -37,7 +38,7 @@ public class TargetActor extends Actor {
         tweenManager = new TweenManager();
         Tween.registerAccessor(Actor.class,new ActorAccessor());
         Tween.set(this,ActorAccessor.TARGETSIZE).target(0).start(tweenManager);
-        Tween.to(this,ActorAccessor.TARGETSIZE,1).target(this.percent).start(tweenManager);
+        Tween.to(this,ActorAccessor.TARGETSIZE,1).target(size).start(tweenManager);
     }
 
     private void setSpeedOfRotation(float speedOfRotation){
@@ -67,9 +68,13 @@ public class TargetActor extends Actor {
 
     //TODO add random position
     public void refreshPosition(){
-//        this.setPosition(MathUtils.random(this.circle.radius, (float)Gdx.graphics.getWidth() - this.circle.radius),
-//                MathUtils.random(this.circle.radius, (float)Gdx.graphics.getHeight() - this.circle.radius));
-        setPosition(((Gdx.graphics.getWidth() - 300) / 2)/Assets.PPM, ( (Gdx.graphics.getHeight() + 500) / 2)/Assets.PPM);
+        float radius = (Gdx.graphics.getHeight() * this.size / 200) / Assets.PPM;
+        float x = MathUtils.random(radius, Gdx.graphics.getWidth() / Assets.PPM - radius);
+        float y = MathUtils.random(radius, Gdx.graphics.getHeight() / Assets.PPM - radius);
+        if(this.circle2.overlaps(new Circle(x, y, radius))){
+            this.refreshPosition();
+        }else{
+            this.setPosition( x, y);}
     }
 
     @Override
@@ -105,9 +110,10 @@ public class TargetActor extends Actor {
 
     public void refresh(){
         tweenManager.killAll();
-        Tween.set(this,ActorAccessor.TARGETSIZE).target(0).start(tweenManager);
-        Tween.to(this,ActorAccessor.TARGETSIZE,1).target(this.percent).start(tweenManager);
+        this.setSize(0);
         refreshPosition();
+        Tween.set(this,ActorAccessor.TARGETSIZE).target(0).start(tweenManager);
+        Tween.to(this,ActorAccessor.TARGETSIZE,1).target(this.size).start(tweenManager);
     }
 
 }

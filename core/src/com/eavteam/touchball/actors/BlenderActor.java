@@ -34,7 +34,7 @@ public class BlenderActor extends Actor {
         buildCarcass(); // собираем конструкцию
         setSize(10f); // устанавливаем размер
         refreshPosition();
-        setSpeedOfRotation(30f);
+        setSpeedOfRotation(50f);
         angleOfRotation = MathUtils.random(0 , 360);
         changeColorThreshold(0.3f);
     }
