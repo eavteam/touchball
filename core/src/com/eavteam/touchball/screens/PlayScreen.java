@@ -24,10 +24,10 @@ public class PlayScreen implements Screen {
     private Group group;
     private BackgroundActor background;
     private BallActor ball;
-    private BallRoundActor round;
-    private HardBox hardBox;
     private BlenderActor blenderActor;
     private TargetActor target;
+    private BallRoundActor round;
+    private HardBox hardBox;
 
     private boolean trigger;
     private boolean trigger2;
@@ -60,7 +60,7 @@ public class PlayScreen implements Screen {
         hardBox.makeBody(world);
         blenderActor = new BlenderActor();
         blenderActor.makeBody(world);
-        target = new TargetActor(world);
+        target = new TargetActor();
 
         // Group form
 //        group.addActor(background);
@@ -99,7 +99,7 @@ public class PlayScreen implements Screen {
         //TODO rewrite this shit
         if(!trigger) {
             if ((ball.getBody().getLinearVelocity().x == 0) && (ball.getBody().getLinearVelocity().y == 0)) {
-                ((Game) Gdx.app.getApplicationListener()).setScreen(new PlayScreen(game));
+                this.refresh();
             }
         }
         if(trigger) {
@@ -110,11 +110,18 @@ public class PlayScreen implements Screen {
         }
         if(trigger2){
             if(ball.getCircle().overlaps(target.getCircle())){
-                target.atata(ball.getBody());
-                ball.atata();
+                ball.atata(target.getCircle().x, target.getCircle().y);
                 trigger2 = false;
             }
         }
+    }
+
+    private void refresh() {
+        ball.refresh();
+        target.refresh();
+        trigger = true;
+        trigger2 = true;
+        this.blenderActor = new BlenderActor();
     }
 
     @Override
@@ -134,7 +141,7 @@ public class PlayScreen implements Screen {
 
     @Override
     public void hide() {
-
+        pause();
     }
 
     @Override

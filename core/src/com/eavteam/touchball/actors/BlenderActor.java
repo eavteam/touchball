@@ -195,4 +195,7 @@ public class BlenderActor extends Actor {
     public boolean remove() {
         return super.remove();
     }
+
+    public void refresh(){
+    }
 }

@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Circle;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.physics.box2d.joints.MouseJoint;
@@ -20,17 +21,11 @@ public class TargetActor extends Actor {
     private Sprite targetSprite;
     private float angle;
     private float speedOfRotation;
-    private Body body;
-    private BodyDef bodyDef;
-    private MouseJointDef mouseJointDef;
-    private MouseJoint mouseJoint;
-    private World world;
     private Circle circle;
     private float percent;
     private TweenManager tweenManager;
 
-    public TargetActor(World world){
-        this.world = world;
+    public TargetActor(){
         circle = new Circle();
         targetSprite = new Sprite(Assets.manager.get(Assets.target, Texture.class));
         targetSprite.setColor(Color.RED);
@@ -38,14 +33,6 @@ public class TargetActor extends Actor {
         setBounds(targetSprite.getX(),targetSprite.getY(),targetSprite.getWidth(),targetSprite.getHeight());
         refreshPosition();
         setSpeedOfRotation(300f);
-
-        bodyDef = new BodyDef();
-        bodyDef.type = BodyDef.BodyType.StaticBody;
-        body = this.world.createBody(bodyDef);
-        mouseJointDef = new MouseJointDef();
-        mouseJointDef.bodyA = body;
-        mouseJointDef.collideConnected = true;
-        mouseJointDef.maxForce = 3;
 
         tweenManager = new TweenManager();
         Tween.registerAccessor(Actor.class,new ActorAccessor());
@@ -59,13 +46,6 @@ public class TargetActor extends Actor {
 
     public Circle getCircle(){
         return this.circle;
-    }
-
-    public void atata(Body bodyIn){
-        this.mouseJointDef.bodyB = bodyIn;
-        this.mouseJointDef.target.set(bodyIn.getPosition());
-        this.mouseJoint = (MouseJoint) this.world.createJoint(this.mouseJointDef);
-        this.mouseJoint.setTarget(new Vector2(targetSprite.getX() + targetSprite.getWidth()/2, targetSprite.getY() + targetSprite.getHeight()/2));
     }
 
     //размер задается в % от высоты дисплея
@@ -87,6 +67,8 @@ public class TargetActor extends Actor {
 
     //TODO add random position
     public void refreshPosition(){
+//        this.setPosition(MathUtils.random(this.circle.radius, (float)Gdx.graphics.getWidth() - this.circle.radius),
+//                MathUtils.random(this.circle.radius, (float)Gdx.graphics.getHeight() - this.circle.radius));
         setPosition(((Gdx.graphics.getWidth() - 300) / 2)/Assets.PPM, ( (Gdx.graphics.getHeight() + 500) / 2)/Assets.PPM);
     }
 
@@ -119,6 +101,13 @@ public class TargetActor extends Actor {
     @Override
     public boolean remove() {
         return super.remove();
+    }
+
+    public void refresh(){
+        tweenManager.killAll();
+        Tween.set(this,ActorAccessor.TARGETSIZE).target(0).start(tweenManager);
+        Tween.to(this,ActorAccessor.TARGETSIZE,1).target(this.percent).start(tweenManager);
+        refreshPosition();
     }
 
 }

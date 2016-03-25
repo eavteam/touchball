@@ -39,7 +39,7 @@ public class BallActor extends Actor {
         @Override
         public void touchDown(InputEvent event, float x, float y, int pointer, int button) {
             BallActor ball = (BallActor) event.getTarget();
-            ball.mouseJointDef.bodyB = ball.body;
+            ball.mouseJointDef.maxForce = 1000;
             ball.mouseJointDef.target.set(ball.vector21.set(ball.body.getPosition()));
             ball.mouseJoint = (MouseJoint) ball.world.createJoint(ball.mouseJointDef);
         }
@@ -72,6 +72,7 @@ public class BallActor extends Actor {
         vector22 = new Vector2();
 
         circle = new Circle();
+        Assets.manager.load(Assets.ball, Texture.class);
         ballSprite = new Sprite(Assets.manager.get(Assets.ball,Texture.class));
         ballSprite.setColor(new Color(1f, 0.2f, 1f, 1f));
         setSize(4);
@@ -95,9 +96,9 @@ public class BallActor extends Actor {
         bodyDef2.type = BodyDef.BodyType.StaticBody;
         body2 = this.world.createBody(this.bodyDef2);
         mouseJointDef = new MouseJointDef();
-        mouseJointDef.collideConnected = true;
-        mouseJointDef.maxForce = 1000;
+        mouseJointDef.collideConnected = false;
         mouseJointDef.bodyA = body2;
+        mouseJointDef.bodyB = body;
 
         refreshPosition();
         startListener();
@@ -106,6 +107,8 @@ public class BallActor extends Actor {
 
     public void startListener(){
         this.addListener(actorGestureListener);
+        this.setTouchable(Touchable.enabled);
+        this.actorGestureListener.getGestureDetector().reset();
     }
 
     public void stopListener(){
@@ -130,7 +133,11 @@ public class BallActor extends Actor {
 
     public float getSize(){ return percent;}
 
-    public void atata(){
+    public void atata(float targetX, float targetY){
+        this.mouseJointDef.maxForce = 3;
+        this.mouseJointDef.target.set(this.vector21.set(this.body.getPosition()));
+        this.mouseJoint = (MouseJoint) this.world.createJoint(this.mouseJointDef);
+        if(this.mouseJoint != null) this.mouseJoint.setTarget(this.vector22.set(targetX, targetY));
         Tween.registerAccessor(Actor.class,new ActorAccessor());
         Tween.set(this,ActorAccessor.BALLSIZE).target(this.percent).start(tweenManager);
         Tween.to(this,ActorAccessor.BALLSIZE,1).target(0).start(tweenManager);
@@ -163,6 +170,7 @@ public class BallActor extends Actor {
 
     public void refreshPosition(){
         setPosition((Gdx.graphics.getWidth() / 2)/Assets.PPM, (Gdx.graphics.getHeight() / 2)/Assets.PPM);
+        this.body.setTransform((Gdx.graphics.getWidth() / 2)/Assets.PPM, (Gdx.graphics.getHeight() / 2)/Assets.PPM , 0);
     }
 
     @Override
@@ -187,6 +195,16 @@ public class BallActor extends Actor {
     @Override
     public boolean remove() {
         return super.remove();
+    }
+
+    public void refresh(){
+        tweenManager.killAll();
+        this.setSize(0);
+        if(this.world.getJointCount() != 0) this.world.destroyJoint(this.mouseJoint);
+        Tween.set(this,ActorAccessor.BALLSIZE).target(0).start(tweenManager);
+        Tween.to(this,ActorAccessor.BALLSIZE,1).target(4).start(tweenManager);
+        refreshPosition();
+        this.startListener();
     }
 
 }
