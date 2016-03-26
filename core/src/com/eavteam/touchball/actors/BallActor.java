@@ -20,11 +20,11 @@ import com.eavteam.touchball.tween.ActorAccessor;
 
 
 public class BallActor extends Actor {
-
+    public final static float size = 4;
     private Sprite ballSprite;
     private Circle circle;
     private float angle;
-    private float percent;
+    private float sizeForTween;
     private BodyDef bodyDef, bodyDef2;
     private FixtureDef fixtureDef;
     private MouseJointDef mouseJointDef;
@@ -75,7 +75,7 @@ public class BallActor extends Actor {
         Assets.manager.load(Assets.ball, Texture.class);
         ballSprite = new Sprite(Assets.manager.get(Assets.ball,Texture.class));
         ballSprite.setColor(new Color(1f, 0.2f, 1f, 1f));
-        setSize(4);
+        setSize(size);
         setBounds(ballSprite.getX(),ballSprite.getY(),ballSprite.getWidth(),ballSprite.getHeight());
 
         bodyDef = new BodyDef();
@@ -126,12 +126,12 @@ public class BallActor extends Actor {
     }
 
     //размер задается в % от высоты дисплея
-    public void setSize(float percent){
-        this.percent = percent;
-        this.setSize((Gdx.graphics.getHeight() * percent / 100) / Assets.PPM, (Gdx.graphics.getHeight() * percent / 100) / Assets.PPM);
+    public void setSize(float sizeInPercent){
+        this.sizeForTween = sizeInPercent;
+        this.setSize((Gdx.graphics.getHeight() * sizeInPercent / 100) / Assets.PPM, (Gdx.graphics.getHeight() * sizeInPercent / 100) / Assets.PPM);
     }
 
-    public float getSize(){ return percent;}
+    public float getSize(){ return sizeForTween;}
 
     public void atata(float targetX, float targetY){
         this.mouseJointDef.maxForce = 3;
@@ -139,7 +139,7 @@ public class BallActor extends Actor {
         this.mouseJoint = (MouseJoint) this.world.createJoint(this.mouseJointDef);
         if(this.mouseJoint != null) this.mouseJoint.setTarget(this.vector22.set(targetX, targetY));
         Tween.registerAccessor(Actor.class,new ActorAccessor());
-        Tween.set(this,ActorAccessor.BALLSIZE).target(this.percent).start(tweenManager);
+        Tween.set(this,ActorAccessor.BALLSIZE).target(this.size).start(tweenManager);
         Tween.to(this,ActorAccessor.BALLSIZE,1).target(0).start(tweenManager);
     }
 
@@ -202,7 +202,7 @@ public class BallActor extends Actor {
         this.setSize(0);
         if(this.world.getJointCount() != 0) this.world.destroyJoint(this.mouseJoint);
         Tween.set(this,ActorAccessor.BALLSIZE).target(0).start(tweenManager);
-        Tween.to(this,ActorAccessor.BALLSIZE,1).target(4).start(tweenManager);
+        Tween.to(this,ActorAccessor.BALLSIZE,1).target(this.size).start(tweenManager);
         refreshPosition();
         this.startListener();
     }

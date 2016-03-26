@@ -24,7 +24,7 @@ public class PlayScreen implements Screen {
     private Group group;
     private BackgroundActor background;
     private BallActor ball;
-    private BlenderActor blenderActor;
+    private BlenderActor blender;
     private TargetActor target;
     private BallRoundActor round;
     private HardBox hardBox;
@@ -56,17 +56,15 @@ public class PlayScreen implements Screen {
         background = new BackgroundActor();
         ball = new BallActor(world);
         round = new BallRoundActor();
-        hardBox = new HardBox();
-        hardBox.makeBody(world);
-        blenderActor = new BlenderActor();
-        blenderActor.makeBody(world);
+        hardBox = new HardBox(world);
+        blender = new BlenderActor(world);
         target = new TargetActor();
 
         // Group form
 //        group.addActor(background);
         group.addActor(target);
         group.addActor(round);
-        group.addActor(blenderActor);
+        group.addActor(blender);
         group.addActor(ball);
         group.addActor(hardBox);
 
@@ -96,7 +94,7 @@ public class PlayScreen implements Screen {
         if(Gdx.input.isKeyPressed(Input.Keys.ESCAPE))
             ((Game)Gdx.app.getApplicationListener()).setScreen(new DebugScreen(game));
 
-        //TODO rewrite this shit
+
         if(!trigger) {
             if ((ball.getBody().getLinearVelocity().x == 0) && (ball.getBody().getLinearVelocity().y == 0)) {
                 this.refresh();
@@ -119,9 +117,10 @@ public class PlayScreen implements Screen {
     private void refresh() {
         ball.refresh();
         target.refresh();
+        blender.refresh();
+        round.refresh();
         trigger = true;
         trigger2 = true;
-        this.blenderActor = new BlenderActor();
     }
 
     @Override

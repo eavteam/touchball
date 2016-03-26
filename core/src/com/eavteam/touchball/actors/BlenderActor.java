@@ -13,6 +13,7 @@ import com.eavteam.touchball.common.Assets;
 
 
 public class BlenderActor extends Actor {
+    public static final float size = 40;
     private BodyDef bodyDef;
     private FixtureDef fixtureDef;
     private Body[] body;
@@ -23,16 +24,16 @@ public class BlenderActor extends Actor {
     private float stepChangeOfColor; //шаг изменения цвета
     private float speedChangeOfColor; //скорость изменения цвета
     private float colorThreshold; // насыщенность цвета в диапазоне(0.3f - 1f)
+    private World world;
     boolean[] changeR; boolean[] changeG; boolean[] changeB;
     float x; // кто так программирует? бла бла бла
 
-    public BlenderActor(){
+    public BlenderActor(World world){
+        this.world = world;
         setStepChangeOfColor(12f);
         setSpeedChangeOfColor(70f);
         colorThreshold = 0.9f;
-        setAmountOfSections(MathUtils.random(25 , 34)); // устанавливаем количество секций в конструкции
         buildCarcass(); // собираем конструкцию
-        setSize(10f); // устанавливаем размер
         refreshPosition();
         setSpeedOfRotation(50f);
         angleOfRotation = MathUtils.random(0 , 360);
@@ -65,6 +66,7 @@ public class BlenderActor extends Actor {
     }
 
     private void buildCarcass(){
+        setAmountOfSections(MathUtils.random(25 , 34)); // устанавливаем количество секций в конструкции
         body = new Body[amountOfSections];
         blenderSection = new Sprite[amountOfSections];
         changeR = new boolean[amountOfSections];
@@ -88,6 +90,31 @@ public class BlenderActor extends Actor {
             if(changeB){g += (colorThreshold / stepChangeOfColor); b -= (colorThreshold / stepChangeOfColor);}}}
             blenderSection[i].setColor(new Color(r, g, b, 1f));
             setBounds(blenderSection[i].getX(), blenderSection[i].getY(), blenderSection[i].getWidth(), blenderSection[i].getHeight());
+        }
+        setSize(this.size); // устанавливаем размер
+        makeBody();
+    }
+
+    private void makeBody(){
+        bodyDef = new BodyDef();
+        bodyDef.type = BodyDef.BodyType.StaticBody;
+        bodyDef.position.set(blenderSection[0].getX() + blenderSection[0].getWidth()/2 , blenderSection[0].getY() + blenderSection[0].getHeight() - blenderSection[0].getHeight()/30);
+
+        PolygonShape shape = new PolygonShape();
+        shape.setAsBox(blenderSection[0].getWidth()/6, blenderSection[0].getHeight()/30);
+        fixtureDef = new FixtureDef();
+        fixtureDef.shape = shape ;
+        fixtureDef.friction = 1.2f;
+        fixtureDef.restitution = 0;
+        for(int i = 0; i < amountOfSections; i++) {
+            body[i] = this.world.createBody(bodyDef);
+            body[i].createFixture(fixtureDef);
+        }
+    }
+
+    private void destroyCarcass(){
+        for(int i = 0; i < amountOfSections; i++) {
+            this.world.destroyBody(body[i]);
         }
     }
 
@@ -123,26 +150,9 @@ public class BlenderActor extends Actor {
         return new Vector2(x,y);
     }
 
-    public void makeBody(World world){
-        bodyDef = new BodyDef();
-        bodyDef.type = BodyDef.BodyType.StaticBody;
-        bodyDef.position.set(blenderSection[0].getX() + blenderSection[0].getWidth()/2 , blenderSection[0].getY() + blenderSection[0].getHeight() - blenderSection[0].getHeight()/30);
-
-        PolygonShape shape = new PolygonShape();
-        shape.setAsBox(blenderSection[0].getWidth()/6, blenderSection[0].getHeight()/30);
-        fixtureDef = new FixtureDef();
-        fixtureDef.shape = shape ;
-        fixtureDef.friction = 1.2f;
-        fixtureDef.restitution = 0;
-        for(int i = 0; i < amountOfSections; i++) {
-            body[i] = world.createBody(bodyDef);
-            body[i].createFixture(fixtureDef);
-        }
-    }
-
     //размер задается в % от высоты дисплея
-    public void setSize(float percent){
-        this.setSize((Gdx.graphics.getHeight() * percent / 100) / Assets.PPM, (Gdx.graphics.getHeight() * 4 * percent / 100) / Assets.PPM);
+    public void setSize(float sizeInPercent){
+        this.setSize((Gdx.graphics.getHeight() * sizeInPercent / 400) / Assets.PPM, (Gdx.graphics.getHeight() * sizeInPercent / 100) / Assets.PPM);
     }
 
     @Override
@@ -197,5 +207,10 @@ public class BlenderActor extends Actor {
     }
 
     public void refresh(){
+        destroyCarcass(); // разрушаем конструкцию
+        buildCarcass(); // собираем конструкцию
+        refreshPosition();
+        changeColorThreshold(0.3f);
+        angleOfRotation = MathUtils.random(0 , 360);
     }
 }

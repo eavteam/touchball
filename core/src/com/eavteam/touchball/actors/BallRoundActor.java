@@ -13,10 +13,10 @@ import com.eavteam.touchball.common.Assets;
 import com.eavteam.touchball.tween.ActorAccessor;
 
 public class BallRoundActor extends Actor {
-
+    public static final float size = 20;
     private Sprite roundSprite;
     private Circle circle;
-    private float percent;
+    private float sizeForTween;
     private TweenManager tweenManager;
 
     public BallRoundActor(){
@@ -25,16 +25,15 @@ public class BallRoundActor extends Actor {
         roundSprite.setColor(new Color(0.5f, 0.5f, 0.5f, 0.6f));
 
         circle = new Circle();
-//        circle.radius = roundSprite.getHeight() / 2;
 
-        setSize(20);
+        setSize(size);
         setPosition((Gdx.graphics.getWidth() / 2) / Assets.PPM, (Gdx.graphics.getHeight() / 2) / Assets.PPM);
 
         tweenManager = new TweenManager();
         Tween.registerAccessor(Actor.class,new ActorAccessor());
 
         Tween.set(this,ActorAccessor.BALLROUNDSIZE).target(70).start(tweenManager);
-        Tween.to(this,ActorAccessor.BALLROUNDSIZE,1).target(20).start(tweenManager);
+        Tween.to(this,ActorAccessor.BALLROUNDSIZE,1).target(size).start(tweenManager);
     }
     @Override
     public void setPosition(float centerX, float centerY){
@@ -45,9 +44,9 @@ public class BallRoundActor extends Actor {
     }
 
     //размер задается в % от высоты дисплея
-    public void setSize(float percent){
-        this.percent = percent;
-        this.setSize(Gdx.graphics.getHeight() * percent / 100 , Gdx.graphics.getHeight() * percent / 100 );
+    public void setSize(float sizeInPercent){
+        this.sizeForTween = sizeInPercent;
+        this.setSize(Gdx.graphics.getHeight() * sizeInPercent / 100 , Gdx.graphics.getHeight() * sizeInPercent / 100 );
     }
     @Override
     public void setSize(float width,float height){
@@ -59,11 +58,7 @@ public class BallRoundActor extends Actor {
         setPosition(circle.x, circle.y);
     }
 
-    public float getSize(){ return percent;}
-
-    public float getRadius(){
-        return circle.radius;
-    }
+    public float getSize(){ return sizeForTween;}
 
     public Circle getCircle(){return circle;}
 
@@ -81,5 +76,11 @@ public class BallRoundActor extends Actor {
     @Override
     public boolean remove() {
         return super.remove();
+    }
+
+    public void refresh(){
+        tweenManager.killAll();
+        Tween.set(this,ActorAccessor.BALLROUNDSIZE).target(70).start(tweenManager);
+        Tween.to(this,ActorAccessor.BALLROUNDSIZE,1).target(size).start(tweenManager);
     }
 }

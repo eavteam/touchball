@@ -9,25 +9,24 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.eavteam.touchball.common.Assets;
 import com.eavteam.touchball.tween.ActorAccessor;
 
 public class TargetActor extends Actor {
+    public static final float size = 6;
     private Sprite targetSprite;
     private float angle;
     private float speedOfRotation;
     private Circle circle, circle2;
-    private static final float size = 6;
-    private float percent;
+    private float sizeForTween;
     private TweenManager tweenManager;
 
     public TargetActor(){
         circle = new Circle();
-        circle2 = new Circle();
-        circle2.setPosition((Gdx.graphics.getWidth() / 2) / Assets.PPM, (Gdx.graphics.getHeight() / 2) / Assets.PPM);
-        circle2.radius = (Gdx.graphics.getHeight() * 4 * 10 / 200) / Assets.PPM;
+        circle2 = new Circle();// вспомогательная окружность для исключения точек опявления TargetActor
+        circle2.setPosition((Gdx.graphics.getWidth() / 2) / Assets.PPM, (Gdx.graphics.getHeight() / 2) / Assets.PPM); // задаем позицию как у BlendrActor
+        circle2.radius = (Gdx.graphics.getHeight() * (BlenderActor.size / 2) / 100) / Assets.PPM; //задаем радиус как у BlendrActor
         targetSprite = new Sprite(Assets.manager.get(Assets.target, Texture.class));
         targetSprite.setColor(Color.RED);
         setSize(size);
@@ -50,12 +49,12 @@ public class TargetActor extends Actor {
     }
 
     //размер задается в % от высоты дисплея
-    public void setSize(float percent){
-        this.percent = percent;
-        this.setSize((Gdx.graphics.getHeight() * percent / 100) / Assets.PPM, (Gdx.graphics.getHeight() * percent / 100) / Assets.PPM);
+    public void setSize(float sizeInPercent){
+        this.sizeForTween = sizeInPercent;
+        this.setSize((Gdx.graphics.getHeight() * sizeInPercent / 100) / Assets.PPM, (Gdx.graphics.getHeight() * sizeInPercent / 100) / Assets.PPM);
     }
 
-    public float getSize(){ return percent;}
+    public float getSize(){ return sizeForTween;}
 
     @Override
     public void setSize(float width, float height) {
@@ -66,14 +65,12 @@ public class TargetActor extends Actor {
         this.setPosition(this.circle.x, this.circle.y);
     }
 
-    //TODO add random position
     public void refreshPosition(){
         float radius = (Gdx.graphics.getHeight() * this.size / 200) / Assets.PPM;
         float x = MathUtils.random(radius, Gdx.graphics.getWidth() / Assets.PPM - radius);
         float y = MathUtils.random(radius, Gdx.graphics.getHeight() / Assets.PPM - radius);
         if(this.circle2.overlaps(new Circle(x, y, radius))){
-            this.refreshPosition();
-        }else{
+            this.refreshPosition();}else{
             this.setPosition( x, y);}
     }
 

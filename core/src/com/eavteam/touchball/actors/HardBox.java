@@ -9,14 +9,13 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.eavteam.touchball.common.Assets;
 
-/**
- * Created by nepeyvoda-va on 19.02.2016.
- */
 public class HardBox extends Actor {
     private BodyDef bodyDef;
     private FixtureDef fixtureDef;
+    private World world;
 
-    public HardBox(){
+    public HardBox(World world){
+        this.world = world;
         bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.StaticBody;
         bodyDef.position.set(0,0);
@@ -31,9 +30,10 @@ public class HardBox extends Actor {
         fixtureDef.shape = chainShape;
         fixtureDef.friction = .5f;
         fixtureDef.restitution = 0;
+        makeBody();
     }
 
-    public void makeBody(World world){
-     world.createBody(bodyDef).createFixture(fixtureDef);
+    private void makeBody(){
+     this.world.createBody(bodyDef).createFixture(fixtureDef);
     }
 }
