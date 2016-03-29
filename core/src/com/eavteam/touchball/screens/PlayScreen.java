@@ -4,6 +4,7 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
@@ -14,11 +15,13 @@ import com.badlogic.gdx.utils.viewport.FillViewport;
 import com.eavteam.touchball.TouchBallGame;
 import com.eavteam.touchball.actors.*;
 import com.eavteam.touchball.common.Assets;
+import com.eavteam.touchball.common.Settings;
 
 
 public class PlayScreen implements Screen {
 
     public final TouchBallGame game;
+    private Music backGroundMusic;
     private World world;
     private Stage stage;
     private Group group;
@@ -69,11 +72,17 @@ public class PlayScreen implements Screen {
         group.addActor(hardBox);
 
         stage.addActor(group);
+
+        //Music initialization
+        if(Settings.pathMusicFile!=null) {backGroundMusic = Gdx.audio.newMusic(Gdx.files.internal(Settings.pathMusicFile));}else{
+            backGroundMusic = Gdx.audio.newMusic(Gdx.files.internal(Assets.defaultBackGroundMusic));
+        }
+        backGroundMusic.setVolume(Settings.volumeMusic);
     }
 
     @Override
     public void show() {
-
+        backGroundMusic.play();
     }
 
     @Override
@@ -118,7 +127,7 @@ public class PlayScreen implements Screen {
         ball.refresh();
         target.refresh();
         blender.refresh();
-        round.refresh();
+//        round.refresh();
         trigger = true;
         trigger2 = true;
     }
@@ -130,12 +139,12 @@ public class PlayScreen implements Screen {
 
     @Override
     public void pause() {
-
+        backGroundMusic.pause();
     }
 
     @Override
     public void resume() {
-
+        backGroundMusic.play();
     }
 
     @Override

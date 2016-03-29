@@ -2,6 +2,7 @@ package com.eavteam.touchball.common;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -19,6 +20,7 @@ public class Assets {
     public static final String gradientBall = "images/gradient_ball.png";
     public static final String blenderSection = "images/blender_section.png";
     public static final String target = "images/target.png";
+    public static final String defaultBackGroundMusic = "sounds/Kalimba.mp3";
     public static final float PPM = 50;
 
     public static BitmapFont font24 = generateFont(24);
@@ -46,6 +48,7 @@ public class Assets {
         manager.load(gradientBall, Texture.class);
         manager.load(blenderSection, Texture.class);
         manager.load(target, Texture.class);
+        manager.load(defaultBackGroundMusic, Music.class);
     }
 
     public static void dispose() {

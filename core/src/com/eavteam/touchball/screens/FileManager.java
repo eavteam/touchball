@@ -1,6 +1,8 @@
 package com.eavteam.touchball.screens;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.GL20;
@@ -10,14 +12,17 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.eavteam.touchball.TouchBallGame;
+import com.eavteam.touchball.common.Settings;
 
 public class FileManager implements Screen {
 
     public final TouchBallGame game;
+
     private Stage stage;
     private Table container, table;
     private Skin skin;
-    private String pathDirectory;
+    private static String pathDirectory; // текущий каталог
+    private static String musicFileName; // название текущего mp3 файла
     private String rootDirectory;
     private String sdCardDerectory;
     private Label pathLabelDirectory;
@@ -78,6 +83,8 @@ public class FileManager implements Screen {
 
     private void update(float delta) {
         this.stage.act(delta);
+        if(Gdx.input.isKeyPressed(Input.Keys.ESCAPE))
+            ((Game)Gdx.app.getApplicationListener()).setScreen(new DebugScreen(this.game));
     }
 
     @Override
@@ -146,7 +153,7 @@ public class FileManager implements Screen {
                 });
             }
         }
-        for (FileHandle file: mp3Files) {
+        for (final FileHandle file: mp3Files) {
             this.table.row();
             TextButton mp3button = new TextButton(file.name(), this.skin);
             this.table.add(mp3button).left();
@@ -154,7 +161,7 @@ public class FileManager implements Screen {
                 public void clicked (InputEvent event, float x, float y) {
                     ConfirmDialog dia = new ConfirmDialog("title",skin);
                     dia.show(stage);
-//                    loadmp3File();TODO
+                    musicFileName = new String(file.name());
                 }
             });
         }
@@ -162,9 +169,9 @@ public class FileManager implements Screen {
 
     private void setPathLabelDirectory(){
         if(this.pathDirectory.length() > 40){
-            this.pathLabelDirectory.setText("Directory: " + "/..." + this.pathDirectory.substring(this.pathDirectory.length() - 40));
+            this.pathLabelDirectory.setText("Directory: " + "/..." + pathDirectory.substring(pathDirectory.length() - 40));
         }else{
-        this.pathLabelDirectory.setText("Directory: " + this.pathDirectory);}
+        this.pathLabelDirectory.setText("Directory: " + pathDirectory);}
     }
 
     private static class ConfirmDialog extends Dialog{
@@ -173,14 +180,18 @@ public class FileManager implements Screen {
             super(title, skin);
         }
         {
-            text("Vovik mudak?");
-            button("Yes","Da kak ti smeesh!");
-            button("No","prail'no");
+            text("Are you sure?");
+            button("Yes","Yes");
+            button("No","No");
         }
 
         @Override
         protected void result(Object object) {
-            System.out.println(object.toString());
+            if(((String)object).equals("Yes")) FileManager.loadMp3File();
         }
+    }
+
+    private static void loadMp3File(){
+        Settings.pathMusicFile = pathDirectory + musicFileName;
     }
 }
