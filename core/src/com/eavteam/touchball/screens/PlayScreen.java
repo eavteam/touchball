@@ -74,9 +74,7 @@ public class PlayScreen implements Screen {
         stage.addActor(group);
 
         //Music initialization
-        if(Settings.pathMusicFile!=null) {backGroundMusic = Gdx.audio.newMusic(Gdx.files.internal(Settings.pathMusicFile));}else{
-            backGroundMusic = Gdx.audio.newMusic(Gdx.files.internal(Assets.defaultBackGroundMusic));
-        }
+        backGroundMusic = Gdx.audio.newMusic(Gdx.files.internal(Settings.pathMusicFile));
         backGroundMusic.setVolume(Settings.volumeMusic);
     }
 
@@ -95,7 +93,7 @@ public class PlayScreen implements Screen {
 
         // World update
         world.step(TIMESTEP, VELOSITYITERATIONS, POSITIONITERATIONS);
-//        debugRenderer.render(world,stage.getViewport().getCamera().combined);
+        debugRenderer.render(world,stage.getViewport().getCamera().combined);
     }
 
     public void update(float delta) {
@@ -119,6 +117,7 @@ public class PlayScreen implements Screen {
             if(ball.getCircle().overlaps(target.getCircle())){
                 ball.atata(target.getCircle().x, target.getCircle().y);
                 trigger2 = false;
+
             }
         }
     }
