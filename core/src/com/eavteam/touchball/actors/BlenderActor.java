@@ -112,9 +112,15 @@ public class BlenderActor extends Actor {
         }
     }
 
-    public void destroyCarcass(){
+    private void destroyCarcass(){
         for(int i = 0; i < amountOfSections; i++) {
             this.world.destroyBody(body[i]);
+        }
+    }
+
+    public void disable(){
+        for(int i = 0; i < amountOfSections; i++){
+            this.body[i].setActive(false);
         }
     }
 

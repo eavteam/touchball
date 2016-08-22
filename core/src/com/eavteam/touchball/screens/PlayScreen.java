@@ -101,7 +101,7 @@ public class PlayScreen implements Screen {
         if(Gdx.input.isKeyPressed(Input.Keys.ESCAPE))
             ((Game)Gdx.app.getApplicationListener()).setScreen(new DebugScreen(game));
 
-
+//TODO переделать нах это дерьмо
         if(!trigger) {
             if ((ball.getBody().getLinearVelocity().x == 0) && (ball.getBody().getLinearVelocity().y == 0)) {
                 this.refresh();
@@ -115,9 +115,9 @@ public class PlayScreen implements Screen {
         }
         if(trigger2){
             if(ball.getCircle().overlaps(target.getCircle())){
-                ball.atata(target.getCircle().x, target.getCircle().y);
+                ball.targetHit(target.getCircle().x, target.getCircle().y);
                 trigger2 = false;
-
+                blender.disable();
             }
         }
     }

@@ -33,13 +33,14 @@ public class BallActor extends Actor {
     private World world;
     private Vector2 vector21, vector22;
     private TweenManager tweenManager;
+    private boolean jointTrigger;
 
     private static ActorGestureListener actorGestureListener = new ActorGestureListener(10/Assets.PPM, 0.4f, 1.1f, 0.15f){
 
         @Override
         public void touchDown(InputEvent event, float x, float y, int pointer, int button) {
             BallActor ball = (BallActor) event.getTarget();
-            ball.mouseJointDef.maxForce = 1000;
+            ball.mouseJointDef.maxForce = 2000;
             ball.mouseJointDef.target.set(ball.vector21.set(ball.body.getPosition()));
             ball.mouseJoint = (MouseJoint) ball.world.createJoint(ball.mouseJointDef);
         }
@@ -57,11 +58,7 @@ public class BallActor extends Actor {
         @Override
         public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
             BallActor ball = (BallActor) event.getTarget();
-            if(ball.world.getJointCount() != 0) {
-                ball.world.destroyJoint(ball.mouseJoint);
-                ball.body.setLinearDamping(1f); //сообщаем замедление по линейной скорости
-                ball.body.setAngularDamping(1f); //сообщаем замедление по угловой скорости
-            }
+            if(ball.jointTrigger) ball.jointDestroy();
         }
 
     };
@@ -106,17 +103,15 @@ public class BallActor extends Actor {
     }
 
     public void startListener(){
+        this.jointTrigger = true;
         this.addListener(actorGestureListener);
         this.setTouchable(Touchable.enabled);
         this.actorGestureListener.getGestureDetector().reset();
     }
 
     public void stopListener(){
-        if(this.world.getJointCount() != 0){
-            this.world.destroyJoint(this.mouseJoint);
-            this.body.setLinearDamping(1f); //сообщаем замедление по линейной скорости
-            this.body.setAngularDamping(1f); //сообщаем замедление по угловой скорости
-        }
+        this.jointTrigger = false;
+        this.jointDestroy();
         this.actorGestureListener.getGestureDetector().cancel();
         this.setTouchable(Touchable.disabled);
     }
@@ -133,8 +128,10 @@ public class BallActor extends Actor {
 
     public float getSize(){ return sizeForTween;}
 
-    public void atata(float targetX, float targetY){
+    public void targetHit(float targetX, float targetY){
         this.mouseJointDef.maxForce = 3;
+        this.mouseJointDef.dampingRatio = 0.7f; //default 0.7
+        this.mouseJointDef.frequencyHz = 5f; //default 5.0
         this.mouseJointDef.target.set(this.vector21.set(this.body.getPosition()));
         this.mouseJoint = (MouseJoint) this.world.createJoint(this.mouseJointDef);
         if(this.mouseJoint != null) this.mouseJoint.setTarget(this.vector22.set(targetX, targetY));
@@ -205,6 +202,14 @@ public class BallActor extends Actor {
         Tween.to(this,ActorAccessor.BALLSIZE,1).target(this.size).start(tweenManager);
         refreshPosition();
         this.startListener();
+    }
+
+    private void jointDestroy(){
+        if(this.world.getJointCount() != 0){
+            this.world.destroyJoint(this.mouseJoint);
+            this.body.setLinearDamping(1f); //сообщаем замедление по линейной скорости
+            this.body.setAngularDamping(1f); //сообщаем замедление по угловой скорости
+        }
     }
 
 }
