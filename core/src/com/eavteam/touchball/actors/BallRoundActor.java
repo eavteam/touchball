@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.eavteam.touchball.common.Assets;
@@ -22,8 +23,7 @@ public class BallRoundActor extends Actor {
     public BallRoundActor(){
 
         roundSprite = new Sprite(Assets.manager.get(Assets.roundWhite,Texture.class));
-        roundSprite.setColor(new Color(0.5f, 0.5f, 0.5f, 0.6f));
-
+        roundSprite.setColor(new Color(0.5f, 0.9f, 0.7f, 0.2f));
         circle = new Circle();
 
         setSize(size);
@@ -32,8 +32,8 @@ public class BallRoundActor extends Actor {
         tweenManager = new TweenManager();
         Tween.registerAccessor(Actor.class,new ActorAccessor());
 
-        Tween.set(this,ActorAccessor.BALLROUNDSIZE).target(70).start(tweenManager);
-        Tween.to(this,ActorAccessor.BALLROUNDSIZE,1).target(size).start(tweenManager);
+//        Tween.set(this,ActorAccessor.BALLROUNDSIZE).target(70).start(tweenManager);
+//        Tween.to(this,ActorAccessor.BALLROUNDSIZE,1).target(size).start(tweenManager);
     }
     @Override
     public void setPosition(float centerX, float centerY){
@@ -61,6 +61,21 @@ public class BallRoundActor extends Actor {
     public float getSize(){ return sizeForTween;}
 
     public Circle getCircle(){return circle;}
+
+    @Override
+    public void setColor(Color color){
+        this.roundSprite.setColor(color);
+    }
+
+    @Override
+    public void setColor(float r, float g, float b, float a){
+        this.roundSprite.setColor(r, g, b, a);
+    }
+
+    @Override
+    public Color getColor(){
+        return roundSprite.getColor();
+    }
 
     @Override
     public void draw(Batch batch, float alpha){

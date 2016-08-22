@@ -6,16 +6,21 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 import com.badlogic.gdx.utils.viewport.FillViewport;
 import com.eavteam.touchball.TouchBallGame;
 import com.eavteam.touchball.actors.*;
 import com.eavteam.touchball.common.Assets;
 import com.eavteam.touchball.common.Settings;
+import static com.badlogic.gdx.scenes.scene2d.actions.Actions.*;
 
 
 public class PlayScreen implements Screen {
@@ -32,13 +37,14 @@ public class PlayScreen implements Screen {
     private BallRoundActor round;
     private HardBox hardBox;
 
-    private boolean trigger;
+    private boolean inArea;
     private boolean trigger2;
 
     // World settings
     private Box2DDebugRenderer debugRenderer;
     private final float TIMESTEP = 1/60f;
     private final int VELOSITYITERATIONS = 8, POSITIONITERATIONS = 3;
+
 
     public PlayScreen(final TouchBallGame game){
         this.game = game;
@@ -47,7 +53,7 @@ public class PlayScreen implements Screen {
         Gdx.input.setInputProcessor(stage);
         group = new Group();
 
-        trigger = true;
+        inArea = true;
         trigger2 = true;
 
         // World initialization
@@ -81,6 +87,7 @@ public class PlayScreen implements Screen {
     @Override
     public void show() {
         backGroundMusic.play();
+        round.addAction(Actions.fadeIn(2f, Interpolation.linear));
     }
 
     @Override
@@ -88,29 +95,29 @@ public class PlayScreen implements Screen {
         Gdx.gl.glClearColor(0.2f, 0.2f, 0.2f, 1f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        update(delta);
+        update();
+        stage.act(Gdx.graphics.getDeltaTime());
         stage.draw();
 
         // World update
         world.step(TIMESTEP, VELOSITYITERATIONS, POSITIONITERATIONS);
-        debugRenderer.render(world,stage.getViewport().getCamera().combined);
+//        debugRenderer.render(world,stage.getViewport().getCamera().combined);
     }
 
-    public void update(float delta) {
-        this.stage.act(delta);
+    public void update() {
         if(Gdx.input.isKeyPressed(Input.Keys.ESCAPE))
             ((Game)Gdx.app.getApplicationListener()).setScreen(new DebugScreen(game));
 
 //TODO переделать нах это дерьмо
-        if(!trigger) {
+        if(!inArea) {
             if ((ball.getBody().getLinearVelocity().x == 0) && (ball.getBody().getLinearVelocity().y == 0)) {
                 this.refresh();
             }
         }
-        if(trigger) {
+        if(inArea) {
             if (!ball.getCircle().overlaps(round.getCircle())) {
                 ball.stopListener();
-                trigger = false;
+                inArea = false;
             }
         }
         if(trigger2){
@@ -127,7 +134,7 @@ public class PlayScreen implements Screen {
         target.refresh();
         blender.refresh();
 //        round.refresh();
-        trigger = true;
+        inArea = true;
         trigger2 = true;
     }
 
