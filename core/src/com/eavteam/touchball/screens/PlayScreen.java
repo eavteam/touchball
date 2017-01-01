@@ -10,17 +10,15 @@ import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
-import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
-import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 import com.badlogic.gdx.utils.viewport.FillViewport;
 import com.eavteam.touchball.TouchBallGame;
 import com.eavteam.touchball.actors.*;
 import com.eavteam.touchball.common.Assets;
+import com.eavteam.touchball.common.BullitTime;
 import com.eavteam.touchball.common.Settings;
-import static com.badlogic.gdx.scenes.scene2d.actions.Actions.*;
 
 
 public class PlayScreen implements Screen {
@@ -96,12 +94,13 @@ public class PlayScreen implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         update();
-        stage.act(Gdx.graphics.getDeltaTime());
+        stage.act(BullitTime.getDelta());
         stage.draw();
 
         // World update
-        world.step(TIMESTEP, VELOSITYITERATIONS, POSITIONITERATIONS);
+        world.step(BullitTime.getDelta(), VELOSITYITERATIONS, POSITIONITERATIONS);
 //        debugRenderer.render(world,stage.getViewport().getCamera().combined);
+
     }
 
     public void update() {
@@ -125,6 +124,7 @@ public class PlayScreen implements Screen {
                 ball.targetHit(target.getCircle().x, target.getCircle().y);
                 trigger2 = false;
                 blender.disable();
+                BullitTime.setSlow(10f);
             }
         }
     }
