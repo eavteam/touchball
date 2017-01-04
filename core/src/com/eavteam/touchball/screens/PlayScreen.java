@@ -93,6 +93,7 @@ public class PlayScreen implements Screen {
         Gdx.gl.glClearColor(0.2f, 0.2f, 0.2f, 1f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
+        BullitTime.update(delta);
         update();
         stage.act(BullitTime.getDelta());
         stage.draw();
@@ -124,7 +125,7 @@ public class PlayScreen implements Screen {
                 ball.targetHit(target.getCircle().x, target.getCircle().y);
                 trigger2 = false;
                 blender.disable();
-                BullitTime.setSlow(10f);
+                BullitTime.setSlow(0.2f, 1f);
             }
         }
     }
@@ -133,6 +134,7 @@ public class PlayScreen implements Screen {
         ball.refresh();
         target.refresh();
         blender.refresh();
+        BullitTime.refresh();
 //        round.refresh();
         inArea = true;
         trigger2 = true;
